@@ -8,10 +8,11 @@ LIBFT_LIB		:= $(LIBFT_DIR)/libft.a
 
 SRC_DIR			:= ./src
 INT_DIR			:= ./obj
-SRCS			:= push_swap.c stack.c dlinked_list.c ps_object.c
+# SRCS			:= push_swap.c stack.c dlinked_list.c ps_object.c
+SRCS			:= checker.c argument_parser.c
 OBJS			:= $(addprefix $(INT_DIR)/,$(SRCS:%.c=%.o))
 
-VPATH			:= $(SRC_DIR) $(SRC_DIR)/utils
+VPATH			:= $(SRC_DIR) $(SRC_DIR)/utils $(SRC_DIR)/checker $(SRC_DIR)/parser
 
 DEFINES			:=
 INCLUDE_DIRS	:= -I $(LIBFT_DIR)/include
@@ -19,8 +20,8 @@ INCLUDE_DIRS	:= -I $(LIBFT_DIR)/include
 CC				:= cc
 LINK_CMD		:= cc
 
-ALL_CFLAGS		:= -std=c89 -Wall -Wextra -Werror -pedantic
-ALL_LINKFLAGS	:= 
+ALL_CFLAGS		:= -std=c89 -Wall -Wextra -Werror -pedantic $(INCLUDE_DIRS)
+ALL_LINKFLAGS	:= -fsanitize=address
 
 DEBUG_FLAGS		:= -g -Og -fsanitize=address
 DEBUG_DEFINES	:= -DPS_DEBUG
@@ -59,7 +60,7 @@ $(NAME): $(OBJS) $(LIBFT_LIB)
 $(INT_DIR)/%.o: %.c
 	$(SILENT)echo $(notdir $<)
 	$(SILENT)mkdir -p $(INT_DIR)
-	$(SILENT)$(CC) -c $< -o $@
+	$(SILENT)$(CC) $(ALL_CFLAGS) -c $< -o $@
 
 $(LIBFT_LIB):
 	$(SILENT) make -C $(LIBFT_DIR)

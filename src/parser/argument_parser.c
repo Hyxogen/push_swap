@@ -1,8 +1,7 @@
 #include "argument_parser.h"
 
 #include <stdlib.h>
-
-int	ft_atoi(const char* str);
+#include <ft_stdlib.h>
 
 int*	read_arguments(int argc, char **argv)
 {
