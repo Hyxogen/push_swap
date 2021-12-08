@@ -1,0 +1,3 @@
+[submodule "Dependencies/Libft"]
+	path = Dependencies/Libft
+	url = https://github.com/Hyxogen/Libft.git
