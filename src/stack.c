@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/07 12:39:30 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/10 11:59:21 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/10 15:43:01 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,4 +144,9 @@ void swap_top(t_stack *stack)
 		push_top(stack, first);
 	if (second)
 		push_top(stack, second);
+}
+
+size_t stack_size(const t_stack *stack)
+{
+	return (get_size(stack->m_Top));
 }

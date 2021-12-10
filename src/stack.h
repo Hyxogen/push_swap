@@ -43,6 +43,8 @@ void rrotate(t_stack *stack);
 
 void swap_top(t_stack *stack);
 
+size_t stack_size(const t_stack *stack);
+
 void print_stack(const t_stack *stack);
 
 #endif

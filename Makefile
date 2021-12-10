@@ -9,10 +9,12 @@ LIBFT_LIB		:= $(LIBFT_DIR)/libft.a
 SRC_DIR			:= ./src
 INT_DIR			:= ./obj
 # SRCS			:= push_swap.c stack.c dlinked_list.c ps_object.c
-SRCS			:= checker.c argument_parser.c ps_object.c stack.c dlinked_list.c
+SRCS			:=	checker.c argument_parser.c ps_object.c stack.c dlinked_list.c slow_solver.c \
+					quick_solve.c
 OBJS			:= $(addprefix $(INT_DIR)/,$(SRCS:%.c=%.o))
 
-VPATH			:= $(SRC_DIR) $(SRC_DIR)/utils $(SRC_DIR)/checker $(SRC_DIR)/parser
+VPATH			:= $(SRC_DIR) $(SRC_DIR)/utils $(SRC_DIR)/checker $(SRC_DIR)/parser $(SRC_DIR)/solver \
+					$(SRC_DIR)/solver/quick_solve
 
 DEFINES			:=
 INCLUDE_DIRS	:= -I $(LIBFT_DIR)/include

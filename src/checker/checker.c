@@ -5,6 +5,7 @@
 #include <ft_stdbool.h>
 #include "../parser/argument_parser.h"
 #include "../ps_object.h"
+#include "../solver/quick_solve/quick_solve.h"
 
 static ft_bool execute_instruction(const char *inst, t_ps_object *object)
 {
@@ -50,6 +51,7 @@ static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 			free(ptr);
 			return (FALSE);	
 		}
+		evaluate(object->m_StackB, object->m_StackA, *((int*)object->m_StackA->m_Top->m_Content));
 		free(ptr);
 	}
 	free(ptr);
