@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/07 12:39:30 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/07 15:30:19 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/10 11:59:21 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,100 +22,126 @@ t_stack *create_stack()
 	ret = malloc(sizeof(t_stack));
 	if (!ret)
 		return (NULL);
-	ret->m_Begin = NULL;
+	ret->m_Top = NULL;
+	ret->m_Bottom = NULL;
 	return (ret);
 }
 
-t_bool push(t_stack *stack, void *content)
+ft_bool push_top_content(t_stack *stack, void *content)
 {
-	t_dlinked_list	*element;
+	t_stack_element	*element;
 
 	element = create_element(content);
-	if (!element)
+	if (element == NULL)
 		return (FALSE);
-	add_before(&stack->m_Begin, element);
-	if (element->m_Head == NULL)
+	if (!push_top(stack, element))
 	{
-		element->m_Head = element;
-		element->m_Tail = element;
+		free(element);
+		return (FALSE);
 	}
-	stack->m_Begin = element;
 	return (TRUE);
 }
 
-void *pop(t_stack *stack)
+ft_bool push_bottom_content(t_stack *stack, void *content)
 {
-	void			*content;
-	t_dlinked_list	*temp;
+	t_stack_element	*element;
 
-	if (!stack->m_Begin)
-		return (NULL);
-	content = stack->m_Begin->m_Content;
-	if (stack->m_Begin->m_Tail != stack->m_Begin)
+	element = create_element(content);
+	if (element == NULL)
+		return (FALSE);
+	if (!push_bottom(stack, element))
 	{
-		stack->m_Begin->m_Tail->m_Head = stack->m_Begin->m_Head;
-		stack->m_Begin->m_Head->m_Tail = stack->m_Begin->m_Tail;
-		temp = stack->m_Begin->m_Head;
-		free(stack->m_Begin);
-		stack->m_Begin = temp;
+		free(element);
+		return (FALSE);
 	}
-	else
-	{
-		free(stack->m_Begin);
-		stack->m_Begin = NULL;
-	}	
-	return (content);
+	return (TRUE);
 }
 
-void *top(const t_stack *stack)
+ft_bool push_top(t_stack *stack, t_stack_element *element)
 {
-	if (stack->m_Begin == NULL)
+	add_before(&stack->m_Top, element);
+	stack->m_Top = element;
+	if (stack->m_Bottom == NULL)
+		stack->m_Bottom = element;
+	return (TRUE);
+}
+
+ft_bool push_bottom(t_stack *stack, t_stack_element *element)
+{
+	add_after(&stack->m_Bottom, element);
+	stack->m_Bottom = element;
+	if (stack->m_Top == NULL)
+		stack->m_Top = element;
+	return (TRUE);
+}
+
+t_stack_element *pop_top(t_stack *stack)
+{
+	t_stack_element	*ret;
+	
+	ret = top(stack);
+	if (ret == NULL)
 		return (NULL);
-	return (stack->m_Begin->m_Content);
+	if (ret->m_Head)
+		ret->m_Head->m_Tail = NULL;
+	else
+		stack->m_Bottom = NULL;
+	stack->m_Top = ret->m_Head;
+	return (ret);
+}
+
+t_stack_element *pop_bottom(t_stack *stack)
+{
+	t_stack_element	*ret;
+	
+	ret = bottom(stack);
+	if (ret == NULL)
+		return (NULL);
+	if (ret->m_Tail)
+		ret->m_Tail->m_Head = NULL;
+	else
+		stack->m_Top = NULL;
+	stack->m_Bottom = ret->m_Tail;
+	return (ret);
+}
+
+t_stack_element *top(const t_stack *stack)
+{
+	return (stack->m_Top);
+}
+
+t_stack_element *bottom(const t_stack *stack)
+{
+	return (stack->m_Bottom);
 }
 
 void rotate(t_stack *stack)
 {
-	if (stack->m_Begin == NULL)
-		return;
-	stack->m_Begin = stack->m_Begin->m_Tail;
+	t_stack_element	*temp;
+	
+	temp = pop_top(stack);
+	if (temp)
+		push_bottom(stack, temp);
 }
 
 void rrotate(t_stack *stack)
 {
-	if (stack->m_Begin == NULL)
-		return;
-	stack->m_Begin = stack->m_Begin->m_Head;
+	t_stack_element	*temp;
+	
+	temp = pop_bottom(stack);
+	if (temp)
+		push_top(stack, temp);
 }
 
 void swap_top(t_stack *stack)
 {
-	if (stack->m_Begin == NULL)
-		return;
-	stack->m_Begin->m_Tail->m_Head = stack->m_Begin->m_Head;
-	stack->m_Begin->m_Head->m_Head->m_Tail = stack->m_Begin;
+	t_stack_element	*first;
+	t_stack_element	*second;
 
-	stack->m_Begin->m_Head->m_Tail = stack->m_Begin->m_Tail;
-	stack->m_Begin->m_Head = stack->m_Begin->m_Head->m_Head;
-
-	stack->m_Begin->m_Tail = stack->m_Begin->m_Tail->m_Head;
-	stack->m_Begin->m_Tail->m_Head = stack->m_Begin;
-
-	stack->m_Begin = stack->m_Begin->m_Tail;
-}
-
-void print_stack(const t_stack *stack)
-{
-	t_dlinked_list	*temp;
-
-	temp = stack->m_Begin;
-	printf("Top -> ");
-	while (temp)
-	{
-		printf("%p ", (void*) temp);
-		temp = temp->m_Head;
-		if (temp == stack->m_Begin)
-			break;
-	}
-	printf(" <- Bottom\n");
+	first = pop_top(stack);
+	second = pop_top(stack);
+	if (first)
+		push_top(stack, first);
+	if (second)
+		push_top(stack, second);
 }

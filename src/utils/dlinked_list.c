@@ -21,7 +21,7 @@ t_dlinked_list *get_last_element(t_dlinked_list *list)
 	return (list);
 }
 
-t_dlinked_list *find_first(t_dlinked_list *list, t_bool (*equal)(const void *, const void *), const void *sample)
+t_dlinked_list *find_first(t_dlinked_list *list, ft_bool (*equal)(const void *, const void *), const void *sample)
 {
 	while (list && !equal(list->m_Content, sample))
 		list = list->m_Head;
@@ -90,7 +90,7 @@ static void remove_element(t_dlinked_list **element)
 	}
 }
 
-void remove_elements(t_dlinked_list **list, t_bool (*equal)(const void *, const void *), const void *sample)
+void remove_elements(t_dlinked_list **list, ft_bool (*equal)(const void *, const void *), const void *sample)
 {
 	t_dlinked_list	*temp;
 
@@ -152,4 +152,9 @@ void for_each(t_dlinked_list *list, void (*func)(const void *))
 		func(list->m_Content);
 		list = list->m_Head;
 	}
+}
+
+void print_link(const t_dlinked_list *link)
+{
+	printf("%p <-T %p H-> %p\n", (void*)link->m_Tail, (void*)link, (void*)link->m_Head);
 }

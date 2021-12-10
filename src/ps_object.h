@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/07 12:39:19 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/07 15:09:03 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/10 09:52:28 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_ps_object {
 }	t_ps_object;
 
 t_ps_object *create_ps_object();
+t_ps_object	*initialize_ps_object(t_ps_object *object);
 
 void fill_psa(t_ps_object *object, int *arr, size_t size);
 

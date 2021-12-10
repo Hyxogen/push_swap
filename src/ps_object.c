@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/07 12:45:50 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/07 15:18:22 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/10 12:28:13 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,33 @@ t_ps_object *create_ps_object() {
 	ret = malloc(sizeof(t_ps_object));
 	if (!ret)
 		return (NULL);
-	ret->m_StackA = create_stack();
-	ret->m_StackB = create_stack();
-	if (!ret->m_StackA || !ret->m_StackB)
+	if (!initialize_ps_object(ret))
+	{
+		free(ret);
 		return (NULL);
+	}
 	return (ret);
+}
+
+t_ps_object	*initialize_ps_object(t_ps_object *object)
+{
+	object->m_StackA = create_stack();
+	object->m_StackB = create_stack();
+	if (!object->m_StackA || !object->m_StackB)
+	{
+		free(object->m_StackA);
+		free(object->m_StackB);
+		return (NULL);
+	}
+	return (object);
 }
 
 void fill_psa(t_ps_object *object, int *arr, size_t size)
 {
 	while (size)
 	{
-		push(object->m_StackA, arr);
+		if (!push_top_content(object->m_StackA, arr))
+			printf("Something went terribly wrong!\n");
 		arr++;
 		size--;
 	}
@@ -39,11 +54,11 @@ void fill_psa(t_ps_object *object, int *arr, size_t size)
 
 void print_ps_object(const t_ps_object *object)
 {
-	t_dlinked_list	*tempA;
-	t_dlinked_list	*tempB;
+	t_stack_element	*tempA;
+	t_stack_element	*tempB;
 
-	tempA = object->m_StackA->m_Begin;
-	tempB = object->m_StackB->m_Begin;
+	tempA = top(object->m_StackA);
+	tempB = top(object->m_StackB);
 	printf("%20c|%-2c\n", 'A', 'B');
 	printf("----------------------------------------\n");
 	while (1)
@@ -58,12 +73,8 @@ void print_ps_object(const t_ps_object *object)
 			printf("|%-20.00d\n", 0);
 		if (tempA)
 			tempA = tempA->m_Head;
-		if (tempA == object->m_StackA->m_Begin)
-			tempA = NULL;
 		if (tempB)
 			tempB = tempB->m_Head;
-		if (tempB == object->m_StackB->m_Begin)
-			tempB = NULL;
 		if (!tempA && !tempB)
 			break;
 	}
@@ -87,12 +98,14 @@ void ps_ss(t_ps_object *object)
 
 void ps_pa(t_ps_object *object)
 {
-	push(object->m_StackA, pop(object->m_StackB));
+	if (object->m_StackB->m_Top)
+		push_top(object->m_StackA, pop_top(object->m_StackB));
 }
 
 void ps_pb(t_ps_object *object)
 {
-	push(object->m_StackB, pop(object->m_StackA));
+	if (object->m_StackA->m_Top)
+		push_top(object->m_StackB, pop_top(object->m_StackA));
 }
 
 void ps_ra(t_ps_object *object)
@@ -129,21 +142,16 @@ void ps_rrr(t_ps_object *object)
 
 t_bool is_sorted(t_ps_object *object)
 {
-	t_dlinked_list	*temp;
-	int				last;
+	t_stack_element	*temp;
 
-	if (object->m_StackB->m_Begin)
+	if (top(object->m_StackB))
 		return (FALSE);
-	temp = object->m_StackA->m_Begin;
-	last = INT_MIN;
+	temp = top(object->m_StackA);
 	while (temp)
 	{
-		if (*((int*)temp->m_Content) < last)
+		if (temp->m_Tail && *((int*)temp->m_Tail->m_Content) > *((int*)temp->m_Content))
 			return (FALSE);
-		last = *((int*)temp->m_Content);
 		temp = temp->m_Head;
-		if (temp == object->m_StackA->m_Begin)
-			break;
 	}
 	return (TRUE);
 }
