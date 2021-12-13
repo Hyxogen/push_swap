@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/13 10:56:48 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/13 15:05:33 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/13 16:38:19 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ int ft_abs(int num)
 	return (num);
 }
 
-static size_t get_size_adiff(size_t a, size_t b)
-{
-	if (a > b)
-		return (a - b);
-	return (b - a);
-}
-
 int cmp_distance(const t_distance *a, const t_distance *cmp)
 {
 	if ((a->m_Down + a->m_Up) < (cmp->m_Up + cmp->m_Down))
@@ -37,38 +30,37 @@ int cmp_distance(const t_distance *a, const t_distance *cmp)
 		return (1);
 	return (0);
 }
-
+/*TODO new get_position schrijven*/
 size_t get_position(const t_stack *stack, int number)
 {
 	size_t			position;
-	size_t			closest_pos;
 	t_stack_element	*element;
-	int				closest;
-	int				temp_num;
+	int				current, previous;
 
 	element = stack->m_Top;
 	if (element == NULL)
 		return (0);
 	position = 0;
-	closest = INT_MAX;
-	closest_pos = 0;
+	previous = *((int*)stack->m_Bottom->m_Content);
 	while (element)
 	{
-		temp_num = *((int*)element->m_Content);
-		if (ft_abs(temp_num - number) < ft_abs(closest - temp_num))
+		current = *((int*)element->m_Content);
+		if (current == previous)
+			return (position);
+		else if ((number < previous) && (number > current))
 		{
-			closest = temp_num;
-			closest_pos = position;
+			printf("number < previous\n");
+			return (previous + 1);
 		}
+		else if ((number > previous) && (number < current))
+		{
+			printf("number > previous\n");
+			return (position - 1);
+		}
+		position++;
 		element = element->m_Head;
 	}
-	if (number < closest)
-	{
-		if (closest_pos)
-			return (closest_pos - 1);
-		return (0);
-	}
-	return (closest_pos + 1);
+	return (0);
 }
 
 t_distance get_distance_exact(size_t position, size_t size)
@@ -94,7 +86,7 @@ t_evaluation	evaluate_single_exact(t_stack *origin, t_stack *des, int num, size_
 	(void)des;
 	a_dis = get_distance_exact(position, size);
 	b_dis = get_distance(des, num);
-	/*printf("num:%d a (%zu, %zu) b (%zu, %zu)\n", num, a_dis.m_Up, a_dis.m_Down, b_dis.m_Up, b_dis.m_Down);*/
+	printf("num:%d a (%zu, %zu) b (%zu, %zu)\n", num, a_dis.m_Up, a_dis.m_Down, b_dis.m_Up, b_dis.m_Down);
 	return (generate_instructions(&a_dis, &b_dis));
 }
 
@@ -105,7 +97,7 @@ t_evaluation	generate_instructions_internal(t_distance a, t_distance b)
 	t_evaluation	eval;
 
 	/*todo, uitozeken waarom hier +2 is*/
-	ret = malloc((get_size_adiff(a.m_Up, b.m_Up) + get_size_adiff(a.m_Down, b.m_Down) + 2) * sizeof(int));
+	ret = malloc((a.m_Up + b.m_Up + a.m_Down + b.m_Down + 1) * sizeof(int));
 	ret_cpy = ret;
 	while (a.m_Up && b.m_Up)
 	{
@@ -261,6 +253,8 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 	
 	element = top(origin);
 	origin_size = get_size(element);
+	if (origin_size == 0)
+		return (g_EmptyEval);
 	position = 0;
 	best_evaluation = -1;
 	evaluations = malloc(sizeof(t_evaluation) * origin_size);

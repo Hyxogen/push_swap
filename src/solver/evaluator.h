@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/13 11:02:42 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/13 14:38:46 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/13 16:03:42 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ enum instruction {
 	ips_rrb,
 	ips_rrr
 };
+
+const static t_evaluation g_EmptyEval = { 0, (void*) 0};
 
 /*
 Makkelijke manier om reverse instructie uit te voeren
