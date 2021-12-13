@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   checker.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/12/13 10:56:54 by dmeijer       #+#    #+#                 */
+/*   Updated: 2021/12/13 10:56:54 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ft_stdio.h>
@@ -5,7 +17,8 @@
 #include <ft_stdbool.h>
 #include "../parser/argument_parser.h"
 #include "../ps_object.h"
-#include "../solver/quick_solve/quick_solve.h"
+#include "../solver/evaluator.h"
+#include "../solver/solver.h"
 
 static ft_bool execute_instruction(const char *inst, t_ps_object *object)
 {
@@ -13,7 +26,7 @@ static ft_bool execute_instruction(const char *inst, t_ps_object *object)
 	if (!ft_strcmp(inst, "ra"))
 		ps_ra(object);
 	else if (!ft_strcmp(inst, "rb"))
-		ps_rb(object);
+		ps_rb(object);	
 	else if (!ft_strcmp(inst, "rr"))
 		ps_rr(object);
 	else if (!ft_strcmp(inst, "sa" ))
@@ -51,7 +64,8 @@ static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 			free(ptr);
 			return (FALSE);	
 		}
-		evaluate(object->m_StackB, object->m_StackA, *((int*)object->m_StackA->m_Top->m_Content));
+		execute_next_move(object);
+		/*printf("Next number that should be processed:%d\n", evaluate_ps(object));*/
 		free(ptr);
 	}
 	free(ptr);
