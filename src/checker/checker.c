@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/13 10:56:54 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/13 10:56:54 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/13 13:45:26 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "../parser/argument_parser.h"
 #include "../ps_object.h"
 #include "../solver/evaluator.h"
-#include "../solver/solver.h"
 
 static ft_bool execute_instruction(const char *inst, t_ps_object *object)
 {
@@ -64,7 +63,7 @@ static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 			free(ptr);
 			return (FALSE);	
 		}
-		execute_next_move(object);
+		print_evaluation(evaluate(object->m_StackA, object->m_StackB, 0));
 		/*printf("Next number that should be processed:%d\n", evaluate_ps(object));*/
 		free(ptr);
 	}
