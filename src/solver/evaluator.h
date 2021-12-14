@@ -83,7 +83,7 @@ void execute_instruction(t_stack *a, t_stack *b, int instruction);
 void execute_instruction_r(t_stack *a, t_stack *b, int instruction);
 */
 
-void execute_evaluation(t_stack *a, t_stack *b, const t_evaluation *eval);
+void execute_evaluation(t_ps_object *object, const t_evaluation *eval);
 void execute_evaluation_r(t_stack *a, t_stack *b, const t_evaluation *eval);
 
 t_evaluation	generate_instructions_internal(t_distance a, t_distance b);

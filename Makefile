@@ -21,7 +21,7 @@ INCLUDE_DIRS	:= -I $(LIBFT_DIR)/include
 CC				:= cc
 LINK_CMD		:= cc
 
-ALL_CFLAGS		:= -std=c89 -Wall -Wextra -Werror -pedantic $(INCLUDE_DIRS)
+ALL_CFLAGS		:= -std=c89 -Wall -Wextra -pedantic $(INCLUDE_DIRS)
 ALL_LINKFLAGS	:= -fsanitize=address
 
 DEBUG_FLAGS		:= -g -Og -fsanitize=address

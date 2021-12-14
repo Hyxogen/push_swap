@@ -49,13 +49,11 @@ size_t get_position(const t_stack *stack, int number)
 		current = *((int*)element->m_Content);
 		if (current == previous)
 		{
-			printf("current == previous (%d, %d)\n", current, previous);
 			return (position);
 		}
-		else if ((number > previous) && (number < current))
+		else if ((number < previous) && (number > current))
 		{
-			printf("number > previous\n");
-			return (position - 1);
+			return (position);
 		}
 		if (current > highest)
 		{
@@ -66,7 +64,7 @@ size_t get_position(const t_stack *stack, int number)
 		previous = current;
 		element = element->m_Head;
 	}
-	printf("Highest pos:%zu\n", highest_pos);
+	/*printf("Highest pos:%zu\n", highest_pos);*/
 	return (highest_pos);
 }
 
@@ -93,7 +91,7 @@ t_evaluation	evaluate_single_exact(t_stack *origin, t_stack *des, int num, size_
 	(void)des;
 	a_dis = get_distance_exact(position, size);
 	b_dis = get_distance(des, num);
-	printf("num:%d a (%zu, %zu) b (%zu, %zu)\n", num, a_dis.m_Up, a_dis.m_Down, b_dis.m_Up, b_dis.m_Down);
+	/*printf("num:%d a (%zu, %zu) b (%zu, %zu)\n", num, a_dis.m_Up, a_dis.m_Down, b_dis.m_Up, b_dis.m_Down);*/
 	return (generate_instructions(&a_dis, &b_dis));
 }
 
@@ -104,7 +102,7 @@ t_evaluation	generate_instructions_internal(t_distance a, t_distance b)
 	t_evaluation	eval;
 
 	/*todo, uitozeken waarom hier +2 is*/
-	ret = malloc((a.m_Up + b.m_Up + a.m_Down + b.m_Down + 1) * sizeof(int));
+	ret = malloc((a.m_Up + b.m_Up + a.m_Down + b.m_Down + 2) * sizeof(int));
 	ret_cpy = ret;
 	while (a.m_Up && b.m_Up)
 	{
@@ -145,9 +143,10 @@ t_evaluation	generate_instructions_internal(t_distance a, t_distance b)
 		b.m_Down--;
 		ret_cpy++;
 	}
-	*ret_cpy = ips_empty;
+	*ret_cpy = ips_pb;
+	*(ret_cpy + 1) = ips_empty;
 	eval.m_Instructions = ret;
-	eval.m_Count = ret_cpy - ret;
+	eval.m_Count = (ret_cpy - ret) + 1;
 	return (eval);
 }
 
@@ -202,11 +201,51 @@ t_evaluation	generate_instructions(const t_distance *a, const t_distance *b)
 	return (generate_instructions_internal(a_cpy, b_cpy));
 }
 
-void execute_evaluation(t_stack *a, t_stack *b, const t_evaluation *eval)
+void execute_evaluation(t_ps_object *object, const t_evaluation *eval)
 {
-	(void)a;
-	(void)b;
-	(void)eval;
+	size_t	index;
+
+	for (index = 0; index < eval->m_Count; index++)
+	{
+		switch (eval->m_Instructions[index])
+		{
+			case ips_pa:
+				ps_pa(object);
+				break;
+			case ips_pb:
+				ps_pb(object);
+				break;
+			case ips_ra:
+				ps_ra(object);
+				break;
+			case ips_rb:
+				ps_rb(object);
+				break;
+			case ips_rr:
+				ps_rr(object);
+				break;
+			case ips_sa:
+				ps_sa(object);
+				break;
+			case ips_sb:
+				ps_sb(object);
+				break;
+			case ips_ss:
+				ps_ss(object);
+				break;
+			case ips_rra:
+				ps_rra(object);
+				break;
+			case ips_rrb:
+				ps_rrb(object);
+				break;
+			case ips_rrr:
+				ps_rrr(object);
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 void execute_evaluation_r(t_stack *a, t_stack *b, const t_evaluation *eval)
@@ -226,14 +265,14 @@ t_evaluation	join_evaluations(const t_evaluation *a, const t_evaluation *b)
 	ft_memset(join.m_Instructions, 0, (join.m_Count + 1) * sizeof(int));
 	ft_memcpy(join.m_Instructions, a->m_Instructions, a->m_Count);
 	ft_memcpy(join.m_Instructions + a->m_Count, b->m_Instructions, b->m_Count);
-	printf("aptr:%p, bptr:%p\n", (void*)a->m_Instructions, (void*)b->m_Instructions);
+	/*printf("aptr:%p, bptr:%p\n", (void*)a->m_Instructions, (void*)b->m_Instructions);*/
 	printf("\n\n--[");
 	for (i = 0; i < a->m_Count; i++)
 		printf("%s;", g_InstructionNames[a->m_Instructions[i]]);
 	for (i = 0; i < b->m_Count; i++)
 		printf("%s'", g_InstructionNames[b->m_Instructions[i]]);
 	printf("]--\n\n");
-	print_evaluation(join);
+	/*print_evaluation(join);*/
 	/*possible segfault with underflow*/
 	return (join);
 }
@@ -271,7 +310,7 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 		temp1 = evaluate_single_exact(origin, des, number, position, origin_size);
 		evaluations[position] = temp1;
 		/*printf("number: %d eval:", number);*/
-		print_evaluation(temp1);
+		/*print_evaluation(temp1);*/
 		/*execute_evaluation(origin, des, &temp1);*/
 		if (depth > 0)
 		{

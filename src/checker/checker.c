@@ -18,6 +18,7 @@
 #include "../parser/argument_parser.h"
 #include "../ps_object.h"
 #include "../solver/evaluator.h"
+#include <unistd.h>
 
 static ft_bool execute_instruction(const char *inst, t_ps_object *object)
 {
@@ -51,6 +52,7 @@ static ft_bool execute_instruction(const char *inst, t_ps_object *object)
 }
 
 /*Todo make rename t_read_handle to _read_object and make another typedef for a pointer to t_read_object called t_read_handle*/
+/*
 static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 {
 	char	*ptr;
@@ -64,11 +66,26 @@ static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 			return (FALSE);	
 		}
 		print_evaluation(evaluate(object->m_StackA, object->m_StackB, 0));
-		/*printf("Next number that should be processed:%d\n", evaluate_ps(object));*/
-		free(ptr);
+		//free(ptr);
 	}
 	free(ptr);
 	return (TRUE);
+}
+*/
+
+static ft_bool execute_self_solve(t_ps_object *object)
+{
+	t_evaluation eval;
+
+	while (object->m_StackA->m_Top)
+	{
+		eval = evaluate(object->m_StackA, object->m_StackB, 0);
+		print_evaluation(eval);
+		sleep(1);
+		execute_evaluation(object, &eval);
+		print_ps_object(object);
+	}
+	return (FALSE);
 }
 
 int main(int argc, char **argv)
@@ -83,7 +100,8 @@ int main(int argc, char **argv)
 	lst = read_arguments(argc, argv);
 	initialize_ps_object(&object);
 	fill_psa(&object, lst, argc - 1);
-	if (!execute(&object, handle))
+	/*if (!execute(&object, handle))*/
+	if (!execute_self_solve(&object))
 		printf("Error\n");
 	else if (is_sorted(&object))
 		printf("OK\n");
