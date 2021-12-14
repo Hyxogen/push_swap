@@ -33,34 +33,41 @@ int cmp_distance(const t_distance *a, const t_distance *cmp)
 /*TODO new get_position schrijven*/
 size_t get_position(const t_stack *stack, int number)
 {
-	size_t			position;
+	size_t			position, highest_pos;
 	t_stack_element	*element;
-	int				current, previous;
+	int				current, previous, highest;
 
 	element = stack->m_Top;
 	if (element == NULL)
 		return (0);
 	position = 0;
+	highest_pos = 0;
+	highest = INT_MIN;
 	previous = *((int*)stack->m_Bottom->m_Content);
 	while (element)
 	{
 		current = *((int*)element->m_Content);
 		if (current == previous)
-			return (position);
-		else if ((number < previous) && (number > current))
 		{
-			printf("number < previous\n");
-			return (previous + 1);
+			printf("current == previous (%d, %d)\n", current, previous);
+			return (position);
 		}
 		else if ((number > previous) && (number < current))
 		{
 			printf("number > previous\n");
 			return (position - 1);
 		}
+		if (current > highest)
+		{
+			highest_pos = position;
+			highest = current;
+		}
 		position++;
+		previous = current;
 		element = element->m_Head;
 	}
-	return (0);
+	printf("Highest pos:%zu\n", highest_pos);
+	return (highest_pos);
 }
 
 t_distance get_distance_exact(size_t position, size_t size)
@@ -101,40 +108,40 @@ t_evaluation	generate_instructions_internal(t_distance a, t_distance b)
 	ret_cpy = ret;
 	while (a.m_Up && b.m_Up)
 	{
-		*ret_cpy = ips_rrr;
+		*ret_cpy = ips_rr;
 		a.m_Up--;
 		b.m_Up--;
 		ret_cpy++;
 	}
 	while (a.m_Up)
 	{
-		*ret_cpy = ips_rra;
+		*ret_cpy = ips_ra;
 		a.m_Up--;
 		ret_cpy++;
 	}
 	while (b.m_Up)
 	{
-		*ret_cpy = ips_rrb;
+		*ret_cpy = ips_rb;
 		b.m_Up--;
 		ret_cpy++;
 	}
 
 	while (a.m_Down && b.m_Down)
 	{
-		*ret_cpy = ips_rr;
+		*ret_cpy = ips_rrr;
 		a.m_Down--;
 		b.m_Down--;
 		ret_cpy++;
 	}
 	while (a.m_Down)
 	{
-		*ret_cpy = ips_ra;
+		*ret_cpy = ips_rra;
 		a.m_Down--;
 		ret_cpy++;
 	}
 	while (b.m_Down)
 	{
-		*ret_cpy = ips_rb;
+		*ret_cpy = ips_rrb;
 		b.m_Down--;
 		ret_cpy++;
 	}
@@ -263,7 +270,7 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 		number = *((int*)element->m_Content);
 		temp1 = evaluate_single_exact(origin, des, number, position, origin_size);
 		evaluations[position] = temp1;
-		printf("number: %d eval:", number);
+		/*printf("number: %d eval:", number);*/
 		print_evaluation(temp1);
 		/*execute_evaluation(origin, des, &temp1);*/
 		if (depth > 0)
@@ -283,8 +290,8 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 void print_evaluation(t_evaluation eval)
 {
 	size_t i;
-	
-	printf("count=%zu [", eval.m_Count);
+
+	printf("[");
 	for (i = 0; i < eval.m_Count; i++)
 	{
 		printf("%s;", g_InstructionNames[eval.m_Instructions[i]]);
