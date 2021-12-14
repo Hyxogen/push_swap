@@ -73,21 +73,6 @@ static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 }
 */
 
-static ft_bool execute_self_solve(t_ps_object *object)
-{
-	t_evaluation eval;
-
-	while (object->m_StackA->m_Top)
-	{
-		eval = evaluate(object->m_StackA, object->m_StackB, 0);
-		print_evaluation(eval);
-		sleep(1);
-		execute_evaluation(object, &eval);
-		print_ps_object(object);
-	}
-	return (FALSE);
-}
-
 int main(int argc, char **argv)
 {
 	int	*lst;

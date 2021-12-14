@@ -58,7 +58,7 @@ enum instruction {
 };
 
 const static t_evaluation g_EmptyEval = { 0, (void*) 0};
-
+const static t_distance g_EmptyDistance = { 0, 0};
 /*
 Makkelijke manier om reverse instructie uit te voeren
 
@@ -85,6 +85,8 @@ void execute_instruction_r(t_stack *a, t_stack *b, int instruction);
 
 void execute_evaluation(t_ps_object *object, const t_evaluation *eval);
 void execute_evaluation_r(t_stack *a, t_stack *b, const t_evaluation *eval);
+
+t_evaluation	generate_put_pack(t_stack *a, t_stack *b);
 
 t_evaluation	generate_instructions_internal(t_distance a, t_distance b);
 t_evaluation	join_evaluations(const t_evaluation *a, const t_evaluation *b);

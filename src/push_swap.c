@@ -12,41 +12,28 @@
 
 #include "stack.h"
 #include "ps_object.h"
-#include "solver/solver.h"
 #include "parser/argument_parser.h"
+#include "solver/evaluator.h"
 #include <stdlib.h>
 
-/*
-sa
-pb
-pb
-pb
-sa
-pa
-pa
-pa
-int
-	main(void)
+static ft_bool execute_self_solve(t_ps_object *object)
 {
-	t_ps_object *object;
-	
-	object = create_ps_object();
-	// int arr[6] = {
-	// 	2, 1, 3, 6, 5, 8
-	// };
+	t_evaluation eval;
 
-	int arr[6] = {
-		8, 5, 6, 3, 1, 2
-	};
-
-	fill_psa(object, &arr[0], 6);
-	print_ps_object(object);
-	printf("\n");
-	print_ps_object(object);
-	printf("sorted?:%d\n", is_sorted(object));
-	return (0);
+	while (object->m_StackA->m_Top)
+	{
+		eval = evaluate(object->m_StackA, object->m_StackB, 0);
+		if (eval.m_Count == 0)
+			break;
+		execute_evaluation(object, &eval);
+		print_evaluation(eval);
+	}
+	eval = generate_put_pack(object->m_StackA, object->m_StackB);
+	execute_evaluation(object, &eval);
+	print_evaluation(eval);
+	/*print_ps_object(object);*/
+	return (is_sorted(object));
 }
-*/
 
 int
 	main(int argc, char **argv)
@@ -59,7 +46,10 @@ int
 	lst = read_arguments(argc, argv);
 	initialize_ps_object(&object);
 	fill_psa(&object, lst, argc - 1);
-	solve_ps(&object);
+	if(!execute_self_solve(&object))
+		printf("KO\n");
+	else
+		printf("OK\n");
 	free(lst);
 	return (EXIT_SUCCESS);
 }

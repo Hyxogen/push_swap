@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <ft_string.h>
+#include <ft_stdlib.h>
 
 int ft_abs(int num)
 {
@@ -162,7 +163,7 @@ t_evaluation	generate_instructions(const t_distance *a, const t_distance *b)
 	a_cpy = *a;
 	b_cpy = *b;
 	if (a->m_Up > b->m_Up)
-		total_in.m_Up = a->m_Up - b->m_Up;/*dit klopt niet, als beide 3 omhoog moeten gaan gaat ie 0 omhoog*/
+		total_in.m_Up = a->m_Up - b->m_Up;/*dit klopt niet, als beide 3 omhoog moeten gaan gaat ie 0 omhoog (of misschien wel omdat ik instruties ergens anders geneereer), het zou kunnen zijn dat het algoritme dan gelooft dat iets sneller is terwijl dat niet het geval is*/
 	else
 		total_in.m_Up = b->m_Up - a->m_Up;
 	if (a->m_Down > b->m_Down)
@@ -265,14 +266,12 @@ t_evaluation	join_evaluations(const t_evaluation *a, const t_evaluation *b)
 	ft_memset(join.m_Instructions, 0, (join.m_Count + 1) * sizeof(int));
 	ft_memcpy(join.m_Instructions, a->m_Instructions, a->m_Count);
 	ft_memcpy(join.m_Instructions + a->m_Count, b->m_Instructions, b->m_Count);
-	/*printf("aptr:%p, bptr:%p\n", (void*)a->m_Instructions, (void*)b->m_Instructions);*/
 	printf("\n\n--[");
 	for (i = 0; i < a->m_Count; i++)
 		printf("%s;", g_InstructionNames[a->m_Instructions[i]]);
 	for (i = 0; i < b->m_Count; i++)
 		printf("%s'", g_InstructionNames[b->m_Instructions[i]]);
 	printf("]--\n\n");
-	/*print_evaluation(join);*/
 	/*possible segfault with underflow*/
 	return (join);
 }
@@ -286,6 +285,45 @@ int	cmp_evaluation(const t_evaluation *a, const t_evaluation *comp)
 	return (0);
 }
 
+t_evaluation	generate_put_pack(t_stack *a, t_stack *b)
+{
+	t_evaluation	ret;
+	t_distance		distance;
+	t_stack_element	*element;
+	size_t 			size, position, highest_pos;
+	int 			highest, number;
+	size_t			i;
+	size_t 			temp;
+
+	element = top(b);
+	size = get_size(element);
+	highest = INT_MIN;
+	highest_pos = 0;
+	position = 0;
+	(void)a;
+	while (element)
+	{
+		number = *((int*)element->m_Content);
+		if (number > highest)
+		{
+			highest = number;
+			highest_pos = position;
+		}
+		position++;
+		element = element->m_Head;
+	}
+
+	distance = get_distance_exact(highest_pos, size);
+	ret = generate_instructions(&g_EmptyDistance, &distance);
+	temp = ret.m_Count;
+	i = 0;
+	ret.m_Instructions = realloc(ret.m_Instructions, (temp + size + 1) * sizeof(int));
+	ret.m_Count += size - 1;
+	for (i = 0; i < size; i++)
+		ret.m_Instructions[(temp - 1) + i] = ips_pa;
+	ret.m_Instructions[temp + size] = ips_empty;
+	return (ret);
+}
 
 t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 {
@@ -309,8 +347,6 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 		number = *((int*)element->m_Content);
 		temp1 = evaluate_single_exact(origin, des, number, position, origin_size);
 		evaluations[position] = temp1;
-		/*printf("number: %d eval:", number);*/
-		/*print_evaluation(temp1);*/
 		/*execute_evaluation(origin, des, &temp1);*/
 		if (depth > 0)
 		{
@@ -330,12 +366,10 @@ void print_evaluation(t_evaluation eval)
 {
 	size_t i;
 
-	printf("[");
 	for (i = 0; i < eval.m_Count; i++)
 	{
-		printf("%s;", g_InstructionNames[eval.m_Instructions[i]]);
+		printf("%s\n", g_InstructionNames[eval.m_Instructions[i]]);
 	}
-	printf("]\n");
 }
 
 void print_distance(const t_distance *distance)

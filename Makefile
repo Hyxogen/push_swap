@@ -9,7 +9,7 @@ LIBFT_LIB		:= $(LIBFT_DIR)/libft.a
 SRC_DIR			:= ./src
 INT_DIR			:= ./obj
 # SRCS			:= push_swap.c stack.c dlinked_list.c ps_object.c
-SRCS			:=	checker.c argument_parser.c ps_object.c stack.c dlinked_list.c \
+SRCS			:=	push_swap.c argument_parser.c ps_object.c stack.c dlinked_list.c \
 					evaluator.c
 OBJS			:= $(addprefix $(INT_DIR)/,$(SRCS:%.c=%.o))
 
@@ -21,10 +21,10 @@ INCLUDE_DIRS	:= -I $(LIBFT_DIR)/include
 CC				:= cc
 LINK_CMD		:= cc
 
-ALL_CFLAGS		:= -std=c89 -Wall -Wextra -pedantic $(INCLUDE_DIRS)
+ALL_CFLAGS		:= -std=c89 -Wall -Wextra -Werror -pedantic $(INCLUDE_DIRS)
 ALL_LINKFLAGS	:= -fsanitize=address
 
-DEBUG_FLAGS		:= -g -Og -fsanitize=address
+DEBUG_FLAGS		:= -g -O0 -fsanitize=address
 DEBUG_DEFINES	:= -DPS_DEBUG
 
 RELEASE_FLAGS	:= -g -O2 -fsanitize=address
