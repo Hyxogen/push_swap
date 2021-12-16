@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/07 13:20:10 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/13 10:11:22 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/16 09:28:38 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static ft_bool execute_self_solve(t_ps_object *object)
 		if (eval.m_Count == 0)
 			break;
 		execute_evaluation(object, &eval);
+		/*print_ps_object(object);*/
 		print_evaluation(eval);
 	}
 	eval = generate_put_pack(object->m_StackA, object->m_StackB);
@@ -46,10 +47,11 @@ int
 	lst = read_arguments(argc, argv);
 	initialize_ps_object(&object);
 	fill_psa(&object, lst, argc - 1);
-	if(!execute_self_solve(&object))
+	execute_self_solve(&object);
+	/*if(!execute_self_solve(&object))
 		printf("KO\n");
 	else
-		printf("OK\n");
+		printf("OK\n");*/
 	free(lst);
 	return (EXIT_SUCCESS);
 }

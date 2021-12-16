@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/13 10:56:48 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/13 16:38:19 by dmeijer       ########   odam.nl         */
+/*   Updated: 2021/12/16 09:27:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ size_t get_position(const t_stack *stack, int number)
 		current = *((int*)element->m_Content);
 		if (current == previous)
 		{
+			/*printf("a\n");*/
 			return (position);
 		}
 		else if ((number < previous) && (number > current))
 		{
+			/*printf("%d < %d && %d > %d\n", number, previous, number, current);*/
 			return (position);
 		}
 		if (current > highest)
@@ -163,13 +165,13 @@ t_evaluation	generate_instructions(const t_distance *a, const t_distance *b)
 	a_cpy = *a;
 	b_cpy = *b;
 	if (a->m_Up > b->m_Up)
-		total_in.m_Up = a->m_Up - b->m_Up;/*dit klopt niet, als beide 3 omhoog moeten gaan gaat ie 0 omhoog (of misschien wel omdat ik instruties ergens anders geneereer), het zou kunnen zijn dat het algoritme dan gelooft dat iets sneller is terwijl dat niet het geval is*/
+		total_in.m_Up = a->m_Up + (a->m_Up - b->m_Up);/*dit klopt niet, als beide 3 omhoog moeten gaan gaat ie 0 omhoog (of misschien wel omdat ik instruties ergens anders geneereer), het zou kunnen zijn dat het algoritme dan gelooft dat iets sneller is terwijl dat niet het geval is*/
 	else
-		total_in.m_Up = b->m_Up - a->m_Up;
+		total_in.m_Up = b->m_Up + (b->m_Up - a->m_Up);
 	if (a->m_Down > b->m_Down)
-		total_in.m_Down = a->m_Down - b->m_Down;
+		total_in.m_Down = a->m_Down + (a->m_Down - b->m_Down);
 	else
-		total_in.m_Down = b->m_Down - a->m_Down;
+		total_in.m_Down = b->m_Down + (b->m_Down - a->m_Down);
 	if (a->m_Up < a->m_Down)
 		total_ex.m_Up += a->m_Up;
 	else
