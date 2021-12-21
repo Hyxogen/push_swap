@@ -14,14 +14,6 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <ft_string.h>
-#include <ft_stdlib.h>
-
-int ft_abs(int num)
-{
-	if (num < 0)
-		return (-num);
-	return (num);
-}
 
 int cmp_distance(const t_distance *a, const t_distance *cmp)
 {
@@ -31,7 +23,7 @@ int cmp_distance(const t_distance *a, const t_distance *cmp)
 		return (1);
 	return (0);
 }
-/*TODO new get_position schrijven*/
+
 size_t get_position(const t_stack *stack, int number)
 {
 	size_t			position, highest_pos;
@@ -49,15 +41,9 @@ size_t get_position(const t_stack *stack, int number)
 	{
 		current = *((int*)element->m_Content);
 		if (current == previous)
-		{
-			/*printf("a\n");*/
 			return (position);
-		}
 		else if ((number < previous) && (number > current))
-		{
-			/*printf("%d < %d && %d > %d\n", number, previous, number, current);*/
 			return (position);
-		}
 		if (current > highest)
 		{
 			highest_pos = position;
@@ -67,7 +53,6 @@ size_t get_position(const t_stack *stack, int number)
 		previous = current;
 		element = element->m_Head;
 	}
-	/*printf("Highest pos:%zu\n", highest_pos);*/
 	return (highest_pos);
 }
 
@@ -94,7 +79,6 @@ t_evaluation	evaluate_single_exact(t_stack *origin, t_stack *des, int num, size_
 	(void)des;
 	a_dis = get_distance_exact(position, size);
 	b_dis = get_distance(des, num);
-	/*printf("num:%d a (%zu, %zu) b (%zu, %zu)\n", num, a_dis.m_Up, a_dis.m_Down, b_dis.m_Up, b_dis.m_Down);*/
 	return (generate_instructions(&a_dis, &b_dis));
 }
 
@@ -165,7 +149,7 @@ t_evaluation	generate_instructions(const t_distance *a, const t_distance *b)
 	a_cpy = *a;
 	b_cpy = *b;
 	if (a->m_Up > b->m_Up)
-		total_in.m_Up = a->m_Up + (a->m_Up - b->m_Up);/*dit klopt niet, als beide 3 omhoog moeten gaan gaat ie 0 omhoog (of misschien wel omdat ik instruties ergens anders geneereer), het zou kunnen zijn dat het algoritme dan gelooft dat iets sneller is terwijl dat niet het geval is*/
+		total_in.m_Up = a->m_Up + (a->m_Up - b->m_Up);
 	else
 		total_in.m_Up = b->m_Up + (b->m_Up - a->m_Up);
 	if (a->m_Down > b->m_Down)
@@ -251,13 +235,6 @@ void execute_evaluation(t_ps_object *object, const t_evaluation *eval)
 	}
 }
 
-void execute_evaluation_r(t_stack *a, t_stack *b, const t_evaluation *eval)
-{
-	(void)a;
-	(void)b;
-	(void)eval;
-}
-
 t_evaluation	join_evaluations(const t_evaluation *a, const t_evaluation *b)
 {
 	t_evaluation	join;
@@ -274,7 +251,6 @@ t_evaluation	join_evaluations(const t_evaluation *a, const t_evaluation *b)
 	for (i = 0; i < b->m_Count; i++)
 		printf("%s'", g_InstructionNames[b->m_Instructions[i]]);
 	printf("]--\n\n");
-	/*possible segfault with underflow*/
 	return (join);
 }
 
@@ -318,7 +294,6 @@ t_evaluation	generate_put_pack(t_stack *a, t_stack *b)
 	distance = get_distance_exact(highest_pos, size);
 	ret = generate_instructions(&g_EmptyDistance, &distance);
 	temp = ret.m_Count;
-	i = 0;
 	ret.m_Instructions = realloc(ret.m_Instructions, (temp + size + 1) * sizeof(int));
 	ret.m_Count += size - 1;
 	for (i = 0; i < size; i++)
@@ -349,13 +324,11 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 		number = *((int*)element->m_Content);
 		temp1 = evaluate_single_exact(origin, des, number, position, origin_size);
 		evaluations[position] = temp1;
-		/*execute_evaluation(origin, des, &temp1);*/
 		if (depth > 0)
 		{
 			temp2 = evaluate(origin, des, depth - 1);
 			evaluations[position] = join_evaluations(&evaluations[position], &temp2);
 		}
-		/*execute_evaluation_r(origin, des, &temp1);*/
 		if (best_evaluation < 0 || (cmp_evaluation(&evaluations[position], &evaluations[best_evaluation]) < 0))
 			best_evaluation = position;
 		position++;
