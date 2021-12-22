@@ -24,6 +24,7 @@ void add_after(t_dlinked_list **list, t_dlinked_list *element);
 
 void remove_elements(t_dlinked_list **list, ft_bool (*equal)(const void *, const void *), const void *sample);
 
+/*TODO Track stack size in struct itself*/
 size_t get_size(const t_dlinked_list *list);
 
 void clear_list(t_dlinked_list **list);

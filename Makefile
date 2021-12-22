@@ -10,7 +10,7 @@ SRC_DIR			:= ./src
 INT_DIR			:= ./obj
 # SRCS			:= push_swap.c stack.c dlinked_list.c ps_object.c
 SRCS			:=	push_swap.c argument_parser.c ps_object.c stack.c dlinked_list.c \
-					evaluator.c
+					evaluator.c distance.c generator.c
 OBJS			:= $(addprefix $(INT_DIR)/,$(SRCS:%.c=%.o))
 
 VPATH			:= $(SRC_DIR) $(SRC_DIR)/utils $(SRC_DIR)/checker $(SRC_DIR)/parser $(SRC_DIR)/solver \
