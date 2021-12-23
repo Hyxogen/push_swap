@@ -2,6 +2,12 @@
 
 #include <stdlib.h>
 
+void destroy_evaluation(t_evaluation* eval, ft_bool free_self) {
+	free(eval->m_Instructions);
+	if (free_self)
+		free(eval);
+}
+
 static t_evaluation generate_instructions_internal(t_distance a, t_distance b) {
 	int				*ret;
 	int				*ret_cpy;

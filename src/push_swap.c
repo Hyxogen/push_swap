@@ -32,6 +32,7 @@ static ft_bool execute_self_solve(t_ps_object *object)
 	eval = generate_put_pack(object->m_StackA, object->m_StackB);
 	execute_evaluation(object, &eval);
 	print_evaluation(eval);
+	destroy_evaluation(&eval, FALSE);
 	/*print_ps_object(object);*/
 	return (is_sorted(object));
 }
@@ -53,5 +54,6 @@ int
 	else
 		printf("OK\n");*/
 	free(lst);
+	destroy_ps_object(&object, FALSE);
 	return (EXIT_SUCCESS);
 }

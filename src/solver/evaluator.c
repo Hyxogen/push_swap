@@ -15,6 +15,11 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <ft_string.h>
+/*TODO REMOVE*/
+#include <stdio.h>
+
+static const t_evaluation g_EmptyEval = { 0, (void*)0 };
+static const t_distance g_EmptyDistance = { 0, 0 };
 
 size_t get_position(const t_stack *stack, int number)
 {
@@ -154,7 +159,9 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 		position++;
 		element = element->m_Head;
 	}
-	return (evaluations[best_evaluation]);
+	temp1 = evaluations[best_evaluation];
+	free(evaluations);
+	return (temp1);
 }
 
 void print_evaluation(t_evaluation eval)
@@ -169,5 +176,5 @@ void print_evaluation(t_evaluation eval)
 
 void print_distance(const t_distance *distance)
 {
-	printf("(%zu, %zu)", distance->m_Up, distance->m_Down);
+	printf("(%lu, %lu)", distance->m_Up, distance->m_Down);
 }

@@ -27,6 +27,12 @@ t_stack *create_stack()
 	return (ret);
 }
 
+void destroy_stack(t_stack* stack, ft_bool free_self) {
+	clear_list(&stack->m_Top);
+	if (free_self)
+		free(stack);
+}
+
 ft_bool push_top_content(t_stack *stack, void *content)
 {
 	t_stack_element	*element;

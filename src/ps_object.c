@@ -13,6 +13,7 @@
 #include "ps_object.h"
 #include <stdlib.h>
 #include <limits.h>
+#include <stdio.h>
 
 t_ps_object *create_ps_object() {
 	t_ps_object	*ret;
@@ -26,6 +27,13 @@ t_ps_object *create_ps_object() {
 		return (NULL);
 	}
 	return (ret);
+}
+
+void destroy_ps_object(t_ps_object* object, ft_bool free_self) {
+	destroy_stack(object->m_StackA, TRUE);
+	destroy_stack(object->m_StackB, TRUE);
+	if (free_self)
+		free(object);
 }
 
 t_ps_object	*initialize_ps_object(t_ps_object *object)

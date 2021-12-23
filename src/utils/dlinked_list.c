@@ -1,5 +1,7 @@
 #include "dlinked_list.h"
 #include <stdlib.h>
+/*TODO REMOVE*/
+#include <stdio.h>
 
 t_dlinked_list *create_element(void *content)
 {
@@ -92,9 +94,6 @@ static void remove_element(t_dlinked_list **element)
 
 void remove_elements(t_dlinked_list **list, ft_bool (*equal)(const void *, const void *), const void *sample)
 {
-	t_dlinked_list	*temp;
-
-	temp = *list;
 	while (*list)
 	{
 		if (equal((*list)->m_Content, sample))

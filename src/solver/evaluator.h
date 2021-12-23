@@ -18,9 +18,6 @@
 # include <sys/types.h>
 # include "generator.h"
 
-const static t_evaluation g_EmptyEval = { 0, (void*) 0};
-const static t_distance g_EmptyDistance = { 0, 0};
-
 t_distance get_distance(const t_stack *stack, int number);
 
 size_t get_position(const t_stack *stack, int number);

@@ -50,4 +50,5 @@ t_distance optimal_dist(const t_distance *a) {
 		ret.m_Up = ret.m_Up;
 	else
 		ret.m_Down = a->m_Down;
+	return (ret);
 }

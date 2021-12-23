@@ -14,6 +14,7 @@
 # define PS_OBJECT_H
 
 # include "stack.h"
+# include <ft_stdbool.h>
 
 typedef struct s_ps_object {
 	t_stack	*m_StackA;
@@ -21,6 +22,7 @@ typedef struct s_ps_object {
 }	t_ps_object;
 
 t_ps_object *create_ps_object();
+void destroy_ps_object(t_ps_object* object, ft_bool free_self);
 t_ps_object	*initialize_ps_object(t_ps_object *object);
 
 void fill_psa(t_ps_object *object, int *arr, size_t size);

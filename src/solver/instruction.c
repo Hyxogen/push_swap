@@ -1,10 +1,6 @@
-//
-// Created by Daan Meijer on 22/12/2021.
-//
-
 #include "instruction.h"
 
-const static char *g_InstructionNames[] = {
+static const char *g_InstructionNames[] = {
 		"empty",
 		"pa",
 		"pb",
@@ -21,7 +17,7 @@ const static char *g_InstructionNames[] = {
 		NULL
 };
 
-const static t_object_func g_Functions[] = {
+static const t_object_func g_Functions[] = {
 		NULL,
 		ps_pa,
 		ps_pb,
@@ -42,7 +38,7 @@ const char *get_instr_name(t_instruction instr)
 {
 	if (instr <= 0 || instr >= ips_err)
 		return g_InstructionNames[ips_err];
-	return g_InstructionNames[instr];
+	return (g_InstructionNames[instr]);
 }
 
 void execute_instruction(t_instruction instr, t_ps_object *object)

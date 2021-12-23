@@ -2,6 +2,7 @@
 # define STACK_H
 
 # include "utils/dlinked_list.h"
+# include <ft_stdbool.h>
 
 /**
  * Tail is towards top of stack from begin
@@ -25,6 +26,7 @@ typedef struct s_stack {
 } t_stack;
 
 t_stack *create_stack();
+void destroy_stack(t_stack* stack, ft_bool free_self);
 
 ft_bool push_top_content(t_stack *stack, void *content);
 ft_bool push_bottom_content(t_stack *stack, void *content);
