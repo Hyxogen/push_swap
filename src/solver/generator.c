@@ -2,30 +2,6 @@
 
 #include <stdlib.h>
 
-const static char *g_InstructionNames[] = {
-		"empty",
-		"pa",
-		"pb",
-		"ra",
-		"rb",
-		"rr",
-		"sa",
-		"sb",
-		"ss",
-		"rra",
-		"rrb",
-		"rrr",
-		"err",
-		NULL
-};
-
-const char *get_instr_name(t_instruction instr)
-{
-	if (instr < 0 || instr >= ips_err)
-		return g_InstructionNames[ips_err];
-	return g_InstructionNames[instr];
-}
-
 static t_evaluation generate_instructions_internal(t_distance a, t_distance b) {
 	int				*ret;
 	int				*ret_cpy;
@@ -84,21 +60,16 @@ t_evaluation
 {
 	t_distance	total_in;
 	t_distance	total_ex;
-	t_distance	diff;
+	t_distance	temp;
 	int			cmp;
 
 	total_ex.m_Up = 0;
 	total_ex.m_Down = 0;
-	diff = subtract_dist(&a, &b);
-	total_in = add_dist(&a, &diff);
-	if (a.m_Up < a.m_Down)
-		total_ex.m_Up += a.m_Up;
-	else
-		total_ex.m_Down += a.m_Down;
-	if (b.m_Up < b.m_Down)
-		total_ex.m_Up += b.m_Up;
-	else
-		total_ex.m_Down += b.m_Down;
+	temp = subtract_dist(&a, &b);
+	total_in = add_dist(&a, &temp);
+	total_ex = optimal_dist(&b);
+	temp = optimal_dist(&a);
+	total_ex = add_dist(&total_ex, &temp);
 	cmp = cmp_dist(&total_in, &total_ex);
 	if (cmp <= 0)
 	{

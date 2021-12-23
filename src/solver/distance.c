@@ -32,7 +32,6 @@ t_distance add_dist(const t_distance *a, const t_distance *b) {
 	return (ret);
 }
 
-
 t_distance get_distance_exact(size_t position, size_t size)
 {
 	t_distance	ret;
@@ -40,4 +39,15 @@ t_distance get_distance_exact(size_t position, size_t size)
 	ret.m_Up = position;
 	ret.m_Down = size - position;
 	return (ret);
+}
+
+t_distance optimal_dist(const t_distance *a) {
+	t_distance	ret;
+
+	ret.m_Up = 0;
+	ret.m_Down = 0;
+	if (a->m_Up < a->m_Down)
+		ret.m_Up = ret.m_Up;
+	else
+		ret.m_Down = a->m_Down;
 }

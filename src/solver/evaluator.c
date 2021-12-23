@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "evaluator.h"
+#include "instruction.h"
 #include <stdlib.h>
 #include <limits.h>
 #include <ft_string.h>
@@ -69,46 +70,7 @@ void execute_evaluation(t_ps_object *object, const t_evaluation *eval)
 	size_t	index;
 
 	for (index = 0; index < eval->m_Count; index++)
-	{
-		switch (eval->m_Instructions[index])
-		{
-			case ips_pa:
-				ps_pa(object);
-				break;
-			case ips_pb:
-				ps_pb(object);
-				break;
-			case ips_ra:
-				ps_ra(object);
-				break;
-			case ips_rb:
-				ps_rb(object);
-				break;
-			case ips_rr:
-				ps_rr(object);
-				break;
-			case ips_sa:
-				ps_sa(object);
-				break;
-			case ips_sb:
-				ps_sb(object);
-				break;
-			case ips_ss:
-				ps_ss(object);
-				break;
-			case ips_rra:
-				ps_rra(object);
-				break;
-			case ips_rrb:
-				ps_rrb(object);
-				break;
-			case ips_rrr:
-				ps_rrr(object);
-				break;
-			default:
-				break;
-		}
-	}
+		execute_instruction(eval->m_Instructions[index], object);
 }
 
 int	cmp_evaluation(const t_evaluation *a, const t_evaluation *comp)
