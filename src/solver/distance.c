@@ -1,7 +1,6 @@
 #include "distance.h"
 
-int cmp_dist(const t_distance *a, const t_distance *cmp)
-{
+int cmp_dist(const t_distance* a, const t_distance* cmp) {
 	if ((a->m_Down + a->m_Up) < (cmp->m_Up + cmp->m_Down))
 		return (-1);
 	else if ((a->m_Down + a->m_Up) > (cmp->m_Up + cmp->m_Down))
@@ -10,7 +9,7 @@ int cmp_dist(const t_distance *a, const t_distance *cmp)
 }
 
 
-t_distance subtract_dist(const t_distance *a, const t_distance *b) {
+t_distance subtract_dist(const t_distance* a, const t_distance* b) {
 	t_distance ret;
 
 	if (a->m_Up < b->m_Up)
@@ -24,7 +23,7 @@ t_distance subtract_dist(const t_distance *a, const t_distance *b) {
 	return (ret);
 }
 
-t_distance add_dist(const t_distance *a, const t_distance *b) {
+t_distance add_dist(const t_distance* a, const t_distance* b) {
 	t_distance ret;
 
 	ret.m_Up = a->m_Up + b->m_Down;
@@ -32,8 +31,7 @@ t_distance add_dist(const t_distance *a, const t_distance *b) {
 	return (ret);
 }
 
-t_distance get_distance_exact(size_t position, size_t size)
-{
+t_distance get_distance_exact(size_t position, size_t size) {
 	t_distance	ret;
 
 	ret.m_Up = position;
@@ -41,7 +39,7 @@ t_distance get_distance_exact(size_t position, size_t size)
 	return (ret);
 }
 
-t_distance optimal_dist(const t_distance *a) {
+t_distance optimal_dist(const t_distance* a) {
 	t_distance	ret;
 
 	ret.m_Up = 0;

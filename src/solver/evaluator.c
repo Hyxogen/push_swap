@@ -21,10 +21,9 @@
 static const t_evaluation g_EmptyEval = { 0, (void*)0 };
 static const t_distance g_EmptyDistance = { 0, 0 };
 
-size_t get_position(const t_stack *stack, int number)
-{
+size_t get_position(const t_stack* stack, int number) {
 	size_t			position, highest_pos;
-	t_stack_element	*element;
+	t_stack_element* element;
 	int				current, previous, highest;
 
 	element = stack->m_Top;
@@ -34,15 +33,13 @@ size_t get_position(const t_stack *stack, int number)
 	highest_pos = 0;
 	highest = INT_MIN;
 	previous = *((int*)stack->m_Bottom->m_Content);
-	while (element)
-	{
+	while (element) {
 		current = *((int*)element->m_Content);
 		if (current == previous)
 			return (position);
 		else if ((number < previous) && (number > current))
 			return (position);
-		if (current > highest)
-		{
+		if (current > highest) {
 			highest_pos = position;
 			highest = current;
 		}
@@ -53,13 +50,11 @@ size_t get_position(const t_stack *stack, int number)
 	return (highest_pos);
 }
 
-t_distance get_distance(const t_stack *stack, int number)
-{
+t_distance get_distance(const t_stack* stack, int number) {
 	return (get_distance_exact(get_position(stack, number), get_size(top(stack))));
 }
 
-t_evaluation	evaluate_single_exact(t_stack *origin, t_stack *des, int num, size_t position, size_t size)
-{
+t_evaluation	evaluate_single_exact(t_stack* origin, t_stack* des, int num, size_t position, size_t size) {
 	t_distance	a_dis;
 	t_distance	b_dis;
 
@@ -70,16 +65,14 @@ t_evaluation	evaluate_single_exact(t_stack *origin, t_stack *des, int num, size_
 	return (generate_instructions(a_dis, b_dis));
 }
 
-void execute_evaluation(t_ps_object *object, const t_evaluation *eval)
-{
+void execute_evaluation(t_ps_object* object, const t_evaluation* eval) {
 	size_t	index;
 
 	for (index = 0; index < eval->m_Count; index++)
 		execute_instruction(eval->m_Instructions[index], object);
 }
 
-int	cmp_evaluation(const t_evaluation *a, const t_evaluation *comp)
-{
+int	cmp_evaluation(const t_evaluation* a, const t_evaluation* comp) {
 	if (comp->m_Count < a->m_Count)
 		return (1);
 	else if (comp->m_Count > a->m_Count)
@@ -87,11 +80,10 @@ int	cmp_evaluation(const t_evaluation *a, const t_evaluation *comp)
 	return (0);
 }
 
-t_evaluation	generate_put_pack(t_stack *a, t_stack *b)
-{
+t_evaluation	generate_put_pack(t_stack* a, t_stack* b) {
 	t_evaluation	ret;
 	t_distance		distance;
-	t_stack_element	*element;
+	t_stack_element* element;
 	size_t 			size, position, highest_pos;
 	int 			highest, number;
 	size_t			i;
@@ -103,11 +95,9 @@ t_evaluation	generate_put_pack(t_stack *a, t_stack *b)
 	highest_pos = 0;
 	position = 0;
 	(void)a;
-	while (element)
-	{
+	while (element) {
 		number = *((int*)element->m_Content);
-		if (number > highest)
-		{
+		if (number > highest) {
 			highest = number;
 			highest_pos = position;
 		}
@@ -172,17 +162,14 @@ t_evaluation evaluate(t_stack* origin, t_stack* des, int depth) {
 	return (temp1);
 }
 
-void print_evaluation(t_evaluation eval)
-{
+void print_evaluation(t_evaluation eval) {
 	size_t i;
 
-	for (i = 0; i < eval.m_Count; i++)
-	{
+	for (i = 0; i < eval.m_Count; i++) {
 		printf("%s\n", get_instr_name(eval.m_Instructions[i]));
 	}
 }
 
-void print_distance(const t_distance *distance)
-{
+void print_distance(const t_distance* distance) {
 	printf("(%lu, %lu)", distance->m_Up, distance->m_Down);
 }

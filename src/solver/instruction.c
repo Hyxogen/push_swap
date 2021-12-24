@@ -1,6 +1,6 @@
 #include "instruction.h"
 
-static const char *g_InstructionNames[] = {
+static const char* g_InstructionNames[] = {
 		"empty",
 		"pa",
 		"pb",
@@ -34,15 +34,13 @@ static const t_object_func g_Functions[] = {
 		NULL
 };
 
-const char *get_instr_name(t_instruction instr)
-{
+const char* get_instr_name(t_instruction instr) {
 	if (instr <= 0 || instr >= ips_err)
 		return g_InstructionNames[ips_err];
 	return (g_InstructionNames[instr]);
 }
 
-void execute_instruction(t_instruction instr, t_ps_object *object)
-{
+void execute_instruction(t_instruction instr, t_ps_object* object) {
 	if (instr <= 0 || instr >= ips_err)
 		return;
 	g_Functions[instr](object);

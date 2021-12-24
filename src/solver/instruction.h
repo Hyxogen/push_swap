@@ -5,7 +5,7 @@
 
 typedef int t_instruction;
 
-typedef void (*t_object_func)(t_ps_object *object);
+typedef void (*t_object_func)(t_ps_object* object);
 
 enum instruction {
 	ips_empty,
@@ -23,8 +23,8 @@ enum instruction {
 	ips_err
 };
 
-const char *get_instr_name(t_instruction instr);
+const char* get_instr_name(t_instruction instr);
 
-void execute_instruction(t_instruction instr, t_ps_object *object);
+void execute_instruction(t_instruction instr, t_ps_object* object);
 
 #endif

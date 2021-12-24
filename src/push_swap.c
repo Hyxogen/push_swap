@@ -16,12 +16,10 @@
 #include "solver/evaluator.h"
 #include <stdlib.h>
 
-static ft_bool execute_self_solve(t_ps_object *object)
-{
+static ft_bool execute_self_solve(t_ps_object* object) {
 	t_evaluation eval;
 
-	while (object->m_StackA->m_Top)
-	{
+	while (object->m_StackA->m_Top) {
 		eval = evaluate(object->m_StackA, object->m_StackB, 0);
 		if (eval.m_Count == 0)
 			break;
@@ -40,9 +38,8 @@ static ft_bool execute_self_solve(t_ps_object *object)
 
 /*TODO add Visual Studio files to gitignore*/
 int
-	main(int argc, char **argv)
-{
-	int	*lst;
+main(int argc, char** argv) {
+	int* lst;
 	t_ps_object		object;
 
 	if (argc <= 1)

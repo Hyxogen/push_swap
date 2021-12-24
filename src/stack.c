@@ -15,10 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-t_stack *create_stack()
-{
-	t_stack	*ret;
-	
+t_stack* create_stack() {
+	t_stack* ret;
+
 	ret = malloc(sizeof(t_stack));
 	if (!ret)
 		return (NULL);
@@ -33,38 +32,33 @@ void destroy_stack(t_stack* stack, ft_bool free_self) {
 		free(stack);
 }
 
-ft_bool push_top_content(t_stack *stack, void *content)
-{
-	t_stack_element	*element;
+ft_bool push_top_content(t_stack* stack, void* content) {
+	t_stack_element* element;
 
 	element = create_element(content);
 	if (element == NULL)
 		return (FALSE);
-	if (!push_top(stack, element))
-	{
+	if (!push_top(stack, element)) {
 		free(element);
 		return (FALSE);
 	}
 	return (TRUE);
 }
 
-ft_bool push_bottom_content(t_stack *stack, void *content)
-{
-	t_stack_element	*element;
+ft_bool push_bottom_content(t_stack* stack, void* content) {
+	t_stack_element* element;
 
 	element = create_element(content);
 	if (element == NULL)
 		return (FALSE);
-	if (!push_bottom(stack, element))
-	{
+	if (!push_bottom(stack, element)) {
 		free(element);
 		return (FALSE);
 	}
 	return (TRUE);
 }
 
-ft_bool push_top(t_stack *stack, t_stack_element *element)
-{
+ft_bool push_top(t_stack* stack, t_stack_element* element) {
 	add_before(&stack->m_Top, element);
 	stack->m_Top = element;
 	if (stack->m_Bottom == NULL)
@@ -72,8 +66,7 @@ ft_bool push_top(t_stack *stack, t_stack_element *element)
 	return (TRUE);
 }
 
-ft_bool push_bottom(t_stack *stack, t_stack_element *element)
-{
+ft_bool push_bottom(t_stack* stack, t_stack_element* element) {
 	add_after(&stack->m_Bottom, element);
 	stack->m_Bottom = element;
 	if (stack->m_Top == NULL)
@@ -81,10 +74,9 @@ ft_bool push_bottom(t_stack *stack, t_stack_element *element)
 	return (TRUE);
 }
 
-t_stack_element *pop_top(t_stack *stack)
-{
-	t_stack_element	*ret;
-	
+t_stack_element* pop_top(t_stack* stack) {
+	t_stack_element* ret;
+
 	ret = top(stack);
 	if (ret == NULL)
 		return (NULL);
@@ -96,10 +88,9 @@ t_stack_element *pop_top(t_stack *stack)
 	return (ret);
 }
 
-t_stack_element *pop_bottom(t_stack *stack)
-{
-	t_stack_element	*ret;
-	
+t_stack_element* pop_bottom(t_stack* stack) {
+	t_stack_element* ret;
+
 	ret = bottom(stack);
 	if (ret == NULL)
 		return (NULL);
@@ -111,38 +102,33 @@ t_stack_element *pop_bottom(t_stack *stack)
 	return (ret);
 }
 
-t_stack_element *top(const t_stack *stack)
-{
+t_stack_element* top(const t_stack* stack) {
 	return (stack->m_Top);
 }
 
-t_stack_element *bottom(const t_stack *stack)
-{
+t_stack_element* bottom(const t_stack* stack) {
 	return (stack->m_Bottom);
 }
 
-void rotate(t_stack *stack)
-{
-	t_stack_element	*temp;
-	
+void rotate(t_stack* stack) {
+	t_stack_element* temp;
+
 	temp = pop_top(stack);
 	if (temp)
 		push_bottom(stack, temp);
 }
 
-void rrotate(t_stack *stack)
-{
-	t_stack_element	*temp;
-	
+void rrotate(t_stack* stack) {
+	t_stack_element* temp;
+
 	temp = pop_bottom(stack);
 	if (temp)
 		push_top(stack, temp);
 }
 
-void swap_top(t_stack *stack)
-{
-	t_stack_element	*first;
-	t_stack_element	*second;
+void swap_top(t_stack* stack) {
+	t_stack_element* first;
+	t_stack_element* second;
 
 	first = pop_top(stack);
 	second = pop_top(stack);
@@ -152,7 +138,6 @@ void swap_top(t_stack *stack)
 		push_top(stack, second);
 }
 
-size_t stack_size(const t_stack *stack)
-{
+size_t stack_size(const t_stack* stack) {
 	return (get_size(stack->m_Top));
 }

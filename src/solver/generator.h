@@ -8,7 +8,7 @@
 
 typedef struct s_evaluation {
 	size_t				m_Count;
-	t_instruction 		*m_Instructions;
+	t_instruction* m_Instructions;
 }	t_evaluation;
 
 /*TODO change to t_instruction*/

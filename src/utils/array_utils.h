@@ -3,7 +3,7 @@
 
 # include <sys/types.h>
 
-void quick_sort(int *arr, size_t len);
+void quick_sort(int* arr, size_t len);
 
 int median(int* sorted_arr, size_t len);
 
