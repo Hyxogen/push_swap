@@ -20,11 +20,14 @@ enum instruction {
 	ips_rra,
 	ips_rrb,
 	ips_rrr,
+	ips_stop,
 	ips_err
 };
 
 const char* get_instr_name(t_instruction instr);
 
 void execute_instruction(t_instruction instr, t_ps_object* object);
+
+void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, size_t count);
 
 #endif

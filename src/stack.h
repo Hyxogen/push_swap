@@ -16,13 +16,14 @@
 
  /**
   * m_Head and m_Tail of t_stack_element are undefined
-  *
+  * Rather than a stack this is a deque
   */
 typedef t_dlinked_list t_stack_element;
 
 typedef struct s_stack {
 	t_stack_element* m_Top;
 	t_stack_element* m_Bottom;
+	size_t m_Size;
 } t_stack;
 
 t_stack* create_stack();
@@ -37,8 +38,11 @@ ft_bool push_bottom(t_stack* stack, t_stack_element* element);
 t_stack_element* pop_top(t_stack* stack);
 t_stack_element* pop_bottom(t_stack* stack);
 
-t_stack_element* top(const t_stack* stack);
-t_stack_element* bottom(const t_stack* stack);
+t_stack_element* stack_top(const t_stack* stack);
+t_stack_element* stack_bottom(const t_stack* stack);
+
+t_stack_element* stack_get_next(const t_stack_element* element);
+t_stack_element* stack_get_previous(const t_stack_element* element);
 
 void rotate(t_stack* stack);
 void rrotate(t_stack* stack);

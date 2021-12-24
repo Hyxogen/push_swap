@@ -24,7 +24,6 @@ static ft_bool execute_self_solve(t_ps_object* object) {
 		if (eval.m_Count == 0)
 			break;
 		execute_evaluation(object, &eval);
-		/*print_ps_object(object);*/
 		print_evaluation(eval);
 		destroy_evaluation(&eval, FALSE);
 	}
@@ -32,11 +31,9 @@ static ft_bool execute_self_solve(t_ps_object* object) {
 	execute_evaluation(object, &eval);
 	print_evaluation(eval);
 	destroy_evaluation(&eval, FALSE);
-	/*print_ps_object(object);*/
 	return (is_sorted(object));
 }
 
-/*TODO add Visual Studio files to gitignore*/
 int
 main(int argc, char** argv) {
 	int* lst;
@@ -48,10 +45,6 @@ main(int argc, char** argv) {
 	initialize_ps_object(&object);
 	fill_psa(&object, lst, argc - 1);
 	execute_self_solve(&object);
-	/*if(!execute_self_solve(&object))
-		printf("KO\n");
-	else
-		printf("OK\n");*/
 	free(lst);
 	destroy_ps_object(&object, FALSE);
 	return (EXIT_SUCCESS);

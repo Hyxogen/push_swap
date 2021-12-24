@@ -59,8 +59,8 @@ void print_ps_object(const t_ps_object* object) {
 	t_stack_element* tempA;
 	t_stack_element* tempB;
 
-	tempA = top(object->m_StackA);
-	tempB = top(object->m_StackB);
+	tempA = stack_top(object->m_StackA);
+	tempB = stack_top(object->m_StackB);
 	printf("%20c|%-2c\n", 'A', 'B');
 	printf("----------------------------------------\n");
 	while (1) {
@@ -133,9 +133,9 @@ void ps_rrr(t_ps_object* object) {
 t_bool is_sorted(t_ps_object* object) {
 	t_stack_element* temp;
 
-	if (top(object->m_StackB))
+	if (stack_top(object->m_StackB))
 		return (FALSE);
-	temp = top(object->m_StackA);
+	temp = stack_top(object->m_StackA);
 	while (temp) {
 		if (temp->m_Tail && *((int*)temp->m_Tail->m_Content) > *((int*)temp->m_Content))
 			return (FALSE);

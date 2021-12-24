@@ -77,7 +77,7 @@ ft_bool push_bottom(t_stack* stack, t_stack_element* element) {
 t_stack_element* pop_top(t_stack* stack) {
 	t_stack_element* ret;
 
-	ret = top(stack);
+	ret = stack_top(stack);
 	if (ret == NULL)
 		return (NULL);
 	if (ret->m_Head)
@@ -91,7 +91,7 @@ t_stack_element* pop_top(t_stack* stack) {
 t_stack_element* pop_bottom(t_stack* stack) {
 	t_stack_element* ret;
 
-	ret = bottom(stack);
+	ret = stack_bottom(stack);
 	if (ret == NULL)
 		return (NULL);
 	if (ret->m_Tail)
@@ -102,11 +102,11 @@ t_stack_element* pop_bottom(t_stack* stack) {
 	return (ret);
 }
 
-t_stack_element* top(const t_stack* stack) {
+t_stack_element* stack_top(const t_stack* stack) {
 	return (stack->m_Top);
 }
 
-t_stack_element* bottom(const t_stack* stack) {
+t_stack_element* stack_bottom(const t_stack* stack) {
 	return (stack->m_Bottom);
 }
 

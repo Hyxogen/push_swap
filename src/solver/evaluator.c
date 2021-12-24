@@ -22,9 +22,9 @@ static const t_evaluation g_EmptyEval = { 0, (void*)0 };
 static const t_distance g_EmptyDistance = { 0, 0 };
 
 size_t get_position(const t_stack* stack, int number) {
-	size_t			position, highest_pos;
+	size_t position, highest_pos;
 	t_stack_element* element;
-	int				current, previous, highest;
+	int current, previous, highest;
 
 	element = stack->m_Top;
 	if (element == NULL)
@@ -51,7 +51,7 @@ size_t get_position(const t_stack* stack, int number) {
 }
 
 t_distance get_distance(const t_stack* stack, int number) {
-	return (get_distance_exact(get_position(stack, number), get_size(top(stack))));
+	return (get_distance_exact(get_position(stack, number), get_size(stack_top(stack))));
 }
 
 t_evaluation	evaluate_single_exact(t_stack* origin, t_stack* des, int num, size_t position, size_t size) {
@@ -89,7 +89,7 @@ t_evaluation	generate_put_pack(t_stack* a, t_stack* b) {
 	size_t			i;
 	size_t 			temp;
 
-	element = top(b);
+	element = stack_top(b);
 	size = get_size(element);
 	highest = INT_MIN;
 	highest_pos = 0;
@@ -135,7 +135,7 @@ t_evaluation evaluate(t_stack* origin, t_stack* des, int depth) {
 	t_evaluation	temp1;
 
 	(void)depth;
-	element = top(origin);
+	element = stack_top(origin);
 	origin_size = get_size(element);
 	if (origin_size == 0)
 		return (g_EmptyEval);
