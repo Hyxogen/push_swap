@@ -28,6 +28,7 @@ static ft_bool execute_self_solve(t_ps_object *object)
 		execute_evaluation(object, &eval);
 		/*print_ps_object(object);*/
 		print_evaluation(eval);
+		destroy_evaluation(&eval, FALSE);
 	}
 	eval = generate_put_pack(object->m_StackA, object->m_StackB);
 	execute_evaluation(object, &eval);
@@ -37,6 +38,7 @@ static ft_bool execute_self_solve(t_ps_object *object)
 	return (is_sorted(object));
 }
 
+/*TODO add Visual Studio files to gitignore*/
 int
 	main(int argc, char **argv)
 {

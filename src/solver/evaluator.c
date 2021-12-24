@@ -126,14 +126,22 @@ t_evaluation	generate_put_pack(t_stack *a, t_stack *b)
 	return (ret);
 }
 
-t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
-{
-	t_evaluation	*evaluations;
+static void clear_evals(t_evaluation* arr, t_evaluation* best, size_t size) {
+	size_t i;
+
+	for (i = 0; i < size; i++) {
+		if (&arr[i] != best)
+			free(arr[i].m_Instructions);
+	}
+}
+
+t_evaluation evaluate(t_stack* origin, t_stack* des, int depth) {
+	t_evaluation* evaluations;
 	int				number;
 	int				best_evaluation;
 	size_t			position;
 	size_t			origin_size;
-	t_stack_element	*element;
+	t_stack_element* element;
 	t_evaluation	temp1;
 
 	(void)depth;
@@ -144,8 +152,7 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 	position = 0;
 	best_evaluation = -1;
 	evaluations = malloc(sizeof(t_evaluation) * origin_size);
-	while (element)
-	{
+	while (element) {
 		number = *((int*)element->m_Content);
 		temp1 = evaluate_single_exact(origin, des, number, position, origin_size);
 		evaluations[position] = temp1;
@@ -160,6 +167,7 @@ t_evaluation evaluate(t_stack *origin, t_stack *des, int depth)
 		element = element->m_Head;
 	}
 	temp1 = evaluations[best_evaluation];
+	clear_evals(evaluations, &evaluations[best_evaluation], origin_size);
 	free(evaluations);
 	return (temp1);
 }
