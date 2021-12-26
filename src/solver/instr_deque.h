@@ -6,6 +6,8 @@
 #include <ft_stdbool.h>
 
 typedef struct s_instr_deque {
+	t_dlinked_list* m_Front;
+	t_dlinked_list* m_Back;
 }	t_instr_deque;
 
 void deque_init(t_instr_deque* deque);

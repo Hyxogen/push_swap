@@ -17,6 +17,7 @@
 #include <ft_string.h>
 /*TODO REMOVE*/
 #include <stdio.h>
+#include "..\quick_solver\evaluator.h"
 
 static const t_evaluation g_EmptyEval = { 0, (void*)0 };
 static const t_distance g_EmptyDistance = { 0, 0 };
@@ -173,3 +174,5 @@ void print_evaluation(t_evaluation eval) {
 void print_distance(const t_distance* distance) {
 	printf("(%lu, %lu)", distance->m_Up, distance->m_Down);
 }
+
+

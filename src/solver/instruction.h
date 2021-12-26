@@ -30,4 +30,6 @@ void execute_instruction(t_instruction instr, t_ps_object* object);
 
 void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, size_t count);
 
+void join_instructions(t_instruction* a, size_t a_len, t_instruction* b, size_t b_len);
+
 #endif
