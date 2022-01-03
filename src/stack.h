@@ -16,7 +16,9 @@
 
  /**
   * m_Head and m_Tail of t_stack_element are undefined
+  * 
   * Rather than a stack this is a deque
+  * TODO RENAME TO DEQUE
   */
 typedef t_dlinked_list t_stack_element;
 

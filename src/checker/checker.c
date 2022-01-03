@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
 		return (EXIT_SUCCESS);
 	handle = start_read(0);
 	lst = read_arguments(argc, argv);
-	initialize_ps_object(&object);
+	init_ps_object(&object);
 	fill_psa(&object, lst, argc - 1);
 	/*if (!execute(&object, handle))*/
 	if (!execute_self_solve(&object))

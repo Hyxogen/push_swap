@@ -21,11 +21,17 @@ t_ps_object* create_ps_object() {
 	ret = malloc(sizeof(t_ps_object));
 	if (!ret)
 		return (NULL);
-	if (!initialize_ps_object(ret)) {
+	if (!init_ps_object(ret)) {
 		free(ret);
 		return (NULL);
 	}
 	return (ret);
+}
+
+t_ps_object* init_ps_object_stacks(t_ps_object* object, t_stack* a, t_stack* b) {
+	object->m_StackA = a;
+	object->m_StackB = b;
+	return (object);
 }
 
 void destroy_ps_object(t_ps_object* object, ft_bool free_self) {
@@ -35,15 +41,18 @@ void destroy_ps_object(t_ps_object* object, ft_bool free_self) {
 		free(object);
 }
 
-t_ps_object* initialize_ps_object(t_ps_object* object) {
-	object->m_StackA = create_stack();
-	object->m_StackB = create_stack();
-	if (!object->m_StackA || !object->m_StackB) {
-		free(object->m_StackA);
-		free(object->m_StackB);
+t_ps_object* init_ps_object(t_ps_object* object) {
+	t_stack* a;
+	t_stack* b;
+	
+	a = create_stack();
+	b = create_stack();
+	if (!a || !b) {
+		free(a);
+		free(b);
 		return (NULL);
 	}
-	return (object);
+	return (init_ps_object_stacks(object, a, b));
 }
 
 void fill_psa(t_ps_object* object, int* arr, size_t size) {

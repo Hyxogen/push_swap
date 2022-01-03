@@ -23,7 +23,8 @@ typedef struct s_ps_object {
 
 t_ps_object* create_ps_object();
 void destroy_ps_object(t_ps_object* object, ft_bool free_self);
-t_ps_object* initialize_ps_object(t_ps_object* object);
+t_ps_object* init_ps_object(t_ps_object* object);
+t_ps_object* init_ps_object_stacks(t_ps_object* object, t_stack* a, t_stack* b);
 
 void fill_psa(t_ps_object* object, int* arr, size_t size);
 
@@ -33,6 +34,7 @@ void ps_sa(t_ps_object* object);
 void ps_sb(t_ps_object* object);
 void ps_ss(t_ps_object* object);
 
+/*TODO make ps_px function that pushes to a agnostic stack*/
 void ps_pa(t_ps_object* object);
 void ps_pb(t_ps_object* object);
 

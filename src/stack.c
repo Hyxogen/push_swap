@@ -110,6 +110,14 @@ t_stack_element* stack_bottom(const t_stack* stack) {
 	return (stack->m_Bottom);
 }
 
+t_stack_element* stack_get_next(const t_stack_element* element) {
+	return (element->m_Head);
+}
+
+t_stack_element* stack_get_previous(const t_stack_element* element) {
+	return (element->m_Tail);
+}
+
 void rotate(t_stack* stack) {
 	t_stack_element* temp;
 

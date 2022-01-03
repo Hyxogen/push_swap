@@ -15,13 +15,14 @@ CHECKER_SRCS	:= checker.c argument_parser.c ps_object.c stack.c dlinked_list.c \
 CHECKER_OBJS	:= $(addprefix $(INT_DIR)/,$(CHECKER_SRCS:%.c=%.o))
 
 PUSH_SWAP_SRCS	:= push_swap.c argument_parser.c ps_object.c stack.c dlinked_list.c \
-					evaluator.c distance.c generator.c instruction.c
+					evaluator.c instruction.c sorter.c quick_solver.c \
+					evaluation.c malloc_utils.c vector2.c array_utils.c
 PUSH_SWAP_OBJS	:= $(addprefix $(INT_DIR)/,$(PUSH_SWAP_SRCS:%.c=%.o))
 
 ALL_OBJS		:= $(CHECKER_OBJS) $(PUSH_SWAP_OBJS)
 
 VPATH			:= $(SRC_DIR) $(SRC_DIR)/utils $(SRC_DIR)/checker $(SRC_DIR)/parser $(SRC_DIR)/solver \
-
+					$(SRC_DIR)/solver/quick_solver
 DEFINES			:=
 INCLUDE_DIRS	:= -I $(LIBFT_DIR)/include
 
@@ -37,6 +38,7 @@ DEBUG_DEFINES	:= -DPS_DEBUG
 RELEASE_FLAGS	:= -g -O2 -fsanitize=address
 RELEASE_DEFINES	:= -DPS_RELEASE
 
+# TODO test if -O2 might be better than -O3, also try unroll loops (probably does nothing though)
 DISTR_FLAGS		:= -Ofast -g0
 DISTR_DEFINES	:= -DPS_DISTRIBUTION
 
@@ -62,7 +64,7 @@ ALL_CFLAGS += $(DISTR_FLAGS)
 ALL_CFLAGS += $(DISTR_DEFINES)
 endif
 
-all: $(PUSH_SWAP_NAME) $(CHECKER_NAME)
+all: $(PUSH_SWAP_NAME)
 
 debug: ALL_CFLAGS += $(DEBUG_FLAGS)
 debug: ALL_LINKFLAGS += -fsanitize=address
@@ -84,7 +86,7 @@ $(CHECKER_NAME): $(CHECKER_OBJS) $(LIBFT_LIB)
 
 $(PUSH_SWAP_NAME): $(PUSH_SWAP_OBJS) $(LIBFT_LIB)
 	$(SILENT)echo Linking $@
-	$(SILENT)$(LINK_CMD) $(ALL_LINKFLAGS) $(CHECKER_OBJS) $(LIBFT_LIB) -o $@
+	$(SILENT)$(LINK_CMD) $(ALL_LINKFLAGS) $(PUSH_SWAP_OBJS) $(LIBFT_LIB) -o $@
 
 #$(NAME): $(OBJS) $(LIBFT_LIB)
 #	$(SILENT)echo Linking $(NAME)

@@ -8,7 +8,7 @@ typedef int t_instruction;
 typedef void (*t_object_func)(t_ps_object* object);
 
 enum instruction {
-	ips_empty,
+	ips_empty = 0,
 	ips_pa,
 	ips_pb,
 	ips_ra,
@@ -26,10 +26,20 @@ enum instruction {
 
 const char* get_instr_name(t_instruction instr);
 
+const char* get_instr_name_l(t_instruction instr, const char** locale, int locale_size);
+
+const char** get_inverse_names(void);
+
 void execute_instruction(t_instruction instr, t_ps_object* object);
 
 void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, size_t count);
 
-void join_instructions(t_instruction* a, size_t a_len, t_instruction* b, size_t b_len);
+void print_instructions(t_instruction* instructions, size_t count);
+
+void print_instructions_l(t_instruction* instructions, size_t count, const char** locale, int locale_size);
+
+void join_instructions(t_instruction** a, size_t a_len, t_instruction* b, size_t b_len);
+
+void destroy_instruction(t_instruction* instr, ft_bool free_self);
 
 #endif
