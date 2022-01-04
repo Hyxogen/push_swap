@@ -48,9 +48,8 @@ t_instruction* solve(int* arr, size_t len, size_t* instrs) {
 	temp_instr = sort(object.m_StackB, object.m_StackA, ips_pb, &sort_count);
 	translate_instructions(temp_instr, sort_count, g_InverseInstructions);
 	join_instructions(&solve_instructions, rough_count, temp_instr, sort_count);
-	free(temp_instr);
-
 	*instrs = rough_count + sort_count;
+	free(temp_instr);
 
 	destroy_ps_object(&object, FALSE);
 	free(arr_cpy);
