@@ -15,6 +15,7 @@
 #include "parser/argument_parser.h"
 #include "solver/solver.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 int main(int argc, char** argv) {
 	int* lst;
@@ -27,6 +28,8 @@ int main(int argc, char** argv) {
 	lst = read_arguments(argc, argv);
 	
 	solve_instr = solve(lst, argc - 1, &instr_count);
+	print_instructions(solve_instr, instr_count);
+	printf("instruction count: %lu\n", instr_count);
 	destroy_instruction(solve_instr, TRUE);
 
 	return (EXIT_SUCCESS);

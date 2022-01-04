@@ -5,6 +5,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <ft_math.h>
+#include <signal.h>
 
 /** Dumps the first best number from low to high from the from stack to the to stack */
 static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_instr, int low, int high, size_t* count) {
@@ -23,17 +24,17 @@ static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_
 	init_evaluation(&best);
 	while (element) {
 		val = *((int*)element->m_Content);
-		if (val >= low || val <= high) {
+		if (val >= low && val <= high) {
 			current = evaluate(position, from_size, 0, to_size, put_instr);
 			if (first_pass || cmp_evaluation(&current, &best) < 0) {
 				destroy_evaluation(&best, FALSE);
 				best = current;
 			} else
 				destroy_evaluation(&current, FALSE);
+			first_pass = FALSE;
 		}
 		position++;
 		element = stack_get_next(element);
-		first_pass = FALSE;
 	}
 	*count = best.m_Count;
 
@@ -92,29 +93,29 @@ t_instruction* rough_sort_optimized(t_stack* from, t_stack* to, t_instruction pu
 size_t get_sorted_pos(t_stack* stack, int i) {
 	t_stack_element* previous, *current;
 	int previous_val, current_val, position;
-	int highest_val, highest_pos;
+	int lowest_val, lowest_pos;
 
 	if (stack_size(stack) <= 1)
 		return (0);
 	previous = stack_bottom(stack);
 	current = stack_top(stack);
 	position = 0;
-	highest_pos = 0;
-	highest_val = INT_MIN;
+	lowest_pos = 0;
+	lowest_val = INT_MAX;
 	while (current) {
 		previous_val = *((int*)previous->m_Content);
 		current_val = *((int*)current->m_Content);
 		if ((i > previous_val) && (i < current_val))
 			return (position);
-		else if (current_val > highest_val) {
-			highest_val = current_val;
-			highest_pos = position;
+		else if (current_val < lowest_val) {
+			lowest_val = current_val;
+			lowest_pos = position;
 		}
 		previous = current;
 		current = stack_get_next(current);
 		position++;
 	}
-	return (highest_pos);
+	return (lowest_pos);
 }
 
 static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_instr, size_t* instrs) {
@@ -143,6 +144,8 @@ static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_in
 		from_pos++;
 		first_pass = FALSE;
 	}
+	if (!is_valid(best.m_Instructions, best.m_Count))
+		raise(SIGTRAP);
 	execute_instructions(from, to, best.m_Instructions, best.m_Count);
 	*instrs = best.m_Count;
 	return (best.m_Instructions);

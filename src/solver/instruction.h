@@ -42,4 +42,11 @@ void join_instructions(t_instruction** a, size_t a_len, t_instruction* b, size_t
 
 void destroy_instruction(t_instruction* instr, ft_bool free_self);
 
+t_instruction translate_instruction(t_instruction instr, const t_instruction* translation);
+
+void translate_instructions(t_instruction* instructions, size_t count, const t_instruction* translation);
+
+/** TODO remove this */
+ft_bool is_valid(t_instruction* instructions, size_t n);
+
 #endif

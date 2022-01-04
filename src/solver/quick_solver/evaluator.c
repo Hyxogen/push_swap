@@ -3,13 +3,15 @@
 #include "../../utils/malloc_utils.h"
 #include <limits.h>
 #include <ft_stdlib.h>
+#include <ft_math.h>
+#include <signal.h>
 
 static size_t get_count_both_up(size_t from_pos, size_t to_pos, t_vec2* vec) {
 	size_t instr_count;
 
-	instr_count = from_pos + to_pos;
-	vec->m_X = (long) to_pos;
-	vec->m_Y = (long) from_pos;
+	instr_count = ft_stmax(from_pos, to_pos);
+	vec->m_X = (long) from_pos;
+	vec->m_Y = (long) to_pos;
 	return (instr_count);
 }
 
@@ -25,8 +27,8 @@ static size_t get_count_down(size_t pos, size_t size, long* mov) {
 static size_t get_count_both_down(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size, t_vec2* vec) {
 	size_t instr_count;
 
-	instr_count = get_count_down(to_pos, to_size, &(vec->m_X));
-	instr_count += get_count_down(from_pos, from_size, &(vec->m_Y));
+	instr_count = get_count_down(to_pos, to_size, &(vec->m_Y));
+	instr_count += get_count_down(from_pos, from_size, &(vec->m_X));
 	return (instr_count);
 }
 
@@ -43,7 +45,7 @@ static size_t get_count_both_fastest(const t_vec2* both_up, const t_vec2* both_d
 		vec->m_Y = both_up->m_Y;
 	else
 		vec->m_Y = both_down->m_Y;
-	instr_count = ft_labs(vec->m_X) + ft_labs(vec->m_X - vec->m_Y);
+	instr_count = ft_min(ft_labs(vec->m_X), ft_labs(vec->m_Y)) + ft_labs(vec->m_X - vec->m_Y);
 	return (instr_count);
 }
 
@@ -85,6 +87,8 @@ static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, si
 		cpy.m_Y++;
 	}
 	*instructions = put_instr;
+	if (!is_valid(ret.m_Instructions, ret.m_Count))
+		raise(SIGTRAP);
 	return (ret);
 }
 

@@ -8,6 +8,23 @@
 #include <ft_string.h>
 #include <stdio.h>
 
+static const t_instruction g_InverseInstructions[] = {
+		ips_empty,
+		ips_pb,
+		ips_pa,
+		ips_rb,
+		ips_ra,
+		ips_rr,
+		ips_sb,
+		ips_sa,
+		ips_ss,
+		ips_rrb,
+		ips_rra,
+		ips_rrr,
+		ips_stop,
+		ips_err
+};
+
 static void make_ps_object(int* arr, size_t len, t_ps_object* object) {
 	init_ps_object(object);
 	fill_psa(object, arr, len);
@@ -25,12 +42,11 @@ t_instruction* solve(int* arr, size_t len, size_t* instrs) {
 
 	make_ps_object(arr, len, &object);
 
-	solve_instructions = rough_sort_optimized(object.m_StackA, object.m_StackB, ips_pb, arr_cpy, 1, &rough_count);
+	solve_instructions = rough_sort_optimized(object.m_StackA, object.m_StackB, ips_pb, arr_cpy, 100, &rough_count);
 
-	print_instructions(solve_instructions, rough_count);
 
 	temp_instr = sort(object.m_StackB, object.m_StackA, ips_pb, &sort_count);
-	print_instructions_l(temp_instr, sort_count, get_inverse_names(), ips_err);
+	translate_instructions(temp_instr, sort_count, g_InverseInstructions);
 	join_instructions(&solve_instructions, rough_count, temp_instr, sort_count);
 	free(temp_instr);
 

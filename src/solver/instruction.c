@@ -85,12 +85,9 @@ void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, s
 	
 	init_ps_object_stacks(&object, a, b);
 	while (count) {
-		printf("%s\n", get_instr_name(*instructions));
 		execute_instruction(*instructions, &object);
 		instructions++;
 		count--;
-		print_ps_object(&object);
-		printf("\n");
 	}
 }
 
@@ -120,4 +117,28 @@ void join_instructions(t_instruction** a, size_t a_len, t_instruction* b, size_t
 void destroy_instruction(t_instruction* instr, ft_bool free_self) {
 	if (free_self)
 		free(instr);
+}
+
+t_instruction translate_instruction(t_instruction instr, const t_instruction* translation) {
+	if (instr < 0 || instr > ips_err)
+		return (ips_err);
+	return (translation[instr]);
+}
+
+void translate_instructions(t_instruction* instructions, size_t count, const t_instruction* translation) {
+	while (count) {
+		*instructions = translate_instruction(*instructions, translation);
+		count--;
+		instructions++;
+	}
+}
+
+ft_bool is_valid(t_instruction* instructions, size_t n) {
+	while (n) {
+		if (*instructions <= 0 || *instructions >= ips_err)
+			return FALSE;
+		n--;
+		instructions++;
+	}
+	return TRUE;
 }
