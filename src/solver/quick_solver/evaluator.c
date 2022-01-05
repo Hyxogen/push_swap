@@ -54,16 +54,8 @@ static size_t get_count_both_fastest(const t_vec2* both_up, const t_vec2* both_d
 	return (instr_count);
 }
 
-static t_evaluation generate_eval(const t_vec2* vec, size_t instr_count) {
-	t_evaluation ret;
-
-	ret.m_MoveVec = *vec;
-	ret.m_Count = instr_count;
-
-	return (ret);
-}
-
 t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size) {
+	t_evaluation ret;
 	t_vec2 up, down, fastest;
 	size_t up_count, down_count, fastest_count;
 
@@ -71,12 +63,19 @@ t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t t
 	down_count = get_count_both_down(from_pos, from_size, to_pos, to_size, &down);
 	fastest_count = get_count_both_fastest(&up, &down, &fastest); /*Probaby beter name is something like exclusive_count*/
 
-	if (up_count < down_count && up_count < fastest_count)
-		return (generate_eval(&up, up_count));
-	else if (fastest_count > down_count)
-		return (generate_eval(&down, down_count));
-	else
-		return (generate_eval(&fastest, fastest_count));
+	if (up_count < down_count && up_count < fastest_count) {
+		ret.m_Count = up_count;
+		ret.m_MoveVec = up;
+	}
+	else if (fastest_count > down_count) {
+		ret.m_Count = down_count;
+		ret.m_MoveVec = down;
+	}
+	else {
+		ret.m_Count = fastest_count;
+		ret.m_MoveVec = fastest;
+	}
+	return (ret);
 }
 
 t_evaluation worst_evaluation() {
