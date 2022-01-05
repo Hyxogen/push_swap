@@ -2,6 +2,7 @@
 
 #include "evaluator.h"
 #include "../../utils/math_utils.h"
+#include "generator.h"
 #include <limits.h>
 #include <stdlib.h>
 #include <ft_math.h>
@@ -9,6 +10,7 @@
 
 /** Dumps the first best number from low to high from the from stack to the to stack */
 static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_instr, int low, int high, size_t* count) {
+	t_instruction* instructions;
 	t_evaluation best, current;
 	t_stack_element* element;
 	size_t position;
@@ -36,10 +38,21 @@ static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_
 		position++;
 		element = stack_get_next(element);
 	}
-	*count = best.m_Count;
 
-	execute_instructions(from, to, best.m_Instructions, *count);
-	return (best.m_Instructions);
+	if (first_pass) {
+		*count = 0;
+		return (0);
+	}
+
+	instructions = generate_instructions_e(&best, 1);
+	instructions[best.m_Count] = put_instr;
+	best.m_Count += 1;
+
+	destroy_evaluation(&best, FALSE);
+
+	execute_instructions(from, to, instructions, best.m_Count);
+	*count = best.m_Count;
+	return (instructions);
 }
 
 /** Dumps all the numbers from low to high from the from stack to the to stack */
@@ -120,6 +133,7 @@ size_t get_sorted_pos(t_stack* stack, int i) {
 
 static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_instr, size_t* instrs) {
 	t_evaluation best, current;
+	t_instruction* instructions;
 	t_stack_element* element;
 	size_t from_pos, to_pos;
 	size_t from_size, to_size;
@@ -144,11 +158,16 @@ static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_in
 		from_pos++;
 		first_pass = FALSE;
 	}
-	if (!is_valid(best.m_Instructions, best.m_Count))
-		raise(SIGTRAP);
-	execute_instructions(from, to, best.m_Instructions, best.m_Count);
+
+	instructions = generate_instructions_e(&best, 1);
+	instructions[best.m_Count] = put_instr;
+	best.m_Count += 1;
+
+	destroy_evaluation(&best, FALSE);
+
+	execute_instructions(from, to, instructions, best.m_Count);
 	*instrs = best.m_Count;
-	return (best.m_Instructions);
+	return (instructions);
 }
 
 t_instruction* sort(t_stack* from, t_stack* to, t_instruction put_instr, size_t* instrs) {

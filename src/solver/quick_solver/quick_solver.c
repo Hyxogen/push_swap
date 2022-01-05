@@ -58,7 +58,7 @@ t_instruction* solve(int* arr, size_t len, size_t* instrs) {
 
 	make_ps_object(arr, len, &object);
 
-	solve_instructions = quick_rough_sort(&object, arr, len, 1, &rough_count);
+	solve_instructions = quick_rough_sort(&object, arr, len, 100, &rough_count);
 	temp_instr = quick_full_sort(&object, &sort_count);
 	join_instructions(&solve_instructions, rough_count, temp_instr, sort_count);
 

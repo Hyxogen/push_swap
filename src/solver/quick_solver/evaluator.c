@@ -59,10 +59,8 @@ static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, si
 
 	ret.m_MoveVec = *vec;
 	ret.m_Count = instr_count;
-	ret.m_Instructions = generate_instructions_e(&ret, 1);
 
-	ret.m_Instructions[ret.m_Count] = put_instr;
-	ret.m_Count += 1;
+	(void)put_instr;
 	return (ret);
 }
 
