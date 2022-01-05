@@ -1,15 +1,9 @@
 #include "evaluator.h"
 #include "../../utils/vector2.h"
 #include "../../utils/malloc_utils.h"
-#include "generator.h"
 #include <limits.h>
 #include <ft_stdlib.h>
 #include <ft_math.h>
-#include <signal.h>
-
-/*
-I don't want the evaluator the be in charge of also generating instructions
-*/
 
 static size_t get_count_both_up(size_t from_pos, size_t to_pos, t_vec2* vec) {
 	size_t instr_count;

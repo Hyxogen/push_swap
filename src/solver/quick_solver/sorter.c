@@ -103,7 +103,7 @@ t_instruction* rough_sort_optimized(t_stack* from, t_stack* to, t_instruction pu
 	return (instructions);
 }
 
-size_t get_sorted_pos(t_stack* stack, int i) {
+static size_t get_sorted_pos(t_stack* stack, int i) {
 	t_stack_element* previous, *current;
 	int previous_val, current_val, position;
 	int lowest_val, lowest_pos;

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static const char* g_InstructionNames[] = {
+static const char* g_DefaultNames[] = {
 		"empty",
 		"pa",
 		"pb",
@@ -17,24 +17,6 @@ static const char* g_InstructionNames[] = {
 		"ss",
 		"rra",
 		"rrb",
-		"rrr",
-		"",
-		"err",
-		NULL
-};
-
-static const char* g_InstructionNamesI[] = {
-		"empty",
-		"pb",
-		"pa",
-		"rb",
-		"ra",
-		"rr",
-		"sb",
-		"sa",
-		"ss",
-		"rrb",
-		"rra",
 		"rrr",
 		"",
 		"err",
@@ -60,12 +42,8 @@ static const t_object_func g_Functions[] = {
 
 static const char* g_ErrorInst = "err";
 
-const char** get_inverse_names(void) {
-	return (g_InstructionNamesI);
-}
-
 const char* get_instr_name(t_instruction instr) {
-	return (get_instr_name_l(instr, g_InstructionNames, ips_err));
+	return (get_instr_name_l(instr, g_DefaultNames, ips_err));
 }
 
 const char* get_instr_name_l(t_instruction instr, const char** locale, int locale_size) {
@@ -92,7 +70,7 @@ void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, s
 }
 
 void print_instructions(t_instruction* instructions, size_t count) {
-	print_instructions_l(instructions, count, g_InstructionNames, ips_err);
+	print_instructions_l(instructions, count, g_DefaultNames, ips_err);
 }
 
 void print_instructions_l(t_instruction* instructions, size_t count, const char** locale, int locale_size) {
@@ -131,14 +109,4 @@ void translate_instructions(t_instruction* instructions, size_t count, const t_i
 		count--;
 		instructions++;
 	}
-}
-
-ft_bool is_valid(t_instruction* instructions, size_t n) {
-	while (n) {
-		if (*instructions <= 0 || *instructions >= ips_err)
-			return FALSE;
-		n--;
-		instructions++;
-	}
-	return TRUE;
 }

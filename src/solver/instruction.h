@@ -28,8 +28,6 @@ const char* get_instr_name(t_instruction instr);
 
 const char* get_instr_name_l(t_instruction instr, const char** locale, int locale_size);
 
-const char** get_inverse_names(void);
-
 void execute_instruction(t_instruction instr, t_ps_object* object);
 
 void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, size_t count);
@@ -45,8 +43,5 @@ void destroy_instruction(t_instruction* instr, ft_bool free_self);
 t_instruction translate_instruction(t_instruction instr, const t_instruction* translation);
 
 void translate_instructions(t_instruction* instructions, size_t count, const t_instruction* translation);
-
-/** TODO remove this */
-ft_bool is_valid(t_instruction* instructions, size_t n);
 
 #endif

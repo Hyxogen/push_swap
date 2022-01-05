@@ -14,5 +14,4 @@
  */
 t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size);
 
-t_evaluation worst_evaluation();
 #endif
