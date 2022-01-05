@@ -8,6 +8,7 @@
 typedef struct s_evaluation {
 	size_t m_Count;
 	t_instruction* m_Instructions;
+	t_vec2 m_MoveVec;
 }	t_evaluation;
 
 void init_evaluation(t_evaluation* eval);

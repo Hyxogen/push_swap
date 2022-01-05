@@ -71,3 +71,18 @@ t_instruction* generate_instructions(long a_mov, long b_mov, size_t extra, size_
 
 	return (instructions);
 }
+
+t_instruction* generate_instructions_e(const t_evaluation* eval, size_t extra) {
+	t_instruction* instructions;
+	size_t count;
+	long a_mov;
+	long b_mov;
+
+	a_mov = eval->m_MoveVec.m_X;
+	b_mov = eval->m_MoveVec.m_Y;
+	instructions = ft_malloc(sizeof(t_instruction) * (eval->m_Count + extra));
+
+	count = generate_up_internal(instructions, &a_mov, &b_mov);
+	generate_down_internal(instructions + count, &a_mov, &b_mov);
+	return (instructions);
+}

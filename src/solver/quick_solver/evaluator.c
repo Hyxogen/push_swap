@@ -57,8 +57,9 @@ static size_t get_count_both_fastest(const t_vec2* both_up, const t_vec2* both_d
 static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, size_t instr_count) {
 	t_evaluation ret;
 
-	(void)instr_count;
-	ret.m_Instructions = generate_instructions(vec->m_X, vec->m_Y, 1, &ret.m_Count);
+	ret.m_MoveVec = *vec;
+	ret.m_Count = instr_count;
+	ret.m_Instructions = generate_instructions_e(&ret, 1);
 
 	ret.m_Instructions[ret.m_Count] = put_instr;
 	ret.m_Count += 1;

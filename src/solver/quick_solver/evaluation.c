@@ -20,4 +20,5 @@ int cmp_evaluation(const t_evaluation* a, const t_evaluation* b) {
 void init_evaluation(t_evaluation* eval) {
 	eval->m_Count = 0;
 	eval->m_Instructions = NULL;
+	init_vector(&(eval->m_MoveVec));
 }
