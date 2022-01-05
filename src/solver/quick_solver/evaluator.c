@@ -77,10 +77,3 @@ t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t t
 	}
 	return (ret);
 }
-
-t_evaluation worst_evaluation() {
-	t_evaluation ret;
-
-	ret.m_Count = ULONG_MAX;
-	return (ret);
-}
