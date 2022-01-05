@@ -8,7 +8,7 @@ static size_t get_instruction_count(long a_mov, long b_mov) {
 		return (ft_labs(a_mov) + ft_labs(b_mov));
 	else if (a_mov > 0)
 		return (ft_lmax(a_mov, b_mov));
-	return (ft_lmin(a_mov, b_mov));
+	return (ft_labs(ft_lmin(a_mov, b_mov)));
 }
 
 static size_t generate_up_internal(t_instruction* instructions, long* a_mov, long* b_mov) {
@@ -38,6 +38,8 @@ static size_t generate_down_internal(t_instruction* instructions, long* a_mov, l
 	size_t count;
 
 	count = 0;
+	if (*a_mov == 0 && *b_mov == 0)
+		return 0;
 	while (*a_mov < 0 && *b_mov < 0) {
 		*instructions++ = ips_rrr;
 		*a_mov += 1;
@@ -51,7 +53,7 @@ static size_t generate_down_internal(t_instruction* instructions, long* a_mov, l
 	}
 	while (*b_mov < 0) {
 		*instructions++ = ips_rrb;
-		*b_mov *= 1;
+		*b_mov += 1;
 		count++;
 	}
 	return (count);

@@ -7,6 +7,10 @@
 #include <ft_math.h>
 #include <signal.h>
 
+/*
+I don't want the evaluator the be in charge of also generating instructions
+*/
+
 static size_t get_count_both_up(size_t from_pos, size_t to_pos, t_vec2* vec) {
 	size_t instr_count;
 
@@ -50,8 +54,6 @@ static size_t get_count_both_fastest(const t_vec2* both_up, const t_vec2* both_d
 	return (instr_count);
 }
 
-
-/*
 static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, size_t instr_count) {
 	t_evaluation ret;
 
@@ -60,49 +62,6 @@ static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, si
 
 	ret.m_Instructions[ret.m_Count] = put_instr;
 	ret.m_Count += 1;
-	return (ret);
-}*/
-
-static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, size_t instr_count) {
-	t_vec2 cpy;
-	t_evaluation ret;
-	t_instruction* instructions;
-
-	vector_cpy(vec, &cpy);
-	ret.m_Count = instr_count + 1;
-	instructions = ft_malloc(sizeof(int) * ret.m_Count);
-	ret.m_Instructions = instructions;
-
-	while (cpy.m_X > 0 && cpy.m_Y > 0) {
-		*instructions++ = ips_rr;
-		cpy.m_X--;
-		cpy.m_Y--;
-	}
-	while (cpy.m_X > 0) {
-		*instructions++ = ips_ra;
-		cpy.m_X--;
-	}
-	while (cpy.m_Y > 0) {
-		*instructions++ = ips_rb;
-		cpy.m_Y--;
-	}
-
-	while (cpy.m_X < 0 && cpy.m_Y < 0) {
-		*instructions++ = ips_rrr;
-		cpy.m_X++;
-		cpy.m_Y++;
-	}
-	while (cpy.m_X < 0) {
-		*instructions++ = ips_rra;
-		cpy.m_X++;
-	}
-	while (cpy.m_Y < 0) {
-		*instructions++ = ips_rrb;
-		cpy.m_Y++;
-	}
-	*instructions = put_instr;
-	if (!is_valid(ret.m_Instructions, ret.m_Count))
-		raise(SIGTRAP);
 	return (ret);
 }
 

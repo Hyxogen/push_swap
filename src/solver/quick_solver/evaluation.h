@@ -2,6 +2,7 @@
 #define EVALUATION_H
 
 #include "../instruction.h"
+#include "../../utils/vector2.h"
 #include <sys/types.h>
 
 typedef struct s_evaluation {
