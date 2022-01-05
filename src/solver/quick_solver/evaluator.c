@@ -1,6 +1,7 @@
 #include "evaluator.h"
 #include "../../utils/vector2.h"
 #include "../../utils/malloc_utils.h"
+#include "generator.h"
 #include <limits.h>
 #include <ft_stdlib.h>
 #include <ft_math.h>
@@ -48,6 +49,19 @@ static size_t get_count_both_fastest(const t_vec2* both_up, const t_vec2* both_d
 	instr_count = ft_min(ft_labs(vec->m_X), ft_labs(vec->m_Y)) + ft_labs(vec->m_X - vec->m_Y);
 	return (instr_count);
 }
+
+
+/*
+static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, size_t instr_count) {
+	t_evaluation ret;
+
+	(void)instr_count;
+	ret.m_Instructions = generate_instructions(vec->m_X, vec->m_Y, 1, &ret.m_Count);
+
+	ret.m_Instructions[ret.m_Count] = put_instr;
+	ret.m_Count += 1;
+	return (ret);
+}*/
 
 static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, size_t instr_count) {
 	t_vec2 cpy;
