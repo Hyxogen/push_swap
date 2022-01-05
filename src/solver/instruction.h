@@ -7,7 +7,7 @@ typedef int t_instruction;
 
 typedef void (*t_object_func)(t_ps_object* object);
 
-enum instruction {
+enum e_instruction {
 	ips_empty = 0,
 	ips_pa,
 	ips_pb,
