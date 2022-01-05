@@ -54,17 +54,16 @@ static size_t get_count_both_fastest(const t_vec2* both_up, const t_vec2* both_d
 	return (instr_count);
 }
 
-static t_evaluation generate_eval(const t_vec2* vec, t_instruction put_instr, size_t instr_count) {
+static t_evaluation generate_eval(const t_vec2* vec, size_t instr_count) {
 	t_evaluation ret;
 
 	ret.m_MoveVec = *vec;
 	ret.m_Count = instr_count;
 
-	(void)put_instr;
 	return (ret);
 }
 
-t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size, t_instruction put_instr) {
+t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size) {
 	t_vec2 up, down, fastest;
 	size_t up_count, down_count, fastest_count;
 
@@ -73,11 +72,11 @@ t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t t
 	fastest_count = get_count_both_fastest(&up, &down, &fastest); /*Probaby beter name is something like exclusive_count*/
 
 	if (up_count < down_count && up_count < fastest_count)
-		return (generate_eval(&up, put_instr, up_count));
+		return (generate_eval(&up, up_count));
 	else if (fastest_count > down_count)
-		return (generate_eval(&down, put_instr, down_count));
+		return (generate_eval(&down, down_count));
 	else
-		return (generate_eval(&fastest, put_instr, fastest_count));
+		return (generate_eval(&fastest, fastest_count));
 }
 
 t_evaluation worst_evaluation() {

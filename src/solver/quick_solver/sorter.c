@@ -27,7 +27,7 @@ static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_
 	while (element) {
 		val = *((int*)element->m_Content);
 		if (val >= low && val <= high) {
-			current = evaluate(position, from_size, 0, to_size, put_instr);
+			current = evaluate(position, from_size, 0, to_size);
 			if (first_pass || cmp_evaluation(&current, &best) < 0) {
 				destroy_evaluation(&best, FALSE);
 				best = current;
@@ -147,7 +147,7 @@ static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_in
 	first_pass = TRUE;
 	while (element) {
 		to_pos = get_sorted_pos(to, *((int*)element->m_Content));
-		current = evaluate(from_pos, from_size, to_pos, to_size, put_instr);
+		current = evaluate(from_pos, from_size, to_pos, to_size);
 
 		if (first_pass || cmp_evaluation(&current, &best) < 0) {
 			destroy_evaluation(&best, FALSE);
