@@ -6,7 +6,6 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <ft_math.h>
-#include <signal.h>
 
 /** Dumps the first best number from low to high from the from stack to the to stack */
 static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_instr, int low, int high, size_t* count) {
@@ -57,7 +56,8 @@ static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_
 
 /** Dumps all the numbers from low to high from the from stack to the to stack */
 static t_instruction* dump_range(t_stack* from, t_stack* to, t_instruction put_instr, int low, int high, size_t* count) {
-	t_instruction* instructions, *temp;
+	t_instruction* instructions;
+	t_instruction* temp;
 	size_t instr_count;
 
 	*count = 0;
@@ -131,32 +131,32 @@ static size_t get_sorted_pos(t_stack* stack, int i) {
 	return (lowest_pos);
 }
 
+/*
+TODO Try to replace the while loops with smart ways how linked lists work
+
+also, its probably better to just use ints in the stack instead of pointers to ints. Makes it a whole lot easier to access
+*/
+
 static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_instr, size_t* instrs) {
 	t_evaluation best, current;
 	t_instruction* instructions;
 	t_stack_element* element;
 	size_t from_pos, to_pos;
-	size_t from_size, to_size;
-	ft_bool first_pass;
 
 	element = stack_top(from);
 	from_pos = 0;
-	init_evaluation(&best);
-	from_size = stack_size(from);
-	to_size = stack_size(to);
-	first_pass = TRUE;
+	best.m_Count = ULONG_MAX;
 	while (element) {
 		to_pos = get_sorted_pos(to, *((int*)element->m_Content));
-		current = evaluate(from_pos, from_size, to_pos, to_size);
+		current = evaluate(from_pos, stack_size(from), to_pos, stack_size(to));
 
-		if (first_pass || cmp_evaluation(&current, &best) < 0) {
+		if (cmp_evaluation(&current, &best) < 0) {
 			destroy_evaluation(&best, FALSE);
 			best = current;
 		} else
 			destroy_evaluation(&current, FALSE);
 		element = stack_get_next(element);
 		from_pos++;
-		first_pass = FALSE;
 	}
 
 	instructions = generate_instructions_e(&best, 1);

@@ -56,6 +56,7 @@ void execute_instruction(t_instruction instr, t_ps_object* object) {
 	if (instr <= 0 || instr >= ips_err)
 		return;
 	g_Functions[instr](object);
+	print_ps_object(object);
 }
 
 void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, size_t count) {
