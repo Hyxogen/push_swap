@@ -19,7 +19,6 @@ static void _ps_object_px(t_ideque* from, t_ideque* to) {
 	t_inode* pop_node;
 
 	pop_node = ideque_pop_front(from);
-	pop_node->m_head = NULL; /*This can be removed TODO*/
 	ideque_push_front(to, pop_node);
 }
 
