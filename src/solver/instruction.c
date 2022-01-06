@@ -1,4 +1,4 @@
-#include "e_instruction.h"
+#include "instruction.h"
 
 #include <ft_string.h>
 #include <ft_stdlib.h>
@@ -25,17 +25,17 @@ static const char* g_DefaultNames[] = {
 
 static const t_object_func g_Functions[] = {
 		NULL,
-		ps_pa,
-		ps_pb,
-		ps_ra,
-		ps_rb,
-		ps_rr,
-		ps_sa,
-		ps_sb,
-		ps_ss,
-		ps_rra,
-		ps_rrb,
-		ps_rrr,
+		ps_object_pa,
+		ps_object_pb,
+		ps_object_ra,
+		ps_object_rb,
+		ps_object_rr,
+		ps_object_sa,
+		ps_object_sb,
+		ps_object_ss,
+		ps_object_rra,
+		ps_object_rrb,
+		ps_object_rrr,
 		NULL,
 		NULL
 };
@@ -56,13 +56,13 @@ void execute_instruction(t_instruction instr, t_ps_object* object) {
 	if (instr <= 0 || instr >= ips_err)
 		return;
 	g_Functions[instr](object);
-	print_ps_object(object);
+	ps_object_debug_print(object);
 }
 
-void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, size_t count) {
+void execute_instructions(t_ideque* a, t_ideque* b, t_instruction* instructions, size_t count) {
 	t_ps_object object;
 	
-	init_ps_object_stacks(&object, a, b);
+	ps_object_init(&object, a, b);
 	while (count) {
 		execute_instruction(*instructions, &object);
 		instructions++;

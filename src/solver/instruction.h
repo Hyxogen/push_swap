@@ -30,7 +30,7 @@ const char* get_instr_name_l(t_instruction instr, const char** locale, int local
 
 void execute_instruction(t_instruction instr, t_ps_object* object);
 
-void execute_instructions(t_stack* a, t_stack* b, t_instruction* instructions, size_t count);
+void execute_instructions(t_ideque* a, t_ideque* b, t_instruction* instructions, size_t count);
 
 void print_instructions(t_instruction* instructions, size_t count);
 

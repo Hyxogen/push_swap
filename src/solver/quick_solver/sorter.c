@@ -8,23 +8,23 @@
 #include <ft_math.h>
 
 /** Dumps the first best number from low to high from the from stack to the to stack */
-static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_instr, int low, int high, size_t* count) {
+static t_instruction* dump_single(t_ideque* from, t_ideque* to, t_instruction put_instr, int low, int high, size_t* count) {
 	t_instruction* instructions;
 	t_evaluation best, current;
-	t_stack_element* element;
+	t_inode* node;
 	size_t position;
 	size_t from_size, to_size;
 	int val;
 	ft_bool first_pass;
 
-	element = stack_top(from);
+	node = ideque_front(from);
 	position = 0;
-	from_size = stack_size(from);
-	to_size = stack_size(to);
+	from_size = ideque_get_size(from);
+	to_size = ideque_get_size(to);
 	first_pass = TRUE;
 	init_evaluation(&best);
-	while (element) {
-		val = *((int*)element->m_Content);
+	while (node) {
+		val = node->m_content;
 		if (val >= low && val <= high) {
 			current = evaluate(position, from_size, 0, to_size);
 			if (first_pass || cmp_evaluation(&current, &best) < 0) {
@@ -35,7 +35,7 @@ static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_
 			first_pass = FALSE;
 		}
 		position++;
-		element = stack_get_next(element);
+		node = node->m_head;
 	}
 
 	if (first_pass) {
@@ -55,7 +55,7 @@ static t_instruction* dump_single(t_stack* from, t_stack* to, t_instruction put_
 }
 
 /** Dumps all the numbers from low to high from the from stack to the to stack */
-static t_instruction* dump_range(t_stack* from, t_stack* to, t_instruction put_instr, int low, int high, size_t* count) {
+static t_instruction* dump_range(t_ideque* from, t_ideque* to, t_instruction put_instr, int low, int high, size_t* count) {
 	t_instruction* instructions;
 	t_instruction* temp;
 	size_t instr_count;
@@ -77,7 +77,7 @@ static t_instruction* dump_range(t_stack* from, t_stack* to, t_instruction put_i
 	return (instructions);
 }
 
-t_instruction* rough_sort_optimized(t_stack* from, t_stack* to, t_instruction put_instr, const int* from_sorted, size_t block_size, size_t* instrs) {
+t_instruction* rough_sort_optimized(t_ideque* from, t_ideque* to, t_instruction put_instr, const int* from_sorted, size_t block_size, size_t* instrs) {
 	t_instruction* instructions, *temp;
 	size_t block_index;
 	size_t instr_count;
@@ -86,7 +86,7 @@ t_instruction* rough_sort_optimized(t_stack* from, t_stack* to, t_instruction pu
 
 	*instrs = 0;
 	instructions = NULL;
-	size = stack_size(from);
+	size = ideque_get_size(from);
 	instructions = NULL;
 	for (block_index = 0; block_index < size; block_index += block_size) {
 		low = from_sorted[block_index];
@@ -103,21 +103,21 @@ t_instruction* rough_sort_optimized(t_stack* from, t_stack* to, t_instruction pu
 	return (instructions);
 }
 
-static size_t get_sorted_pos(t_stack* stack, int i) {
-	t_stack_element* previous, *current;
+static size_t get_sorted_pos(t_ideque* stack, int i) {
+	t_inode* previous, *current;
 	int previous_val, current_val, position;
 	int lowest_val, lowest_pos;
 
-	if (stack_size(stack) <= 1)
+	if (ideque_get_size(stack) <= 1)
 		return (0);
-	previous = stack_bottom(stack);
-	current = stack_top(stack);
+	previous = ideque_back(stack);
+	current = ideque_front(stack);
 	position = 0;
 	lowest_pos = 0;
 	lowest_val = INT_MAX;
 	while (current) {
-		previous_val = *((int*)previous->m_Content);
-		current_val = *((int*)current->m_Content);
+		previous_val = previous->m_content;
+		current_val = current->m_content;
 		if ((i > previous_val) && (i < current_val))
 			return (position);
 		else if (current_val < lowest_val) {
@@ -125,7 +125,7 @@ static size_t get_sorted_pos(t_stack* stack, int i) {
 			lowest_pos = position;
 		}
 		previous = current;
-		current = stack_get_next(current);
+		current = current->m_head;
 		position++;
 	}
 	return (lowest_pos);
@@ -137,25 +137,25 @@ TODO Try to replace the while loops with smart ways how linked lists work
 also, its probably better to just use ints in the stack instead of pointers to ints. Makes it a whole lot easier to access
 */
 
-static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_instr, size_t* instrs) {
+static t_instruction* move_best(t_ideque* from, t_ideque* to, t_instruction put_instr, size_t* instrs) {
 	t_evaluation best, current;
 	t_instruction* instructions;
-	t_stack_element* element;
+	t_inode* node;
 	size_t from_pos, to_pos;
 
-	element = stack_top(from);
+	node = ideque_front(from);
 	from_pos = 0;
 	best.m_Count = ULONG_MAX;
-	while (element) {
-		to_pos = get_sorted_pos(to, *((int*)element->m_Content));
-		current = evaluate(from_pos, stack_size(from), to_pos, stack_size(to));
+	while (node) {
+		to_pos = get_sorted_pos(to, node->m_content);
+		current = evaluate(from_pos, ideque_get_size(from), to_pos, ideque_get_size(to));
 
 		if (cmp_evaluation(&current, &best) < 0) {
 			destroy_evaluation(&best, FALSE);
 			best = current;
 		} else
 			destroy_evaluation(&current, FALSE);
-		element = stack_get_next(element);
+		node = node->m_head;
 		from_pos++;
 	}
 
@@ -170,13 +170,13 @@ static t_instruction* move_best(t_stack* from, t_stack* to, t_instruction put_in
 	return (instructions);
 }
 
-t_instruction* sort(t_stack* from, t_stack* to, t_instruction put_instr, size_t* instrs) {
+t_instruction* sort(t_ideque* from, t_ideque* to, t_instruction put_instr, size_t* instrs) {
 	t_instruction* instructions, *temp;
 	size_t index;
 	size_t instr_count;
 	size_t size;
 
-	size = stack_size(from);
+	size = ideque_get_size(from);
 	instructions = NULL;
 	*instrs = 0;
 	for (index = 0; index < size; index++) {

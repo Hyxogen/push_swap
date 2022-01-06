@@ -3,7 +3,9 @@
 
 #include <sys/types.h>
 
-/*TODO naar malloc renamen zodat alle mallocs meteen geprotect zijn*/
+/*DEPRECATED*/
 void* ft_malloc(size_t size);
+
+void* ft_safe_malloc(size_t size);
 
 #endif

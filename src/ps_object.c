@@ -12,143 +12,119 @@
 
 #include "ps_object.h"
 #include <stdlib.h>
-#include <limits.h>
 #include <stdio.h>
+#include "utils/malloc_utils.h"
 
-t_ps_object* create_ps_object() {
-	t_ps_object* ret;
+static void _ps_object_px(t_ideque* from, t_ideque* to) {
+	t_inode* pop_node;
 
-	ret = malloc(sizeof(t_ps_object));
-	if (!ret)
-		return (NULL);
-	if (!init_ps_object(ret)) {
-		free(ret);
-		return (NULL);
-	}
-	return (ret);
+	pop_node = ideque_pop_front(from);
+	pop_node->m_head = NULL; /*This can be removed TODO*/
+	ideque_push_front(to, pop_node);
 }
 
-t_ps_object* init_ps_object_stacks(t_ps_object* object, t_stack* a, t_stack* b) {
-	object->m_StackA = a;
-	object->m_StackB = b;
-	return (object);
+static void ps_object_px(t_ideque* from, t_ideque* to) {
+	if (ideque_is_empty(from))
+		return;
+	_ps_object_px(from, to);
 }
 
-void destroy_ps_object(t_ps_object* object, ft_bool free_self) {
-	destroy_stack(object->m_StackA, TRUE);
-	destroy_stack(object->m_StackB, TRUE);
+void ps_object_init(t_ps_object* object, t_ideque* stack_a, t_ideque* stack_b) {
+	object->m_stack_a = stack_a;
+	object->m_stack_b = stack_b;
+}
+
+void ps_object_destroy(t_ps_object* object, ft_bool free_self) {
+	ideque_destroy(object->m_stack_a, TRUE);
+	ideque_destroy(object->m_stack_b, TRUE);
 	if (free_self)
 		free(object);
 }
 
-t_ps_object* init_ps_object(t_ps_object* object) {
-	t_stack* a;
-	t_stack* b;
-	
-	a = create_stack();
-	b = create_stack();
-	if (!a || !b) {
-		free(a);
-		free(b);
-		return (NULL);
-	}
-	return (init_ps_object_stacks(object, a, b));
+t_ps_object* ps_object_create_empty() {
+	t_ps_object* object;
+
+	object = ft_safe_malloc(sizeof(t_ps_object));
+	ps_object_init(object, ideque_create_empty(), ideque_create_empty());
+	return (object);
 }
 
-void fill_psa(t_ps_object* object, int* arr, size_t size) {
-	while (size) {
-		if (!push_top_content(object->m_StackA, arr))
-			printf("Something went terribly wrong!\n");
-		arr++;
-		size--;
+void ps_object_fill(t_ps_object* object, int* int_arr, size_t arr_len) {
+	while (arr_len--) {
+		ideque_push_back(object->m_stack_a, inode_create(*int_arr));
+		int_arr++;
 	}
 }
 
-void print_ps_object(const t_ps_object* object) {
-	t_stack_element* tempA;
-	t_stack_element* tempB;
+void ps_object_sa(t_ps_object* object) {
+	/*NOT IMPLEMENTED*/
+	(void)object;
+}
 
-	tempA = stack_top(object->m_StackA);
-	tempB = stack_top(object->m_StackB);
+void ps_object_sb(t_ps_object* object) {
+	/*NOT IMPLEMENTED*/
+	(void)object;
+}
+
+void ps_object_ss(t_ps_object* object) {
+	/*NOT IMPLEMENTED*/
+	(void)object;
+}
+
+void ps_object_pa(t_ps_object* object) {
+	ps_object_px(object->m_stack_b, object->m_stack_a);
+}
+
+void ps_object_pb(t_ps_object* object) {
+	ps_object_px(object->m_stack_a, object->m_stack_b);
+}
+
+void ps_object_ra(t_ps_object* object) {
+	ideque_rotate(object->m_stack_a, 1);
+}
+
+void ps_object_rb(t_ps_object* object) {
+	ideque_rotate(object->m_stack_b, 1);
+}
+
+void ps_object_rr(t_ps_object* object) {
+	ps_object_ra(object);
+	ps_object_rb(object);
+}
+
+void ps_object_rra(t_ps_object* object) {
+	ideque_rotate(object->m_stack_a, -1);
+}
+
+void ps_object_rrb(t_ps_object* object) {
+	ideque_rotate(object->m_stack_b, -1);
+}
+
+void ps_object_rrr(t_ps_object* object) {
+	ps_object_rra(object);
+	ps_object_rrb(object);
+}
+
+void ps_object_debug_print(const t_ps_object* object) {
+	t_inode* a_node;
+	t_inode* b_node;
+
+	a_node = ideque_front(object->m_stack_a);
+	b_node = ideque_front(object->m_stack_b);
 	printf("%20c|%-2c\n", 'A', 'B');
 	printf("----------------------------------------\n");
-	while (1) {
-		if (tempA)
-			printf("%20d", *((int*)tempA->m_Content));
-		else
+	while (TRUE) {
+		if (a_node) {
+			printf("%20d", a_node->m_content);
+			a_node = a_node->m_head;
+		} else
 			printf("%20.0d", 0);
-		if (tempB)
-			printf("|%-20d\n", *((int*)tempB->m_Content));
-		else
+		if (b_node) {
+			printf("|%-20d\n", b_node->m_content);
+			b_node = b_node->m_head;
+		} else
 			printf("|%-20.00d\n", 0);
-		if (tempA)
-			tempA = tempA->m_Head;
-		if (tempB)
-			tempB = tempB->m_Head;
-		if (!tempA && !tempB)
+		if (!a_node && !b_node)
 			break;
 	}
-}
-
-void ps_sa(t_ps_object* object) {
-	swap_top(object->m_StackA);
-}
-
-void ps_sb(t_ps_object* object) {
-	swap_top(object->m_StackB);
-}
-
-void ps_ss(t_ps_object* object) {
-	ps_sa(object);
-	ps_sb(object);
-}
-
-void ps_pa(t_ps_object* object) {
-	if (object->m_StackB->m_Top)
-		push_top(object->m_StackA, pop_top(object->m_StackB));
-}
-
-void ps_pb(t_ps_object* object) {
-	if (object->m_StackA->m_Top)
-		push_top(object->m_StackB, pop_top(object->m_StackA));
-}
-
-void ps_ra(t_ps_object* object) {
-	rotate(object->m_StackA);
-}
-
-void ps_rb(t_ps_object* object) {
-	rotate(object->m_StackB);
-}
-
-void ps_rr(t_ps_object* object) {
-	ps_ra(object);
-	ps_rb(object);
-}
-
-void ps_rra(t_ps_object* object) {
-	rrotate(object->m_StackA);
-}
-
-void ps_rrb(t_ps_object* object) {
-	rrotate(object->m_StackB);
-}
-
-void ps_rrr(t_ps_object* object) {
-	ps_rra(object);
-	ps_rrb(object);
-}
-
-t_bool is_sorted(t_ps_object* object) {
-	t_stack_element* temp;
-
-	if (stack_top(object->m_StackB))
-		return (FALSE);
-	temp = stack_top(object->m_StackA);
-	while (temp) {
-		if (temp->m_Tail && *((int*)temp->m_Tail->m_Content) > *((int*)temp->m_Content))
-			return (FALSE);
-		temp = temp->m_Head;
-	}
-	return (TRUE);
 }
