@@ -1,192 +1,128 @@
 #include "sorter.h"
-
 #include "evaluator.h"
-#include "../../utils/math_utils.h"
 #include "generator.h"
-#include <limits.h>
 #include <stdlib.h>
+#include <ft_stdlib.h>
 #include <ft_math.h>
 
-/** Dumps the first best number from low to high from the from stack to the to stack */
-static t_instruction* dump_single(t_ideque* from, t_ideque* to, t_instruction put_instr, int low, int high, size_t* count) {
-	t_instruction* instructions;
-	t_evaluation best, current;
-	t_inode* node;
-	size_t position;
-	size_t from_size, to_size;
-	int val;
-	ft_bool first_pass;
+static long _sorter_get_position(int val, const t_sort_info* sort_info) {
+	return (sort_info->m_pos_func(val, sort_info->m_to_deque));
+}
 
-	node = ideque_front(from);
-	position = 0;
-	from_size = ideque_get_size(from);
-	to_size = ideque_get_size(to);
-	first_pass = TRUE;
-	init_evaluation(&best);
+static t_distance _sorter_get_distance(size_t left_pos, size_t left_size, size_t right_pos, size_t right_size) {
+	t_evaluation eval;
+	t_distance distance;
+
+	eval = evaluate(left_pos, left_size, right_pos, right_size);
+	distance.m_left_dist = eval.m_MoveVec.m_X;
+	distance.m_right_dist = eval.m_MoveVec.m_Y;
+	return (distance);
+}
+
+static t_instruction* _sorter_generate_put(const t_sort_info* info, const t_distance* distance, size_t* instr_count) {
+	t_instruction* put_instrs;
+
+	put_instrs = generate_instructions(distance->m_left_dist, distance->m_right_dist, 1, instr_count);
+	put_instrs[*instr_count] = info->m_put_instr;
+	*instr_count += 1;
+	return (put_instrs);
+}
+
+static ft_bool _sorter_get_best_next(t_sort_info* info, t_distance* out) {
+	t_distance cmp_distance;
+	t_inode* node;
+	long current_pos;
+	ft_bool found;
+
+	node = ideque_front(info->m_from_deque);
+	found = FALSE;
+	current_pos = 0;
 	while (node) {
-		val = node->m_content;
-		if (val >= low && val <= high) {
-			current = evaluate(position, from_size, 0, to_size);
-			if (first_pass || cmp_evaluation(&current, &best) < 0) {
-				destroy_evaluation(&best, FALSE);
-				best = current;
-			} else
-				destroy_evaluation(&current, FALSE);
-			first_pass = FALSE;
+		if (sort_info_applies(info, node->m_content)) {
+			cmp_distance = _sorter_get_distance(current_pos, ideque_get_size(info->m_from_deque),
+				_sorter_get_position(node->m_content, info), ideque_get_size(info->m_to_deque));
+			if (!found || distance_cmp(&cmp_distance, &*out) < 0)
+				*out = cmp_distance;
+			found = TRUE;
 		}
-		position++;
+		current_pos++;
 		node = node->m_head;
 	}
+	return (found);
+}
 
-	if (first_pass) {
-		*count = 0;
-		return (0);
-	}
+static t_instruction* _sorter_put(t_sort_info* info, const t_distance* distance, size_t* instr_count) {
+	t_instruction* instructions;
 
-	instructions = generate_instructions_e(&best, 1);
-	instructions[best.m_Count] = put_instr;
-	best.m_Count += 1;
-
-	destroy_evaluation(&best, FALSE);
-
-	execute_instructions(from, to, instructions, best.m_Count);
-	*count = best.m_Count;
+	instructions = _sorter_generate_put(info, distance, instr_count);
+	execute_instructions(info->m_from_deque, info->m_to_deque, instructions, *instr_count);
 	return (instructions);
 }
 
-/** Dumps all the numbers from low to high from the from stack to the to stack */
-static t_instruction* dump_range(t_ideque* from, t_ideque* to, t_instruction put_instr, int low, int high, size_t* count) {
-	t_instruction* instructions;
-	t_instruction* temp;
-	size_t instr_count;
+static t_instruction* _sorter_sort_next(t_sort_info* info, size_t* instr_count) {
+	t_instruction* next_instrs;
+	t_distance next_dist;
 
-	*count = 0;
-	instructions = NULL;
+	*instr_count = 0;
+	if (!_sorter_get_best_next(info, &next_dist))
+		return (NULL);
 
+	next_instrs = _sorter_put(info, &next_dist, instr_count);
+	return (next_instrs);
+}
+
+static t_instruction* _sorter_sort(t_sort_info* info, size_t* total_count) {
+	t_instruction* sort_instrs;
+	t_instruction* next_instrs;
+	size_t next_count;
+
+	sort_instrs = NULL;
 	while (TRUE) {
-		temp = dump_single(from, to, put_instr, low, high, &instr_count);
+		next_instrs = _sorter_sort_next(info, &next_count);
 
-		if (instr_count == 0)
+		if (next_instrs == NULL)
 			break;
-		
-		join_instructions(&instructions, *count, temp, instr_count);
-		*count += instr_count;
-		free(temp);
+		join_instructions(&sort_instrs, *total_count, next_instrs, next_count);
+		free(next_instrs);
+		*total_count += next_count;
 	}
-	
-	return (instructions);
+	return (sort_instrs);
 }
 
-t_instruction* rough_sort_optimized(t_ideque* from, t_ideque* to, t_instruction put_instr, const int* from_sorted, size_t block_size, size_t* instrs) {
-	t_instruction* instructions, *temp;
-	size_t block_index;
-	size_t instr_count;
-	size_t size;
-	int low, high;
-
-	*instrs = 0;
-	instructions = NULL;
-	size = ideque_get_size(from);
-	instructions = NULL;
-	for (block_index = 0; block_index < size; block_index += block_size) {
-		low = from_sorted[block_index];
-		high = from_sorted[ft_stmin(block_index + block_size - 1, size)]; /*Possible overflow when block_size = 0 or block_index and size are both zero, should I fix this?*/
-
-		temp = dump_range(from, to, put_instr, low, high, &instr_count);
-
-		if (instr_count == 0)
-			break;
-		join_instructions(&instructions, *instrs, temp, instr_count);
-		*instrs += instr_count;
-		free(temp);
-	}
-	return (instructions);
+t_instruction* sorter_sort(t_sort_info* info, size_t* count) {
+	*count = 0;
+	if (ideque_is_empty(info->m_from_deque))
+		return (NULL);
+	return (_sorter_sort(info, count));
 }
 
-static size_t get_sorted_pos(t_ideque* stack, int i) {
-	t_inode* previous, *current;
-	int previous_val, current_val, position;
-	int lowest_val, lowest_pos;
-
-	if (ideque_get_size(stack) <= 1)
-		return (0);
-	previous = ideque_back(stack);
-	current = ideque_front(stack);
-	position = 0;
-	lowest_pos = 0;
-	lowest_val = INT_MAX;
-	while (current) {
-		previous_val = previous->m_content;
-		current_val = current->m_content;
-		if ((i > previous_val) && (i < current_val))
-			return (position);
-		else if (current_val < lowest_val) {
-			lowest_val = current_val;
-			lowest_pos = position;
-		}
-		previous = current;
-		current = current->m_head;
-		position++;
-	}
-	return (lowest_pos);
+ft_bool sort_info_applies(const t_sort_info* info, int val) {
+	return (info->m_min <= val && val <= info->m_max);
 }
 
-/*
-TODO Try to replace the while loops with smart ways how linked lists work
+int distance_cmp(const t_distance* a, const t_distance* cmp) {
+	size_t a_len;
+	size_t cmp_len;
 
-also, its probably better to just use ints in the stack instead of pointers to ints. Makes it a whole lot easier to access
-*/
-
-static t_instruction* move_best(t_ideque* from, t_ideque* to, t_instruction put_instr, size_t* instrs) {
-	t_evaluation best, current;
-	t_instruction* instructions;
-	t_inode* node;
-	size_t from_pos, to_pos;
-
-	node = ideque_front(from);
-	from_pos = 0;
-	best.m_Count = ULONG_MAX;
-	while (node) {
-		to_pos = get_sorted_pos(to, node->m_content);
-		current = evaluate(from_pos, ideque_get_size(from), to_pos, ideque_get_size(to));
-
-		if (cmp_evaluation(&current, &best) < 0) {
-			destroy_evaluation(&best, FALSE);
-			best = current;
-		} else
-			destroy_evaluation(&current, FALSE);
-		node = node->m_head;
-		from_pos++;
-	}
-
-	instructions = generate_instructions_e(&best, 1);
-	instructions[best.m_Count] = put_instr;
-	best.m_Count += 1;
-
-	destroy_evaluation(&best, FALSE);
-
-	execute_instructions(from, to, instructions, best.m_Count);
-	*instrs = best.m_Count;
-	return (instructions);
+	a_len = distance_get_len(a);
+	cmp_len = distance_get_len(cmp);
+	if (a_len < cmp_len)
+		return (-1);
+	else if (a_len > cmp_len)
+		return (1);
+	return (0);
 }
 
-t_instruction* sort(t_ideque* from, t_ideque* to, t_instruction put_instr, size_t* instrs) {
-	t_instruction* instructions, *temp;
-	size_t index;
-	size_t instr_count;
-	size_t size;
+size_t distance_get_len(const t_distance* distance) {
+	long left_mov;
+	long right_mov;
 
-	size = ideque_get_size(from);
-	instructions = NULL;
-	*instrs = 0;
-	for (index = 0; index < size; index++) {
-		temp = move_best(from, to, put_instr, &instr_count);
+	left_mov = distance->m_left_dist;
+	right_mov = distance->m_right_dist;
 
-		if (instr_count == 0)
-			break; /*This should never happen*/
-		join_instructions(&instructions, *instrs, temp, instr_count);
-		*instrs += instr_count;
-		free(temp);
-	}
-	return (instructions);
+	if ((left_mov <= 0 && right_mov >= 0) || (right_mov <= 0 && left_mov >= 0))
+		return (ft_labs(left_mov) + ft_labs(right_mov));
+	else if (left_mov > 0)
+		return (ft_lmax(left_mov, right_mov));
+	return (ft_labs(ft_lmin(left_mov, right_mov)));
 }

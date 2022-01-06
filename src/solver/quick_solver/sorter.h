@@ -4,8 +4,31 @@
 #include "../instruction.h"
 #include "../../int_deque.h"
 
-t_instruction* rough_sort_optimized(t_ideque* from, t_ideque* to, t_instruction put_instr, const int* from_sorted, size_t block_size, size_t* instrs);
+typedef size_t(*t_pos_func)(int, t_ideque*);
 
-t_instruction* sort(t_ideque* from, t_ideque* to, t_instruction put_instr, size_t* instrs);
+typedef struct s_sort_info {
+	int m_min;
+	int m_max;
+
+	t_pos_func m_pos_func;
+	t_instruction m_put_instr;
+	t_ideque* m_from_deque;
+	t_ideque* m_to_deque;
+
+}	t_sort_info;
+
+typedef struct s_distance {
+	long m_left_dist;
+	long m_right_dist;
+}	t_distance;
+
+
+t_instruction* sorter_sort(t_sort_info* constraints, size_t* instrs);
+
+ft_bool sort_info_applies(const t_sort_info* info, int val);
+
+int distance_cmp(const t_distance* a, const t_distance* cmp);
+
+size_t distance_get_len(const t_distance* disance);
 
 #endif
