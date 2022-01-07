@@ -168,7 +168,7 @@ static t_instruction* _quick_solve(t_ps_object* object, const int* arr, size_t l
 	size_t align_count;
 	int* sorted_arr;
 
-	sorted_arr = array_cpy_quick_sort(arr, len);
+	sorted_arr = iarray_cpy_quick_sort(arr, len);
 
 	sort_instrs = _quick_sort(object, sorted_arr, len, &sort_count);
 	align_instrs = _quick_align(object, sorted_arr, len, &align_count);
