@@ -34,13 +34,13 @@ static size_t get_count_both_down(size_t from_pos, size_t from_size, size_t to_p
 /*TODO ervoor zorgen dat conversies tussen long en size_t niet fout gaan (Heel het project)*/
 static size_t get_count_both_fastest(const t_vec2* both_up, const t_vec2* both_down, t_vec2* vec) {
 	size_t instr_count;
-
-	if (both_up->m_X < both_down->m_X)
+	
+	if (both_up->m_X < ft_labs(both_down->m_X))
 		vec->m_X = both_up->m_X;
 	else
 		vec->m_X = both_down->m_X;
 
-	if (both_up->m_Y < both_down->m_Y)
+	if (both_up->m_Y < ft_labs(both_down->m_Y))
 		vec->m_Y = both_up->m_Y;
 	else
 		vec->m_Y = both_down->m_Y;

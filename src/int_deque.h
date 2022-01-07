@@ -33,8 +33,10 @@ t_inode* ideque_pop_back(t_ideque* deque);
 /*Undefined behavior when popping empty ideque*/
 t_inode* ideque_pop_front(t_ideque* deque);
 
-t_inode* ideque_back(t_ideque* deque);
-t_inode* ideque_front(t_ideque* deque);
+t_inode* ideque_back(const t_ideque* deque);
+t_inode* ideque_front(const t_ideque* deque);
+
+ft_bool ideque_is_sorted(const t_ideque* deque);
 
 void ideque_rotate(t_ideque* deque, int val);
 

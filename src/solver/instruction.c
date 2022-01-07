@@ -56,7 +56,7 @@ void execute_instruction(t_instruction instr, t_ps_object* object) {
 	if (instr <= 0 || instr >= ips_err)
 		return;
 	g_Functions[instr](object);
-	ps_object_debug_print(object);
+	/*ps_object_debug_print(object);*/
 }
 
 void execute_instructions(t_ideque* a, t_ideque* b, t_instruction* instructions, size_t count) {

@@ -7,4 +7,6 @@ void quick_sort(int* arr, size_t len);
 
 int median(int* sorted_arr, size_t len);
 
+int* array_cpy_quick_sort(const int* arr, size_t len);
+
 #endif

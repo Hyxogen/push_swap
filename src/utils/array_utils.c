@@ -1,6 +1,8 @@
 #include "array_utils.h"
 #include <stdlib.h>
 #include <string.h>
+#include <ft_string.h>
+#include "malloc_utils.h"
 
 static int* get_pivot(int* arr, size_t len) {
 	if (len)
@@ -22,7 +24,7 @@ void quick_sort(int* const arr, size_t len) {
 		return;
 	pivot_addr = get_pivot(arr, len);
 	pivot = *pivot_addr;
-	part1 = malloc(sizeof(int) * len * 2);
+	part1 = ft_safe_malloc(sizeof(int) * len * 2);
 	part2 = &part1[len];
 	part1_index = 0;
 	part2_index = 0;
@@ -48,4 +50,13 @@ int median(int* sorted_arr, size_t len) {
 	if (len & 0x1)
 		return ((sorted_arr[len / 2] + sorted_arr[(len / 2) + 1]) / 2);
 	return (sorted_arr[len / 2]);
+}
+
+int* array_cpy_quick_sort(const int* arr, size_t len) {
+	int* arr_cpy;
+
+	arr_cpy = ft_safe_malloc(sizeof(int) * len);
+	ft_memcpy(arr_cpy, arr, sizeof(int) * len);
+	quick_sort(arr_cpy, len);
+	return (arr_cpy);
 }

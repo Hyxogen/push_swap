@@ -31,21 +31,21 @@ static t_instruction* _sorter_generate_put(const t_sort_info* info, const t_dist
 static ft_bool _sorter_get_best_next(t_sort_info* info, t_distance* out) {
 	t_distance cmp_distance;
 	t_inode* node;
-	long current_pos;
+	size_t node_pos;
 	ft_bool found;
 
 	node = ideque_front(info->m_from_deque);
 	found = FALSE;
-	current_pos = 0;
+	node_pos = 0;
 	while (node) {
 		if (sort_info_applies(info, node->m_content)) {
-			cmp_distance = _sorter_get_distance(current_pos, ideque_get_size(info->m_from_deque),
+			cmp_distance = _sorter_get_distance(node_pos, ideque_get_size(info->m_from_deque),
 				_sorter_get_position(node->m_content, info), ideque_get_size(info->m_to_deque));
 			if (!found || distance_cmp(&cmp_distance, &*out) < 0)
 				*out = cmp_distance;
 			found = TRUE;
 		}
-		current_pos++;
+		node_pos++;
 		node = node->m_head;
 	}
 	return (found);
