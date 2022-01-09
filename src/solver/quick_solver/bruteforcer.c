@@ -28,13 +28,14 @@ static const t_instruction g_inverse_instructions[] = {
 static void
 	apply_instruction(t_ps_object *object, t_instruction instr)
 {
-	execute_instruction(instr, object);
+	execute_instructions(object->m_stack_a, object->m_stack_b, &instr, 1);
 }
 
 static void
 	undo_instruction(t_ps_object *object, t_instruction instr)
 {
-	execute_instruction(translate_instruction(instr, g_inverse_instructions), object);
+	translate_instructions(&instr, 1, g_inverse_instructions);
+	execute_instructions(object->m_stack_a, object->m_stack_b, &instr, 1);
 }
 
 static int

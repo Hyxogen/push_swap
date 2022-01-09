@@ -40,86 +40,61 @@ static const t_object_func g_Functions[] = {
 		NULL
 };
 
-static const char *g_ErrorInst = "err";
-
-const char *get_instr_name(t_instruction instr)
-{
-	return (get_instr_name_l(instr, g_DefaultNames, ips_err));
-}
-
-const char *get_instr_name_l(t_instruction instr, const char **locale, int locale_size)
-{
-	if (instr <= 0 || instr >= locale_size)
-		return (g_ErrorInst);
-	return (locale[instr]);
-}
-
-void execute_instruction(t_instruction instr, t_ps_object *object)
+const char
+	*get_instr_name(t_instruction instr)
 {
 	if (instr <= 0 || instr >= ips_err)
-		return;
-	g_Functions[instr](object);
-	/*ps_object_debug_print(object);*/
+		return (g_DefaultNames[ips_err]);
+	return (g_DefaultNames[instr]);
 }
 
-void execute_instructions(t_ideque *a, t_ideque *b, t_instruction *instructions, size_t count)
+void
+	execute_instructions(t_ideque *a, t_ideque *b, t_instruction *instructions, size_t count)
 {
-	t_ps_object object;
+	t_ps_object	object;
 
 	ps_object_init(&object, a, b);
 	while (count)
 	{
-		execute_instruction(*instructions, &object);
+		if (*instructions > 0 && *instructions < ips_err)
+			g_Functions[*instructions](&object);
 		instructions++;
 		count--;
 	}
 }
 
-void print_instructions(t_instruction *instructions, size_t count)
-{
-	print_instructions_l(instructions, count, g_DefaultNames, ips_err);
-}
-
-void print_instructions_l(t_instruction *instructions, size_t count, const char **locale, int locale_size)
+void
+	print_instructions(t_instruction *instructions, size_t count)
 {
 	while (count)
 	{
-		printf("%s\n", get_instr_name_l(*instructions, locale, locale_size));
+		printf("%s\n", get_instr_name(*instructions));/*Replace with ft_printf*/
 		count--;
 		instructions++;
 	}
 }
 
-/** TODO check if this works */
-void join_instructions(t_instruction **a, size_t a_len, t_instruction *b, size_t b_len)
+void
+	join_instructions(t_instruction **a, size_t a_len, t_instruction *b, size_t b_len)
 {
-	t_instruction *ptr;
+	t_instruction	*ptr;
 
-	ptr = ft_realloc(*a, a_len * sizeof(t_instruction), (a_len + b_len) * sizeof(t_instruction)); /*TODO make this ft_realloc use the malloc wa*/
+	ptr = ft_realloc(*a, a_len * sizeof(t_instruction), (a_len + b_len) * sizeof(t_instruction));
 	if (ptr == NULL)
-		return; /*TODO This should exit the program*/
+		exit(EXIT_FAILURE);
 	ft_memcpy(ptr + a_len, b, b_len * sizeof(t_instruction));
 	*a = ptr;
 }
 
-void destroy_instruction(t_instruction *instr, ft_bool free_self)
-{
-	if (free_self)
-		free(instr);
-}
-
-t_instruction translate_instruction(t_instruction instr, const t_instruction *translation)
-{
-	if (instr < 0 || instr > ips_err)
-		return (ips_err);
-	return (translation[instr]);
-}
-
-void translate_instructions(t_instruction *instructions, size_t count, const t_instruction *translation)
+void
+	translate_instructions(t_instruction *instructions, size_t count, const t_instruction *translation)
 {
 	while (count)
 	{
-		*instructions = translate_instruction(*instructions, translation);
+		if (*instructions >= 0 && *instructions <= ips_err)
+			*instructions = translation[*instructions];
+		else
+			*instructions = ips_err;
 		count--;
 		instructions++;
 	}

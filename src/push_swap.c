@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	solve_instr = solve(lst, argc - 1, &instr_count);
 	print_instructions(solve_instr, instr_count);
 
-	destroy_instruction(solve_instr, TRUE);
+	free(solve_instr);
 	free(lst);
 	return (EXIT_SUCCESS);
 }
