@@ -4,6 +4,7 @@
 #include <ft_stdlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ft_stdio.h>
 
 static const char *g_DefaultNames[] = {
 		"empty",
@@ -68,7 +69,7 @@ void
 {
 	while (count)
 	{
-		printf("%s\n", get_instr_name(*instructions));/*Replace with ft_printf*/
+		ft_putendl_fd(1, get_instr_name(*instructions));
 		count--;
 		instructions++;
 	}

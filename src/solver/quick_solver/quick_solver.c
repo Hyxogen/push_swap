@@ -2,7 +2,7 @@
 
 #include "quick_solver_internal.h"
 #include "bruteforcer.h"
-#include "../../ps_object.h"
+#include "../../ps_object/ps_object.h"
 #include <stdlib.h>
 
 t_instruction

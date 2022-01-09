@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ps_object.h"
+#include "ps_object/ps_object.h"
+
+#include "locale.h"
 #include "parser/argument_parser.h"
 #include "solver/solver.h"
+#include "utils/array_utils.h"
 #include <stdlib.h>
-#include <stdio.h>
-
-#ifndef PS_ERROR_MESSAGE
-#define PS_ERROR_MESSAGE "Error\n"
-#endif
+#include <ft_stdio.h>
 
 int main(int argc, char **argv)
 {
@@ -31,9 +30,10 @@ int main(int argc, char **argv)
 
 	lst = read_arguments(argc, argv);
 
-	if (lst == NULL)
+	if (lst == NULL || iarray_has_duplicates(lst, argc - 1))
 	{
-		printf("%s\n", PS_ERROR_MESSAGE);
+		free(lst);
+		ft_putendl_fd(2, PS_ERROR_MESSAGE);
 		return (EXIT_FAILURE);
 	}
 

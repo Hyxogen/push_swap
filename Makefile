@@ -10,11 +10,17 @@ SRC_DIR				:= ./src
 INT_DIR				:= ./obj
 # SRCS				:= push_swap.c stack.c dlinked_list.c ps_object.c
 
-CHECKER_SRCS		:= checker.c argument_parser.c ps_object.c stack.c dlinked_list.c \
-						evaluator.c distance.c generator.c instruction.c
+CHECKER_SRCS		:= checker.c argument_parser.c \
+						ideque_destroy.c ideque_front_back.c ideque_is_sorted.c \
+						ideque_initialization.c ideque_pop_back.c ideque_pop_front.c \
+						ideque_push_back.c ideque_push_front.c ideque_rotate.c \
+						ideque_size.c inode_destroy.c inode_initialization.c \
+						ps_object_destroy.c ps_object_init.c ps_object_put.c \
+						ps_object_rotate.c ps_object_rrotate.c ps_object_swap.c \
+						ps_object_util.c malloc_utils.c array_utils.c
 CHECKER_OBJS		:= $(addprefix $(INT_DIR)/,$(CHECKER_SRCS:%.c=%.o))
 
-PUSH_SWAP_SRCS		:= push_swap.c argument_parser.c ps_object.c \
+PUSH_SWAP_SRCS		:= push_swap.c argument_parser.c \
 						evaluator.c instruction.c sorter.c quick_solver.c \
 						malloc_utils.c array_utils.c quick_solver_utils.c \
 						generator.c bruteforcer.c distance.c \
@@ -22,13 +28,16 @@ PUSH_SWAP_SRCS		:= push_swap.c argument_parser.c ps_object.c \
 						ideque_destroy.c ideque_front_back.c ideque_is_sorted.c \
 						ideque_initialization.c ideque_pop_back.c ideque_pop_front.c \
 						ideque_push_back.c ideque_push_front.c ideque_rotate.c \
-						ideque_size.c inode_destroy.c inode_initialization.c
+						ideque_size.c inode_destroy.c inode_initialization.c \
+						ps_object_destroy.c ps_object_init.c ps_object_put.c \
+						ps_object_rotate.c ps_object_rrotate.c ps_object_swap.c \
+						ps_object_util.c
 PUSH_SWAP_OBJS		:= $(addprefix $(INT_DIR)/,$(PUSH_SWAP_SRCS:%.c=%.o))
 
 ALL_OBJS			:= $(CHECKER_OBJS) $(PUSH_SWAP_OBJS)
 
 VPATH				:= $(SRC_DIR) $(SRC_DIR)/utils $(SRC_DIR)/checker $(SRC_DIR)/parser $(SRC_DIR)/solver \
-						$(SRC_DIR)/solver/quick_solver $(SRC_DIR)/utils/int_deque
+						$(SRC_DIR)/solver/quick_solver $(SRC_DIR)/utils/int_deque $(SRC_DIR)/ps_object
 DEFINES				:=
 INCLUDE_DIRS		:= -I $(LIBFT_DIR)/include
 
@@ -75,6 +84,7 @@ ALL_LINKFLAGS += $(DISTR_LINKFLAGS)
 endif
 
 all: $(PUSH_SWAP_NAME)
+bonus: $(CHECKER_NAME)
 
 $(CHECKER_NAME): $(CHECKER_OBJS) $(LIBFT_LIB)
 	$(SILENT)echo Linking $@

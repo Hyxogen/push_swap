@@ -10,50 +10,49 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../locale.h"
+#include "../parser/argument_parser.h"
+#include "../ps_object/ps_object.h"
+#include "../utils/array_utils.h"
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ft_stdio.h>
 #include <ft_string.h>
 #include <ft_stdbool.h>
-#include "../parser/argument_parser.h"
-#include "../ps_object.h"
-#include "../solver/evaluator.h"
-#include <unistd.h>
 
-static ft_bool execute_instruction(const char *inst, t_ps_object *object)
+static ft_bool
+	execute_instruction(const char *inst, t_ps_object *object)
 {
-	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
 	if (!ft_strcmp(inst, "ra"))
-		ps_ra(object);
+		ps_object_ra(object);
 	else if (!ft_strcmp(inst, "rb"))
-		ps_rb(object);
+		ps_object_rb(object);
 	else if (!ft_strcmp(inst, "rr"))
-		ps_rr(object);
+		ps_object_rr(object);
 	else if (!ft_strcmp(inst, "sa"))
-		ps_sa(object);
+		ps_object_sa(object);
 	else if (!ft_strcmp(inst, "sb"))
-		ps_sb(object);
+		ps_object_sb(object);
 	else if (!ft_strcmp(inst, "ss"))
-		ps_ss(object);
+		ps_object_ss(object);
 	else if (!ft_strcmp(inst, "pa"))
-		ps_pa(object);
+		ps_object_pa(object);
 	else if (!ft_strcmp(inst, "pb"))
-		ps_pb(object);
+		ps_object_pb(object);
 	else if (!ft_strcmp(inst, "rra"))
-		ps_rra(object);
+		ps_object_rra(object);
 	else if (!ft_strcmp(inst, "rrb"))
-		ps_rrb(object);
+		ps_object_rrb(object);
 	else if (!ft_strcmp(inst, "rrr"))
-		ps_rrr(object);
+		ps_object_rrr(object);
 	else
 		return (FALSE);
-	print_ps_object(object);
 	return (TRUE);
 }
 
-/*Todo make rename t_read_handle to _read_object and make another typedef for a pointer to t_read_object called t_read_handle*/
-/*
-static ft_bool execute(t_ps_object *object, t_read_handle *handle)
+static ft_bool
+	execute(t_ps_object *object, t_read_handle *handle)
 {
 	char	*ptr;
 
@@ -65,34 +64,55 @@ static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 			free(ptr);
 			return (FALSE);
 		}
-		print_evaluation(evaluate(object->m_StackA, object->m_StackB, 0));
-		//free(ptr);
+		free(ptr);
 	}
 	free(ptr);
 	return (TRUE);
 }
-*/
 
-int main(int argc, char **argv)
+int
+	run(int *lst, size_t len, t_read_handle* handle)
 {
-	int *lst;
-	t_read_handle *handle;
-	t_ps_object		object;
+	t_ps_object *object;
+	int			ret_code;
+	
+	object = ps_object_create_empty();
+	ps_object_fill(object, lst, len);
+	ret_code = EXIT_SUCCESS;
+	if (!execute(object, handle))
+	{
+		ft_putendl_fd(2, PS_ERROR_MESSAGE);
+		ret_code = EXIT_FAILURE;
+	}
+	else if (ps_object_is_sorted(object))
+		ft_putendl_fd(1, PS_OK_MESSAGE);
+	else
+		ft_putendl_fd(1, PS_KO_MESSAGE);
+	ps_object_destroy(object, TRUE);
+	return (ret_code);
+}
+
+int
+	main(int argc, char **argv)
+{
+	t_read_handle	*handle;
+	int				*lst;
+	int				ret_code;
 
 	if (argc <= 1)
 		return (EXIT_SUCCESS);
-	handle = start_read(0);
 	lst = read_arguments(argc, argv);
-	init_ps_object(&object);
-	fill_psa(&object, lst, argc - 1);
-	/*if (!execute(&object, handle))*/
-	if (!execute_self_solve(&object))
-		printf("Error\n");
-	else if (is_sorted(&object))
-		printf("OK\n");
-	else
-		printf("KO\n");
+	handle = start_read(0);
+	if (lst == NULL || iarray_has_duplicates(lst, argc - 1)
+		|| handle == NULL)
+	{
+		ft_putendl_fd(2, PS_ERROR_MESSAGE);
+		free(lst);
+		close_read_handle(handle);
+		return (EXIT_FAILURE);
+	}
+	ret_code = run(lst, argc - 1, handle);
 	free(lst);
 	close_read_handle(handle);
-	return (EXIT_SUCCESS);
+	return (ret_code);
 }

@@ -1,8 +1,8 @@
 #include "array_utils.h"
+#include "malloc_utils.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ft_string.h>
-#include "malloc_utils.h"
 
 static void
 	int_swap(int *a, int *b)
@@ -59,4 +59,24 @@ int
 	ft_memcpy(arr_cpy, arr, sizeof(int) * len);
 	iarray_quick_sort(arr_cpy, len);
 	return (arr_cpy);
+}
+
+ft_bool iarray_has_duplicates(const int *arr, size_t len)
+{
+	size_t	check_index;
+	size_t	arr_index;
+
+	check_index = 0;
+	while (check_index < len)
+	{
+		arr_index = 0;
+		while (arr_index < len)
+		{
+			if (arr[check_index] == arr[arr_index] && check_index != arr_index)
+				return (TRUE);
+			arr_index++;
+		}
+		check_index++;
+	}
+	return (FALSE);
 }
