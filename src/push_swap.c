@@ -40,5 +40,6 @@ int main(int argc, char** argv) {
 	/*printf("instructions:%lu\n", instr_count);*/
 	
 	destroy_instruction(solve_instr, TRUE);
+	free(lst);
 	return (EXIT_SUCCESS);
 }

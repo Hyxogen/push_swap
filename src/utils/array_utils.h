@@ -3,9 +3,7 @@
 
 # include <sys/types.h>
 
-void quick_sort(int* arr, size_t len);
-
-int median(int* sorted_arr, size_t len);
+int* iarray_cpy(const int* arr, size_t len);
 
 int* iarray_cpy_quick_sort(const int* arr, size_t len);
 

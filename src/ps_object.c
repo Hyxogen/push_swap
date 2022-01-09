@@ -28,6 +28,26 @@ static void ps_object_px(t_ideque* from, t_ideque* to) {
 	_ps_object_px(from, to);
 }
 
+static void _ps_object_sx(t_ideque* deque) {
+	t_inode* first;
+	t_inode* second;
+
+	first = ideque_pop_front(deque);
+	second = ideque_pop_front(deque);
+	/*first->m_head = NULL;
+	first->m_tail = NULL;
+	second->m_head = NULL;
+	second->m_tail = NULL;*/
+	ideque_push_front(deque, first);
+	ideque_push_front(deque, second);
+}
+
+static void ps_object_sx(t_ideque* deque) {
+	if (ideque_get_size(deque) <= 1)
+		return;
+	_ps_object_sx(deque);
+}
+
 void ps_object_init(t_ps_object* object, t_ideque* stack_a, t_ideque* stack_b) {
 	object->m_stack_a = stack_a;
 	object->m_stack_b = stack_b;
@@ -56,18 +76,16 @@ void ps_object_fill(t_ps_object* object, int* int_arr, size_t arr_len) {
 }
 
 void ps_object_sa(t_ps_object* object) {
-	/*NOT IMPLEMENTED*/
-	(void)object;
+	ps_object_sx(object->m_stack_a);
 }
 
 void ps_object_sb(t_ps_object* object) {
-	/*NOT IMPLEMENTED*/
-	(void)object;
+	ps_object_sx(object->m_stack_b);
 }
 
 void ps_object_ss(t_ps_object* object) {
-	/*NOT IMPLEMENTED*/
-	(void)object;
+	ps_object_sa(object);
+	ps_object_sb(object);
 }
 
 void ps_object_pa(t_ps_object* object) {
