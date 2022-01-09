@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <limits.h>
 
-
 static const t_instruction g_swapped_instructions[] = {
 		ips_empty,
 		ips_pb,
@@ -30,7 +29,6 @@ static const t_instruction g_swapped_instructions[] = {
 		ips_stop,
 		ips_err
 };
-
 
 size_t quick_get_rough_sorted_pos(int val, t_ideque *deque)
 {
@@ -214,7 +212,6 @@ t_instruction *solve(int *arr, size_t len, size_t *instrs)
 
 	solve_instructions = _quick_solve(object, arr, len, instrs);
 
-	/*ps_object_debug_print(object);*/
 	ps_object_destroy(object, TRUE);
 	return (solve_instructions);
 }
