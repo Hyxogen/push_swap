@@ -2,22 +2,26 @@
 
 #include <stdlib.h>
 
-void* ft_malloc(size_t size) {
-	void* ret;
+void *ft_malloc(size_t size)
+{
+	void *ret;
 
 	ret = malloc(size);
-	if (ret == NULL) {
+	if (ret == NULL)
+	{
 		exit(EXIT_FAILURE);
 		return (NULL);
 	}
 	return (ret);
 }
 
-void* ft_safe_malloc(size_t size) {
-	void* ret;
+void *ft_safe_malloc(size_t size)
+{
+	void *ret;
 
 	ret = malloc(size);
-	if (ret == NULL) {
+	if (ret == NULL)
+	{
 		exit(EXIT_FAILURE);
 		return (NULL);
 	}

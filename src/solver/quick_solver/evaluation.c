@@ -2,12 +2,14 @@
 
 #include <stdlib.h>
 
-void destroy_evaluation(t_evaluation* eval, ft_bool free_self) {
+void destroy_evaluation(t_evaluation *eval, ft_bool free_self)
+{
 	if (free_self)
 		free(eval);
 }
 
-int cmp_evaluation(const t_evaluation* a, const t_evaluation* b) {
+int cmp_evaluation(const t_evaluation *a, const t_evaluation *b)
+{
 	if (a->m_Count == b->m_Count)
 		return (0);
 	else if (a->m_Count > b->m_Count)
@@ -16,7 +18,8 @@ int cmp_evaluation(const t_evaluation* a, const t_evaluation* b) {
 		return (-1);
 }
 
-void init_evaluation(t_evaluation* eval) {
+void init_evaluation(t_evaluation *eval)
+{
 	eval->m_Count = 0;
 	init_vector(&(eval->m_MoveVec));
 }

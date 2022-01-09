@@ -4,8 +4,8 @@
 #include <sys/types.h>
 
 /*DEPRECATED*/
-void* ft_malloc(size_t size);
+void *ft_malloc(size_t size);
 
-void* ft_safe_malloc(size_t size);
+void *ft_safe_malloc(size_t size);
 
 #endif

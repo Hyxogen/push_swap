@@ -4,6 +4,6 @@
 #include "instruction.h"
 #include <sys/types.h>
 
-t_instruction* solve(int* arr, size_t len, size_t* instrs);
+t_instruction *solve(int *arr, size_t len, size_t *instrs);
 
 #endif

@@ -5,11 +5,13 @@
 #include <ft_stdlib.h>
 #include <ft_math.h>
 
-static long _sorter_get_position(int val, const t_sort_info* sort_info) {
+static long _sorter_get_position(int val, const t_sort_info *sort_info)
+{
 	return (sort_info->m_pos_func(val, sort_info->m_to_deque));
 }
 
-static t_distance _sorter_get_distance(size_t left_pos, size_t left_size, size_t right_pos, size_t right_size) {
+static t_distance _sorter_get_distance(size_t left_pos, size_t left_size, size_t right_pos, size_t right_size)
+{
 	t_evaluation eval;
 	t_distance distance;
 
@@ -19,8 +21,9 @@ static t_distance _sorter_get_distance(size_t left_pos, size_t left_size, size_t
 	return (distance);
 }
 
-static t_instruction* _sorter_generate_put(const t_sort_info* info, const t_distance* distance, size_t* instr_count) {
-	t_instruction* put_instrs;
+static t_instruction *_sorter_generate_put(const t_sort_info *info, const t_distance *distance, size_t *instr_count)
+{
+	t_instruction *put_instrs;
 
 	put_instrs = generate_instructions(distance->m_left_dist, distance->m_right_dist, 1, instr_count);
 	put_instrs[*instr_count] = info->m_put_instr;
@@ -28,17 +31,20 @@ static t_instruction* _sorter_generate_put(const t_sort_info* info, const t_dist
 	return (put_instrs);
 }
 
-static ft_bool _sorter_get_best_next(t_sort_info* info, t_distance* out) {
+static ft_bool _sorter_get_best_next(t_sort_info *info, t_distance *out)
+{
 	t_distance cmp_distance;
-	t_inode* node;
+	t_inode *node;
 	size_t node_pos;
 	ft_bool found;
 
 	node = ideque_front(info->m_from_deque);
 	found = FALSE;
 	node_pos = 0;
-	while (node) {
-		if (sort_info_applies(info, node->m_content)) {
+	while (node)
+	{
+		if (sort_info_applies(info, node->m_content))
+		{
 			cmp_distance = _sorter_get_distance(node_pos, ideque_get_size(info->m_from_deque),
 				_sorter_get_position(node->m_content, info), ideque_get_size(info->m_to_deque));
 			if (!found || distance_cmp(&cmp_distance, &*out) < 0)
@@ -51,16 +57,18 @@ static ft_bool _sorter_get_best_next(t_sort_info* info, t_distance* out) {
 	return (found);
 }
 
-static t_instruction* _sorter_put(t_sort_info* info, const t_distance* distance, size_t* instr_count) {
-	t_instruction* instructions;
+static t_instruction *_sorter_put(t_sort_info *info, const t_distance *distance, size_t *instr_count)
+{
+	t_instruction *instructions;
 
 	instructions = _sorter_generate_put(info, distance, instr_count);
 	execute_instructions(info->m_from_deque, info->m_to_deque, instructions, *instr_count);
 	return (instructions);
 }
 
-static t_instruction* _sorter_sort_next(t_sort_info* info, size_t* instr_count) {
-	t_instruction* next_instrs;
+static t_instruction *_sorter_sort_next(t_sort_info *info, size_t *instr_count)
+{
+	t_instruction *next_instrs;
 	t_distance next_dist;
 
 	*instr_count = 0;
@@ -71,13 +79,15 @@ static t_instruction* _sorter_sort_next(t_sort_info* info, size_t* instr_count) 
 	return (next_instrs);
 }
 
-static t_instruction* _sorter_sort(t_sort_info* info, size_t* total_count) {
-	t_instruction* sort_instrs;
-	t_instruction* next_instrs;
+static t_instruction *_sorter_sort(t_sort_info *info, size_t *total_count)
+{
+	t_instruction *sort_instrs;
+	t_instruction *next_instrs;
 	size_t next_count;
 
 	sort_instrs = NULL;
-	while (TRUE) {
+	while (TRUE)
+	{
 		next_instrs = _sorter_sort_next(info, &next_count);
 
 		if (next_instrs == NULL)
@@ -89,18 +99,21 @@ static t_instruction* _sorter_sort(t_sort_info* info, size_t* total_count) {
 	return (sort_instrs);
 }
 
-t_instruction* sorter_sort(t_sort_info* info, size_t* count) {
+t_instruction *sorter_sort(t_sort_info *info, size_t *count)
+{
 	*count = 0;
 	if (ideque_is_empty(info->m_from_deque))
 		return (NULL);
 	return (_sorter_sort(info, count));
 }
 
-ft_bool sort_info_applies(const t_sort_info* info, int val) {
+ft_bool sort_info_applies(const t_sort_info *info, int val)
+{
 	return (info->m_min <= val && val <= info->m_max);
 }
 
-int distance_cmp(const t_distance* a, const t_distance* cmp) {
+int distance_cmp(const t_distance *a, const t_distance *cmp)
+{
 	size_t a_len;
 	size_t cmp_len;
 
@@ -113,7 +126,8 @@ int distance_cmp(const t_distance* a, const t_distance* cmp) {
 	return (0);
 }
 
-size_t distance_get_len(const t_distance* distance) {
+size_t distance_get_len(const t_distance *distance)
+{
 	long left_mov;
 	long right_mov;
 

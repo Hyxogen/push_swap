@@ -9,6 +9,6 @@
  * @param argv an array of string with the arguments
  * @return NULL if internal malloc went wrong
  */
-int* read_arguments(int argc, char** argv);
+int *read_arguments(int argc, char **argv);
 
 #endif

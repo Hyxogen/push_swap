@@ -23,18 +23,24 @@ static const t_instruction g_inverse_instructions[] = {
 		ips_err
 };
 
-static void apply_instruction(t_ps_object* object, t_instruction instr) {
+static void
+	apply_instruction(t_ps_object *object, t_instruction instr)
+{
 	execute_instruction(instr, object);
 }
 
-static void undo_instruction(t_ps_object* object, t_instruction instr) {
+static void
+	undo_instruction(t_ps_object *object, t_instruction instr)
+{
 	execute_instruction(translate_instruction(instr, g_inverse_instructions), object);
 }
 
-static int _brute_force(t_ps_object* object, t_instruction* instructions, int depth, int instr_count) {
-	t_instruction* best;
-	t_instruction instruction;
-	int count;
+static int
+	_brute_force(t_ps_object *object, t_instruction *instructions, int depth, int instr_count)
+{
+	t_instruction	*best;
+	t_instruction	instruction;
+	int				count;
 
 	if (ps_object_is_sorted(object))
 		return (0);
@@ -42,11 +48,13 @@ static int _brute_force(t_ps_object* object, t_instruction* instructions, int de
 		return (-1);
 	best = NULL;
 	instruction = ips_pb + 1;
-	while (instruction < ips_stop) {
+	while (instruction < ips_stop)
+	{
 		*instructions = instruction;
 		apply_instruction(object, instruction);
 		count = _brute_force(object, instructions + 1, depth, instr_count + 1);
-		if (count >= 0) {
+		if (count >= 0)
+		{
 			free(best);
 			depth = count + 1;
 			best = iarray_cpy(instructions, depth);
@@ -61,13 +69,16 @@ static int _brute_force(t_ps_object* object, t_instruction* instructions, int de
 	return (depth);
 }
 
-t_instruction* brute_force(t_ps_object* object, int depth, size_t* instr_count) {
-	t_instruction* instructions;
-	int count;
+t_instruction
+	*brute_force(t_ps_object *object, int depth, size_t *instr_count)
+{
+	t_instruction	*instructions;
+	int				count;
 
-	instructions = ft_safe_malloc(sizeof(t_instruction) * (depth));
+	instructions = ft_safe_malloc(sizeof(t_instruction) * depth);
 	count = _brute_force(object, instructions, depth, 0);
-	if (count < 0) {
+	if (count < 0)
+	{
 		free(instructions);
 		return (NULL);
 	}

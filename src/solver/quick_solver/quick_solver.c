@@ -32,13 +32,15 @@ static const t_instruction g_swapped_instructions[] = {
 };
 
 
-size_t quick_get_rough_sorted_pos(int val, t_ideque* deque) {
+size_t quick_get_rough_sorted_pos(int val, t_ideque *deque)
+{
 	(void)val;
 	(void)deque;
 	return (0);
 }
 
-size_t _quick_get_full_sorted_pos(int val, const t_inode* current, const t_inode* previous) {
+size_t _quick_get_full_sorted_pos(int val, const t_inode *current, const t_inode *previous)
+{
 	size_t node_pos;
 	size_t lowest_pos;
 	int lowest_val;
@@ -46,10 +48,12 @@ size_t _quick_get_full_sorted_pos(int val, const t_inode* current, const t_inode
 	node_pos = 0;
 	lowest_pos = 0;
 	lowest_val = INT_MAX;
-	while (current) {
+	while (current)
+	{
 		if (previous->m_content < val && val < current->m_content)
 			return (node_pos);
-		if (current->m_content < lowest_val) {
+		if (current->m_content < lowest_val)
+		{
 			lowest_val = current->m_content;
 			lowest_pos = node_pos;
 		}
@@ -60,13 +64,15 @@ size_t _quick_get_full_sorted_pos(int val, const t_inode* current, const t_inode
 	return (lowest_pos);
 }
 
-size_t quick_get_full_sorted_pos(int val, t_ideque* deque) {
+size_t quick_get_full_sorted_pos(int val, t_ideque *deque)
+{
 	if (ideque_get_size(deque) <= 1)
 		return (0);
 	return (_quick_get_full_sorted_pos(val, ideque_front(deque), ideque_back(deque)));
 }
 
-static size_t quick_get_blocksize(size_t len) {
+static size_t quick_get_blocksize(size_t len)
+{
 	if (len <= 10)
 		return (5);
 	if (len <= 50)
@@ -81,7 +87,8 @@ static size_t quick_get_blocksize(size_t len) {
 		return (250);
 }
 
-static t_instruction* _quick_rough_sort_block(t_ps_object* object, int min, int max, size_t* instr_count) {
+static t_instruction *_quick_rough_sort_block(t_ps_object *object, int min, int max, size_t *instr_count)
+{
 	t_sort_info info;
 
 	info.m_from_deque = object->m_stack_a;
@@ -93,7 +100,8 @@ static t_instruction* _quick_rough_sort_block(t_ps_object* object, int min, int 
 	return (sorter_sort(&info, instr_count));
 }
 
-static t_instruction* _quick_full_sort_block(t_ps_object* object, int min, int max, size_t* instr_count) {
+static t_instruction *_quick_full_sort_block(t_ps_object *object, int min, int max, size_t *instr_count)
+{
 	t_sort_info info;
 
 	info.m_from_deque = object->m_stack_b;
@@ -105,9 +113,10 @@ static t_instruction* _quick_full_sort_block(t_ps_object* object, int min, int m
 	return (sorter_sort(&info, instr_count));
 }
 
-static t_instruction* _quick_rough_sort(t_ps_object* object, const int* sorted_arr, size_t len, size_t* instr_count) {
-	t_instruction* instructions;
-	t_instruction* block_instrs;
+static t_instruction *_quick_rough_sort(t_ps_object *object, const int *sorted_arr, size_t len, size_t *instr_count)
+{
+	t_instruction *instructions;
+	t_instruction *block_instrs;
 	size_t block_instrs_count;
 	size_t block_index;
 	size_t block_size;
@@ -117,7 +126,8 @@ static t_instruction* _quick_rough_sort(t_ps_object* object, const int* sorted_a
 	block_index = 0;
 	block_size = quick_get_blocksize(len);
 	instructions = NULL;
-	while (block_index < len) {
+	while (block_index < len)
+	{
 		block_max = ft_stmin((block_index + block_size) - 1, len - 1);
 		block_instrs = _quick_rough_sort_block(object, sorted_arr[block_index], sorted_arr[block_max], &block_instrs_count);
 
@@ -129,8 +139,9 @@ static t_instruction* _quick_rough_sort(t_ps_object* object, const int* sorted_a
 	return (instructions);
 }
 
-static t_instruction* _quick_align(t_ps_object* object, const int* sorted_arr, size_t len, size_t* instr_count) {
-	t_instruction* align_instrs;
+static t_instruction *_quick_align(t_ps_object *object, const int *sorted_arr, size_t len, size_t *instr_count)
+{
+	t_instruction *align_instrs;
 	t_evaluation align_eval;
 	size_t lowest_pos;
 
@@ -142,10 +153,11 @@ static t_instruction* _quick_align(t_ps_object* object, const int* sorted_arr, s
 	return (align_instrs);
 }
 
-static t_instruction* _quick_sort(t_ps_object* object, const int* sorted_arr, size_t len, size_t* instr_count) {
-	t_instruction* rough_instrs;
+static t_instruction *_quick_sort(t_ps_object *object, const int *sorted_arr, size_t len, size_t *instr_count)
+{
+	t_instruction *rough_instrs;
 	size_t rough_count;
-	t_instruction* sort_instrs;
+	t_instruction *sort_instrs;
 	size_t sort_count;
 
 
@@ -162,12 +174,13 @@ static t_instruction* _quick_sort(t_ps_object* object, const int* sorted_arr, si
 	return (rough_instrs);
 }
 
-static t_instruction* _quick_solve(t_ps_object* object, const int* arr, size_t len, size_t* instr_count) {
-	t_instruction* sort_instrs;
+static t_instruction *_quick_solve(t_ps_object *object, const int *arr, size_t len, size_t *instr_count)
+{
+	t_instruction *sort_instrs;
 	size_t sort_count;
-	t_instruction* align_instrs;
+	t_instruction *align_instrs;
 	size_t align_count;
-	int* sorted_arr;
+	int *sorted_arr;
 
 	sorted_arr = iarray_cpy_quick_sort(arr, len);
 
@@ -182,16 +195,18 @@ static t_instruction* _quick_solve(t_ps_object* object, const int* arr, size_t l
 	return (sort_instrs);
 }
 
-t_instruction* solve(int* arr, size_t len, size_t* instrs) {
-	t_ps_object* object;
-	t_instruction* solve_instructions;
+t_instruction *solve(int *arr, size_t len, size_t *instrs)
+{
+	t_ps_object *object;
+	t_instruction *solve_instructions;
 
 
 	object = ps_object_create_empty();
 	ps_object_fill(object, arr, len);
 
 	solve_instructions = brute_force(object, 7, instrs);
-	if (solve_instructions) {
+	if (solve_instructions)
+	{
 		ps_object_destroy(object, TRUE);
 		return (solve_instructions);
 	}

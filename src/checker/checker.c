@@ -20,7 +20,8 @@
 #include "../solver/evaluator.h"
 #include <unistd.h>
 
-static ft_bool execute_instruction(const char* inst, t_ps_object* object) {
+static ft_bool execute_instruction(const char *inst, t_ps_object *object)
+{
 	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
 	if (!ft_strcmp(inst, "ra"))
 		ps_ra(object);
@@ -72,9 +73,10 @@ static ft_bool execute(t_ps_object *object, t_read_handle *handle)
 }
 */
 
-int main(int argc, char** argv) {
-	int* lst;
-	t_read_handle* handle;
+int main(int argc, char **argv)
+{
+	int *lst;
+	t_read_handle *handle;
 	t_ps_object		object;
 
 	if (argc <= 1)

@@ -4,31 +4,33 @@
 #include "../instruction.h"
 #include "../../int_deque.h"
 
-typedef size_t(*t_pos_func)(int, t_ideque*);
+typedef size_t(*t_pos_func)(int, t_ideque *);
 
-typedef struct s_sort_info {
+typedef struct s_sort_info
+{
 	int m_min;
 	int m_max;
 
 	t_pos_func m_pos_func;
 	t_instruction m_put_instr;
-	t_ideque* m_from_deque;
-	t_ideque* m_to_deque;
+	t_ideque *m_from_deque;
+	t_ideque *m_to_deque;
 
 }	t_sort_info;
 
-typedef struct s_distance {
+typedef struct s_distance
+{
 	long m_left_dist;
 	long m_right_dist;
 }	t_distance;
 
 
-t_instruction* sorter_sort(t_sort_info* constraints, size_t* instrs);
+t_instruction *sorter_sort(t_sort_info *constraints, size_t *instrs);
 
-ft_bool sort_info_applies(const t_sort_info* info, int val);
+ft_bool sort_info_applies(const t_sort_info *info, int val);
 
-int distance_cmp(const t_distance* a, const t_distance* cmp);
+int distance_cmp(const t_distance *a, const t_distance *cmp);
 
-size_t distance_get_len(const t_distance* disance);
+size_t distance_get_len(const t_distance *disance);
 
 #endif
