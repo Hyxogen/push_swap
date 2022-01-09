@@ -76,7 +76,7 @@ t_instruction
 	size_t			temp;
 
 	*instr_count = get_instruction_count(a_mov, b_mov);
-	instructions = ft_malloc(sizeof(t_instruction) * (*instr_count + extra));
+	instructions = ft_safe_malloc(sizeof(t_instruction) * (*instr_count + extra));
 
 	temp = generate_up_internal(instructions, &a_mov, &b_mov);
 	generate_down_internal(instructions + temp, &a_mov, &b_mov);

@@ -1,9 +1,9 @@
 #ifndef SORTER_UTILS_H
 #define SORTER_UTILS_H
 
-#include "sorter.h"
-#include "distance.h"
-#include <sys/types.h>
+# include "sorter.h"
+# include "distance.h"
+# include <sys/types.h>
 
 ft_bool			sort_info_applies(const t_sort_info *info, int val);
 

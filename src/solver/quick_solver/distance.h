@@ -1,7 +1,7 @@
 #ifndef DISTANCE_H
 #define DISTANCE_H
 
-#include <sys/types.h>
+# include <sys/types.h>
 
 typedef struct s_distance
 {

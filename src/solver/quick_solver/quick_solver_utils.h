@@ -1,6 +1,8 @@
 #ifndef QUICK_SOLVER_UTILS_H
 #define QUICK_SOLVER_UTILS_H
 
+# include <sys/types.h>
+
 size_t			 quick_get_rough_sorted_pos(int val, t_ideque *deque);
 size_t			 quick_get_full_sorted_pos(int val, t_ideque *deque);
 

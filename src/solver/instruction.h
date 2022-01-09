@@ -1,7 +1,7 @@
 #ifndef PUSH_SWAP_INSTRUCTION_H
 #define PUSH_SWAP_INSTRUCTION_H
 
-#include "../ps_object.h"
+# include "../ps_object.h"
 
 typedef int t_instruction;
 
