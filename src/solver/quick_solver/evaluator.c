@@ -10,7 +10,7 @@
 static t_distance
 	evaluator_get_distance_up(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size)
 {
-	t_distance distance;
+	t_distance	distance;
 
 	(void)from_size;
 	(void)to_size;
@@ -22,7 +22,7 @@ static t_distance
 static t_distance
 	evaluator_get_distance_down(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size)
 {
-	t_distance distance;
+	t_distance	distance;
 
 	distance.m_left_dist = -((long)(from_size - from_pos));
 	distance.m_right_dist = -((long)(to_size - to_pos));
@@ -32,7 +32,7 @@ static t_distance
 static t_distance
 	evaluator_get_distance_ex(const t_distance *up_distance, const t_distance *down_distance)
 {
-	t_distance distance;
+	t_distance	distance;
 
 	if (up_distance->m_left_dist < ft_labs(down_distance->m_left_dist))
 		distance.m_left_dist = up_distance->m_left_dist;
@@ -49,9 +49,9 @@ static t_distance
 t_distance
 	evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size)
 {
-	t_distance up_distance;
-	t_distance down_distance;
-	t_distance ex_distance;
+	t_distance	 up_distance;
+	t_distance	 down_distance;
+	t_distance	 ex_distance;
 
 	up_distance = evaluator_get_distance_up(from_pos, from_size, to_pos, to_size);
 	down_distance = evaluator_get_distance_down(from_pos, from_size, to_pos, to_size);
