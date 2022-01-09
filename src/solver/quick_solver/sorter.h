@@ -18,19 +18,12 @@ typedef struct s_sort_info
 
 }	t_sort_info;
 
-typedef struct s_distance
-{
-	long m_left_dist;
-	long m_right_dist;
-}	t_distance;
+
 
 
 t_instruction *sorter_sort(t_sort_info *constraints, size_t *instrs);
 
 ft_bool sort_info_applies(const t_sort_info *info, int val);
 
-int distance_cmp(const t_distance *a, const t_distance *cmp);
-
-size_t distance_get_len(const t_distance *disance);
 
 #endif

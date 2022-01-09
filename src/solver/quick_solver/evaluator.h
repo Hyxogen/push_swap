@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <ft_stdbool.h>
 #include "evaluation.h"
+#include "distance.h"
 
 
 /**
@@ -12,6 +13,6 @@
  *
  * TODO change this to get the best instructions to rotate a x times and b y times. There should probably be another functions that gets the best evualuation for an placement
  */
-t_evaluation evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size);
+t_distance evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size);
 
 #endif

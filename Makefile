@@ -17,7 +17,7 @@ CHECKER_OBJS		:= $(addprefix $(INT_DIR)/,$(CHECKER_SRCS:%.c=%.o))
 PUSH_SWAP_SRCS		:= push_swap.c argument_parser.c ps_object.c \
 						evaluator.c instruction.c sorter.c quick_solver.c \
 						evaluation.c malloc_utils.c vector2.c array_utils.c \
-						generator.c int_deque.c bruteforcer.c
+						generator.c int_deque.c bruteforcer.c distance.c
 PUSH_SWAP_OBJS		:= $(addprefix $(INT_DIR)/,$(PUSH_SWAP_SRCS:%.c=%.o))
 
 ALL_OBJS			:= $(CHECKER_OBJS) $(PUSH_SWAP_OBJS)

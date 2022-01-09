@@ -142,13 +142,13 @@ static t_instruction *_quick_rough_sort(t_ps_object *object, const int *sorted_a
 static t_instruction *_quick_align(t_ps_object *object, const int *sorted_arr, size_t len, size_t *instr_count)
 {
 	t_instruction *align_instrs;
-	t_evaluation align_eval;
+	t_distance align_eval;
 	size_t lowest_pos;
 
 	lowest_pos = quick_get_full_sorted_pos(sorted_arr[0], object->m_stack_a);
 
 	align_eval = evaluate(lowest_pos, len, 0, 0);
-	align_instrs = generate_instructions(align_eval.m_MoveVec.m_X, 0, 0, instr_count);
+	align_instrs = generate_instructions(align_eval.m_left_dist, 0, 0, instr_count);
 	execute_instructions(object->m_stack_a, object->m_stack_b, align_instrs, *instr_count);
 	return (align_instrs);
 }

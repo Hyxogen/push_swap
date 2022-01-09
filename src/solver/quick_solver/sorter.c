@@ -1,6 +1,7 @@
 #include "sorter.h"
 #include "evaluator.h"
 #include "generator.h"
+#include "distance.h"
 #include <stdlib.h>
 #include <ft_stdlib.h>
 #include <ft_math.h>
@@ -12,12 +13,9 @@ static long _sorter_get_position(int val, const t_sort_info *sort_info)
 
 static t_distance _sorter_get_distance(size_t left_pos, size_t left_size, size_t right_pos, size_t right_size)
 {
-	t_evaluation eval;
 	t_distance distance;
 
-	eval = evaluate(left_pos, left_size, right_pos, right_size);
-	distance.m_left_dist = eval.m_MoveVec.m_X;
-	distance.m_right_dist = eval.m_MoveVec.m_Y;
+	distance = evaluate(left_pos, left_size, right_pos, right_size);
 	return (distance);
 }
 
@@ -110,33 +108,4 @@ t_instruction *sorter_sort(t_sort_info *info, size_t *count)
 ft_bool sort_info_applies(const t_sort_info *info, int val)
 {
 	return (info->m_min <= val && val <= info->m_max);
-}
-
-int distance_cmp(const t_distance *a, const t_distance *cmp)
-{
-	size_t a_len;
-	size_t cmp_len;
-
-	a_len = distance_get_len(a);
-	cmp_len = distance_get_len(cmp);
-	if (a_len < cmp_len)
-		return (-1);
-	else if (a_len > cmp_len)
-		return (1);
-	return (0);
-}
-
-size_t distance_get_len(const t_distance *distance)
-{
-	long left_mov;
-	long right_mov;
-
-	left_mov = distance->m_left_dist;
-	right_mov = distance->m_right_dist;
-
-	if ((left_mov <= 0 && right_mov >= 0) || (right_mov <= 0 && left_mov >= 0))
-		return (ft_labs(left_mov) + ft_labs(right_mov));
-	else if (left_mov > 0)
-		return (ft_lmax(left_mov, right_mov));
-	return (ft_labs(ft_lmin(left_mov, right_mov)));
 }
