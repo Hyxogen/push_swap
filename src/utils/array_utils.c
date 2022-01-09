@@ -4,7 +4,8 @@
 #include <ft_string.h>
 #include "malloc_utils.h"
 
-static void int_swap(int *a, int *b)
+static void
+	int_swap(int *a, int *b)
 {
 	int	temp;
 
@@ -13,7 +14,8 @@ static void int_swap(int *a, int *b)
 	*b = temp;
 }
 
-void iarray_quick_sort(int *arr, size_t len)
+void
+	iarray_quick_sort(int *arr, size_t len)
 {
 	size_t		left_index;
 	size_t		right_index;
@@ -38,7 +40,8 @@ void iarray_quick_sort(int *arr, size_t len)
 	iarray_quick_sort(arr + left_index, len - right_index);
 }
 
-int *iarray_cpy(const int *arr, size_t len)
+int
+	*iarray_cpy(const int *arr, size_t len)
 {
 	int	*cpy;
 
@@ -47,9 +50,10 @@ int *iarray_cpy(const int *arr, size_t len)
 	return (cpy);
 }
 
-int *iarray_cpy_quick_sort(const int *arr, size_t len)
+int
+	*iarray_cpy_quick_sort(const int *arr, size_t len)
 {
-	int *arr_cpy;
+	int	*arr_cpy;
 
 	arr_cpy = iarray_cpy(arr, len);
 	ft_memcpy(arr_cpy, arr, sizeof(int) * len);

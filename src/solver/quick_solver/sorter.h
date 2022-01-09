@@ -2,7 +2,7 @@
 #define SORTER_H
 
 # include "../instruction.h"
-# include "../../int_deque.h"
+# include "../../utils/int_deque/int_deque.h"
 
 typedef size_t(*t_pos_func)(int, t_ideque *);
 

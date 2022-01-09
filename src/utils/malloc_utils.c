@@ -4,7 +4,7 @@
 
 void *ft_safe_malloc(size_t size)
 {
-	void *ret;
+	void	*ret;
 
 	ret = malloc(size);
 	if (ret == NULL)

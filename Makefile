@@ -17,14 +17,18 @@ CHECKER_OBJS		:= $(addprefix $(INT_DIR)/,$(CHECKER_SRCS:%.c=%.o))
 PUSH_SWAP_SRCS		:= push_swap.c argument_parser.c ps_object.c \
 						evaluator.c instruction.c sorter.c quick_solver.c \
 						malloc_utils.c array_utils.c quick_solver_utils.c \
-						generator.c int_deque.c bruteforcer.c distance.c \
-						sorter_utils.c quick_solver_internal.c
+						generator.c bruteforcer.c distance.c \
+						sorter_utils.c quick_solver_internal.c \
+						ideque_destroy.c ideque_front_back.c ideque_is_sorted.c \
+						ideque_initialization.c ideque_pop_back.c ideque_pop_front.c \
+						ideque_push_back.c ideque_push_front.c ideque_rotate.c \
+						ideque_size.c inode_destroy.c inode_initialization.c
 PUSH_SWAP_OBJS		:= $(addprefix $(INT_DIR)/,$(PUSH_SWAP_SRCS:%.c=%.o))
 
 ALL_OBJS			:= $(CHECKER_OBJS) $(PUSH_SWAP_OBJS)
 
 VPATH				:= $(SRC_DIR) $(SRC_DIR)/utils $(SRC_DIR)/checker $(SRC_DIR)/parser $(SRC_DIR)/solver \
-						$(SRC_DIR)/solver/quick_solver
+						$(SRC_DIR)/solver/quick_solver $(SRC_DIR)/utils/int_deque
 DEFINES				:=
 INCLUDE_DIRS		:= -I $(LIBFT_DIR)/include
 
