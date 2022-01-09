@@ -1,4 +1,5 @@
 #ifndef GENERATOR_H
+#define GENERATOR_H
 
 #include "../instruction.h"
 #include "evaluation.h"
