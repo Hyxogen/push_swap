@@ -9,8 +9,7 @@ typedef struct s_distance
 	long m_right_dist;
 }	t_distance;
 
-int distance_cmp(const t_distance *a, const t_distance *cmp);
-
-size_t distance_get_len(const t_distance *disance);
+int		distance_cmp(const t_distance *a, const t_distance *cmp);
+size_t	distance_get_len(const t_distance *disance);
 
 #endif

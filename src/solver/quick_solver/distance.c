@@ -5,8 +5,8 @@
 
 int distance_cmp(const t_distance *a, const t_distance *cmp)
 {
-	size_t a_len;
-	size_t cmp_len;
+	size_t	a_len;
+	size_t	cmp_len;
 
 	a_len = distance_get_len(a);
 	cmp_len = distance_get_len(cmp);
@@ -19,8 +19,8 @@ int distance_cmp(const t_distance *a, const t_distance *cmp)
 
 size_t distance_get_len(const t_distance *distance)
 {
-	long left_mov;
-	long right_mov;
+	long	left_mov;
+	long	right_mov;
 
 	left_mov = distance->m_left_dist;
 	right_mov = distance->m_right_dist;

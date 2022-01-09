@@ -1,40 +1,17 @@
 #include "sorter.h"
-#include "evaluator.h"
-#include "generator.h"
+#include "sorter_utils.h"
 #include "distance.h"
 #include <stdlib.h>
 #include <ft_stdlib.h>
 #include <ft_math.h>
 
-static long _sorter_get_position(int val, const t_sort_info *sort_info)
+static ft_bool
+	_sorter_get_best_next(t_sort_info *info, t_distance *out)
 {
-	return (sort_info->m_pos_func(val, sort_info->m_to_deque));
-}
-
-static t_distance _sorter_get_distance(size_t left_pos, size_t left_size, size_t right_pos, size_t right_size)
-{
-	t_distance distance;
-
-	distance = evaluate(left_pos, left_size, right_pos, right_size);
-	return (distance);
-}
-
-static t_instruction *_sorter_generate_put(const t_sort_info *info, const t_distance *distance, size_t *instr_count)
-{
-	t_instruction *put_instrs;
-
-	put_instrs = generate_instructions(distance->m_left_dist, distance->m_right_dist, 1, instr_count);
-	put_instrs[*instr_count] = info->m_put_instr;
-	*instr_count += 1;
-	return (put_instrs);
-}
-
-static ft_bool _sorter_get_best_next(t_sort_info *info, t_distance *out)
-{
-	t_distance cmp_distance;
-	t_inode *node;
-	size_t node_pos;
-	ft_bool found;
+	t_distance	cmp_distance;
+	t_inode		*node;
+	size_t		node_pos;
+	ft_bool		found;
 
 	node = ideque_front(info->m_from_deque);
 	found = FALSE;
@@ -55,19 +32,11 @@ static ft_bool _sorter_get_best_next(t_sort_info *info, t_distance *out)
 	return (found);
 }
 
-static t_instruction *_sorter_put(t_sort_info *info, const t_distance *distance, size_t *instr_count)
+static t_instruction
+	*_sorter_sort_next(t_sort_info *info, size_t *instr_count)
 {
-	t_instruction *instructions;
-
-	instructions = _sorter_generate_put(info, distance, instr_count);
-	execute_instructions(info->m_from_deque, info->m_to_deque, instructions, *instr_count);
-	return (instructions);
-}
-
-static t_instruction *_sorter_sort_next(t_sort_info *info, size_t *instr_count)
-{
-	t_instruction *next_instrs;
-	t_distance next_dist;
+	t_instruction	*next_instrs;
+	t_distance		next_dist;
 
 	*instr_count = 0;
 	if (!_sorter_get_best_next(info, &next_dist))
@@ -77,11 +46,12 @@ static t_instruction *_sorter_sort_next(t_sort_info *info, size_t *instr_count)
 	return (next_instrs);
 }
 
-static t_instruction *_sorter_sort(t_sort_info *info, size_t *total_count)
+static t_instruction
+	*_sorter_sort(t_sort_info *info, size_t *total_count)
 {
-	t_instruction *sort_instrs;
-	t_instruction *next_instrs;
-	size_t next_count;
+	t_instruction	*sort_instrs;
+	t_instruction	*next_instrs;
+	size_t			next_count;
 
 	sort_instrs = NULL;
 	while (TRUE)
@@ -97,15 +67,11 @@ static t_instruction *_sorter_sort(t_sort_info *info, size_t *total_count)
 	return (sort_instrs);
 }
 
-t_instruction *sorter_sort(t_sort_info *info, size_t *count)
+t_instruction
+	*sorter_sort(t_sort_info *info, size_t *count)
 {
 	*count = 0;
 	if (ideque_is_empty(info->m_from_deque))
 		return (NULL);
 	return (_sorter_sort(info, count));
-}
-
-ft_bool sort_info_applies(const t_sort_info *info, int val)
-{
-	return (info->m_min <= val && val <= info->m_max);
 }

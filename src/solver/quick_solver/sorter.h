@@ -18,12 +18,6 @@ typedef struct s_sort_info
 
 }	t_sort_info;
 
-
-
-
-t_instruction *sorter_sort(t_sort_info *constraints, size_t *instrs);
-
-ft_bool sort_info_applies(const t_sort_info *info, int val);
-
+t_instruction	*sorter_sort(t_sort_info *constraints, size_t *instrs);
 
 #endif
