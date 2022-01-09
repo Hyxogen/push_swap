@@ -6,6 +6,8 @@
 #include "../../utils/array_utils.h"
 #include <stdio.h>
 
+static int	_brute_force(t_ps_object *object, t_instruction *instructions, int depth, int instr_count);
+
 static const t_instruction g_inverse_instructions[] = {
 		ips_empty,
 		ips_pb,
@@ -36,16 +38,12 @@ static void
 }
 
 static int
-	_brute_force(t_ps_object *object, t_instruction *instructions, int depth, int instr_count)
+	_brute_force_loop(t_ps_object *object, t_instruction *instructions, int depth, int instr_count)
 {
 	t_instruction	*best;
 	t_instruction	instruction;
 	int				count;
 
-	if (ps_object_is_sorted(object))
-		return (0);
-	if (instr_count >= depth)
-		return (-1);
 	best = NULL;
 	instruction = ips_pb + 1;
 	while (instruction < ips_stop)
@@ -67,6 +65,16 @@ static int
 	ft_memcpy(instructions, best, sizeof(t_instruction) * depth);
 	free(best);
 	return (depth);
+}
+
+static int
+	_brute_force(t_ps_object *object, t_instruction *instructions, int depth, int instr_count)
+{
+	if (ps_object_is_sorted(object))
+		return (0);
+	if (instr_count >= depth)
+		return (-1);
+	return (_brute_force_loop(object, instructions, depth, instr_count));
 }
 
 t_instruction

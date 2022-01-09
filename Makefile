@@ -52,7 +52,7 @@ ifdef verbose
 endif
 
 ifndef config
-	config := debug
+	config := release
 endif
 
 ifeq ($(config), debug)
