@@ -81,6 +81,8 @@ else ifeq ($(config), distribution)
 ALL_CFLAGS += $(DISTR_CFLAGS)
 ALL_CFLAGS += $(DISTR_DEFINES)
 ALL_LINKFLAGS += $(DISTR_LINKFLAGS)
+else
+$(error "invalid config $(config)")
 endif
 
 all: $(PUSH_SWAP_NAME)
