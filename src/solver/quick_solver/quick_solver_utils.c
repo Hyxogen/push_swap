@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:45 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:37:46 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:57:06 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ size_t
 }
 
 size_t
-	_quick_get_full_sorted_pos(int val, const t_inode *current, const t_inode *previous)
+	_quick_get_full_sorted_pos(int val,
+		const t_inode *current, const t_inode *previous)
 {
-	size_t	 node_pos;
-	size_t	 lowest_pos;
-	int		 lowest_val;
+	size_t	node_pos;
+	size_t	lowest_pos;
+	int		lowest_val;
 
 	node_pos = 0;
 	lowest_pos = 0;
@@ -55,11 +56,13 @@ size_t
 {
 	if (ideque_get_size(deque) <= 1)
 		return (0);
-	return (_quick_get_full_sorted_pos(val, ideque_front(deque), ideque_back(deque)));
+	return (_quick_get_full_sorted_pos(val,
+			ideque_front(deque), ideque_back(deque)));
 }
 
 t_instruction
-	*_quick_rough_sort_block(t_ps_object *object, int min, int max, size_t *instr_count)
+	*_quick_rough_sort_block(t_ps_object *object,
+		int min, int max, size_t *instr_count)
 {
 	t_sort_info	info;
 
@@ -73,7 +76,8 @@ t_instruction
 }
 
 t_instruction
-	*_quick_full_sort_block(t_ps_object *object, int min, int max, size_t *instr_count)
+	*_quick_full_sort_block(t_ps_object *object,
+		int min, int max, size_t *instr_count)
 {
 	t_sort_info	info;
 
