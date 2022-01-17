@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:36:52 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:36:53 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:46:23 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void
 t_inode
 	*ideque_pop_back(t_ideque *deque)
 {
-	t_inode *ret;
+	t_inode	*ret;
 
 	ret = ideque_back(deque);
 	_ideque_pop_back(deque);
