@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:36:25 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:36:25 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:44:33 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ void
 	int			pivot;
 
 	if (len <= 1)
-		return;
+		return ;
 	pivot = arr[len / 2];
-
 	left_index = 0;
 	right_index = len - 1;
 	while (left_index < right_index)
@@ -73,7 +72,8 @@ int
 	return (arr_cpy);
 }
 
-ft_bool iarray_has_duplicates(const int *arr, size_t len)
+ft_bool
+	iarray_has_duplicates(const int *arr, size_t len)
 {
 	size_t	check_index;
 	size_t	arr_index;

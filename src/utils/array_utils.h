@@ -6,12 +6,12 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:36:23 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:36:23 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:44:21 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ARRAY_UTILS_H
-#define ARRAY_UTILS_H
+# define ARRAY_UTILS_H
 
 # include <sys/types.h>
 # include <ft_stdbool.h>
