@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:38:23 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:38:23 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 12:04:22 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <ft_stdlib.h>
 #include <ft_math.h>
 
-int distance_cmp(const t_distance *a, const t_distance *cmp)
+int
+	distance_cmp(const t_distance *a, const t_distance *cmp)
 {
 	size_t	a_len;
 	size_t	cmp_len;
@@ -29,14 +30,14 @@ int distance_cmp(const t_distance *a, const t_distance *cmp)
 	return (0);
 }
 
-size_t distance_get_len(const t_distance *distance)
+size_t
+	distance_get_len(const t_distance *distance)
 {
 	long	left_mov;
 	long	right_mov;
 
 	left_mov = distance->m_left_dist;
 	right_mov = distance->m_right_dist;
-
 	if ((left_mov <= 0 && right_mov >= 0) || (right_mov <= 0 && left_mov >= 0))
 		return (ft_labs(left_mov) + ft_labs(right_mov));
 	else if (left_mov > 0)
