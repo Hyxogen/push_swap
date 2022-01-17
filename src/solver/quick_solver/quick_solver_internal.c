@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   quick_solver_internal.c                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 11:37:50 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 11:37:50 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "quick_solver_internal.h"
 #include "evaluator.h"
 #include "generator.h"

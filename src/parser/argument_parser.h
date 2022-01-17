@@ -1,14 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   argument_parser.h                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 11:38:59 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 11:39:10 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ARGUMENT_PARSER_H
 # define ARGUMENT_PARSER_H
 
-/**
- * @brief Puts the arguments into an array that can then correctly be pushed onto a stack
- * Behaviour is undefined if you pass only the program name argument
- *
- * @param argc argument count passed to main at program start
- * @param argv an array of string with the arguments
- * @return NULL if internal malloc went wrong
- */
 int *read_arguments(int argc, char **argv);
 
 #endif

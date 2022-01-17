@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   quick_solver_internal.h                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 11:37:48 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 11:37:48 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef QUICK_SOLVER_INTERNAL_H
 #define QUICK_SOLVER_INTERNAL_H
 

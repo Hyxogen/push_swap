@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ideque_is_sorted.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 11:36:55 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 11:37:05 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "int_deque.h"
 
-/*TODO put function body in private_ function so that it doesn't accsesses the innards of node?*/
 ft_bool
 	ideque_is_sorted(const t_ideque *deque)
 {

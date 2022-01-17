@@ -1,11 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   evaluator.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 11:37:59 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 11:38:05 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "evaluator.h"
 #include "../../utils/malloc_utils.h"
 #include <limits.h>
 #include <ft_stdlib.h>
 #include <ft_math.h>
 
-
-/*TODO replace size_t with long in the entire project*/
 static t_distance
 	evaluator_get_distance_up(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size)
 {

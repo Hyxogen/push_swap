@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   quick_solver_utils.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 11:37:45 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 11:37:46 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../instruction.h"
 #include "../../utils/int_deque/int_deque.h"
 #include "sorter.h"
