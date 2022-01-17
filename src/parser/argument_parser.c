@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:39:14 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:39:14 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 12:09:41 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ static ft_bool
 int
 	*read_arguments(int argc, char **argv)
 {
-	int *ret;
-	int *cpy;
+	int	*ret;
+	int	*cpy;
 
 	ret = ft_safe_malloc((argc - 1) * sizeof(int));
 	if (ret == NULL)
 		return (NULL);
 	cpy = ret;
 	while (argc > 1)
-	{
+	{//TODO if atoi is more than the value of an int, it should stop
 		if (!ft_catoi(argv[argc - 1], cpy))
 		{
 			free(ret);
