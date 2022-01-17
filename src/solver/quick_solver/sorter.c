@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:32 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:37:32 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:52:21 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ static ft_bool
 	{
 		if (sort_info_applies(info, node->m_content))
 		{
-			cmp_distance = _sorter_get_distance(node_pos, ideque_get_size(info->m_from_deque),
-				_sorter_get_position(node->m_content, info), ideque_get_size(info->m_to_deque));
+			cmp_distance = _sorter_get_distance(node_pos,
+					ideque_get_size(info->m_from_deque),
+					_sorter_get_position(node->m_content, info),
+					ideque_get_size(info->m_to_deque));
 			if (!found || distance_cmp(&cmp_distance, &*out) < 0)
 				*out = cmp_distance;
 			found = TRUE;
@@ -53,7 +55,6 @@ static t_instruction
 	*instr_count = 0;
 	if (!_sorter_get_best_next(info, &next_dist))
 		return (NULL);
-
 	next_instrs = _sorter_put(info, &next_dist, instr_count);
 	return (next_instrs);
 }
@@ -69,9 +70,8 @@ static t_instruction
 	while (TRUE)
 	{
 		next_instrs = _sorter_sort_next(info, &next_count);
-
 		if (next_instrs == NULL)
-			break;
+			break ;
 		join_instructions(&sort_instrs, *total_count, next_instrs, next_count);
 		free(next_instrs);
 		*total_count += next_count;
