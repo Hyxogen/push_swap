@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:09 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:37:09 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:47:09 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void
 }
 
 t_ideque
-	*ideque_create_empty()
+	*ideque_create_empty(void)
 {
-	t_ideque *deque;
+	t_ideque	*deque;
 
 	deque = ft_safe_malloc(sizeof(t_ideque));
 	ideque_init(deque, NULL, NULL, 0);
