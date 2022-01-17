@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:55 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:37:55 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 12:02:44 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static size_t
 }
 
 static size_t
-	generate_down_internal(t_instruction *instructions, long *a_mov, long *b_mov)
+	generate_down_internal(t_instruction *instructions,
+		long *a_mov, long *b_mov)
 {
 	size_t	count;
 
@@ -82,16 +83,16 @@ static size_t
 }
 
 t_instruction
-	*generate_instructions(long a_mov, long b_mov, size_t extra, size_t *instr_count)
+	*generate_instructions(long a_mov, long b_mov,
+		size_t extra, size_t *instr_count)
 {
 	t_instruction	*instructions;
 	size_t			temp;
 
 	*instr_count = get_instruction_count(a_mov, b_mov);
-	instructions = ft_safe_malloc(sizeof(t_instruction) * (*instr_count + extra));
-
+	instructions = ft_safe_malloc(sizeof(t_instruction)
+			* (*instr_count + extra));
 	temp = generate_up_internal(instructions, &a_mov, &b_mov);
 	generate_down_internal(instructions + temp, &a_mov, &b_mov);
-
 	return (instructions);
 }
