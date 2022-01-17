@@ -77,7 +77,7 @@ else ifeq ($(config), release)
 ALL_CFLAGS += $(RELEASE_CFLAGS)
 ALL_LINKFLAGS += $(RELEASE_LINKFLAGS)
 DEFINES += $(RELEASE_DEFINES)
-else ifeq ($(config), distribution)
+else ifeq ($(config), distr)
 ALL_CFLAGS += $(DISTR_CFLAGS)
 ALL_CFLAGS += $(DISTR_DEFINES)
 ALL_LINKFLAGS += $(DISTR_LINKFLAGS)
@@ -96,17 +96,13 @@ $(PUSH_SWAP_NAME): $(PUSH_SWAP_OBJS) $(LIBFT_LIB)
 	$(SILENT)echo Linking $@
 	$(SILENT)$(LINK_CMD) $(ALL_LINKFLAGS) $(PUSH_SWAP_OBJS) $(LIBFT_LIB) -o $@
 
-#$(NAME): $(OBJS) $(LIBFT_LIB)
-#	$(SILENT)echo Linking $(NAME)
-#	$(SILENT)$(LINK_CMD) $(ALL_LINKFLAGS) $(OBJS) $(LIBFT_LIB) -o $(NAME)
-
 $(INT_DIR)/%.o: %.c
 	$(SILENT)echo $(notdir $<)
 	$(SILENT)mkdir -p $(INT_DIR)
 	$(SILENT)$(CC) $(ALL_CFLAGS) -c $< -o $@
 
 $(LIBFT_LIB):
-	$(SILENT) make -C $(LIBFT_DIR)
+	$(SILENT) make -C $(LIBFT_DIR) config=$(config)
 
 clean:
 	$(SILENT)echo Cleaning object files
