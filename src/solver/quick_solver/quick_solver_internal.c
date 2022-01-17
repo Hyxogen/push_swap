@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:50 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 15:51:28 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 16:05:37 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,22 @@ static t_instruction
 	t_instruction	*block_instrs;
 	size_t			block_instrs_count;
 	size_t			block_index;
-	size_t			block_size;
 	size_t			block_max;
 
 	*instr_count = 0;
 	block_index = 0;
-	block_size = quick_get_blocksize(len);
 	instructions = NULL;
 	while (block_index < len)
 	{
-		block_max = ft_stmin((block_index + block_size) - 1, len - 1);
+		block_max = ft_stmin((block_index
+					+ quick_get_blocksize(len)) - 1, len - 1);
 		block_instrs = _quick_rough_sort_block(object, sorted_arr[block_index],
 				sorted_arr[block_max], &block_instrs_count);
 		join_instructions(&instructions, *instr_count, block_instrs,
 			block_instrs_count);
 		*instr_count += block_instrs_count;
 		free(block_instrs);
-		block_index += block_size;
+		block_index += quick_get_blocksize(len);
 	}
 	return (instructions);
 }
