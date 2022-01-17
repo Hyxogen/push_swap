@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:59 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:38:05 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 12:03:48 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include <ft_math.h>
 
 static t_distance
-	evaluator_get_distance_up(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size)
+	evaluator_get_distance_up(size_t from_pos, size_t from_size,
+		size_t to_pos, size_t to_size)
 {
 	t_distance	distance;
 
@@ -29,7 +30,8 @@ static t_distance
 }
 
 static t_distance
-	evaluator_get_distance_down(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size)
+	evaluator_get_distance_down(size_t from_pos, size_t from_size,
+		size_t to_pos, size_t to_size)
 {
 	t_distance	distance;
 
@@ -39,7 +41,8 @@ static t_distance
 }
 
 static t_distance
-	evaluator_get_distance_ex(const t_distance *up_distance, const t_distance *down_distance)
+	evaluator_get_distance_ex(const t_distance *up_distance,
+		const t_distance *down_distance)
 {
 	t_distance	distance;
 
@@ -47,7 +50,6 @@ static t_distance
 		distance.m_left_dist = up_distance->m_left_dist;
 	else
 		distance.m_left_dist = down_distance->m_left_dist;
-
 	if (up_distance->m_right_dist < ft_labs(down_distance->m_right_dist))
 		distance.m_right_dist = up_distance->m_right_dist;
 	else
@@ -58,16 +60,17 @@ static t_distance
 t_distance
 	evaluate(size_t from_pos, size_t from_size, size_t to_pos, size_t to_size)
 {
-	t_distance	 up_distance;
-	t_distance	 down_distance;
-	t_distance	 ex_distance;
+	t_distance	up_distance;
+	t_distance	down_distance;
+	t_distance	ex_distance;
 
-	up_distance = evaluator_get_distance_up(from_pos, from_size, to_pos, to_size);
-	down_distance = evaluator_get_distance_down(from_pos, from_size, to_pos, to_size);
+	up_distance = evaluator_get_distance_up(from_pos, from_size,
+			to_pos, to_size);
+	down_distance = evaluator_get_distance_down(from_pos, from_size,
+			to_pos, to_size);
 	ex_distance = evaluator_get_distance_ex(&up_distance, &down_distance);
-
-	if (distance_cmp(&up_distance, &down_distance) < 0 &&
-		distance_cmp(&up_distance, &ex_distance) < 0)
+	if (distance_cmp(&up_distance, &down_distance) < 0
+		&& distance_cmp(&up_distance, &ex_distance) < 0)
 		return (up_distance);
 	if (distance_cmp(&down_distance, &ex_distance) < 0)
 		return (down_distance);
