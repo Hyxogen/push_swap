@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:41 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:37:41 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:55:14 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_instruction
 
 	object = ps_object_create_empty();
 	ps_object_fill(object, arr, len);
-
 	solve_instructions = brute_force(object, 7, instrs);
 	if (solve_instructions)
 	{
@@ -33,9 +32,7 @@ t_instruction
 		return (solve_instructions);
 	}
 	free(solve_instructions);
-
 	solve_instructions = _quick_solve(object, arr, len, instrs);
-
 	ps_object_destroy(object, TRUE);
 	return (solve_instructions);
 }
