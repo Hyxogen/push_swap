@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:38:39 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:38:39 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:56:51 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void
 	_ps_object_sx(t_ideque *deque)
 {
-	t_inode *first;
-	t_inode *second;
+	t_inode	*first;
+	t_inode	*second;
 
 	first = ideque_pop_front(deque);
 	second = ideque_pop_front(deque);
@@ -28,7 +28,7 @@ static void
 	ps_object_sx(t_ideque *deque)
 {
 	if (ideque_get_size(deque) <= 1)
-		return;
+		return ;
 	_ps_object_sx(deque);
 }
 
