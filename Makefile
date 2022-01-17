@@ -111,11 +111,13 @@ $(LIBFT_LIB):
 clean:
 	$(SILENT)echo Cleaning object files
 	$(SILENT)rm -f $(ALL_OBJS)
+	@${MAKE} -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(SILENT)echo Cleaning $(PUSH_SWAP_NAME)
 	$(SILENT)rm -f $(PUSH_SWAP_NAME)
 	$(SILENT)echo Cleaning $(CHECKER_NAME)
 	$(SILENT)rm -f $(CHECKER_NAME)
+	@${MAKE} -C $(LIBFT_DIR) fclean
 
 re: fclean all
