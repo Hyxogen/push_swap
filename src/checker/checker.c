@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/13 10:56:54 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/13 13:45:26 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 12:39:08 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ static ft_bool
 }
 
 int
-	run(int *lst, size_t len, t_read_handle* handle)
+	run(int *lst, size_t len, t_read_handle *handle)
 {
-	t_ps_object *object;
+	t_ps_object	*object;
 	int			ret_code;
-	
+
 	object = ps_object_create_empty();
 	ps_object_fill(object, lst, len);
 	ret_code = EXIT_SUCCESS;
