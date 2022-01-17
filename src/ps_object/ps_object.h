@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/07 12:39:19 by dmeijer       #+#    #+#                 */
-/*   Updated: 2021/12/10 09:52:28 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 12:06:17 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 
 typedef struct s_ps_object
 {
-	t_ideque *m_stack_a;
-	t_ideque *m_stack_b;
+	t_ideque	*m_stack_a;
+	t_ideque	*m_stack_b;
 }	t_ps_object;
 
-void	ps_object_init(t_ps_object *object, t_ideque *stack_a, t_ideque *stack_b);
-void	ps_object_destroy(t_ps_object *object, ft_bool free_self);
+void		ps_object_init(t_ps_object *object, t_ideque *stack_a,
+				t_ideque *stack_b);
+void		ps_object_destroy(t_ps_object *object, ft_bool free_self);
 
 /*MALLOC SAFE*/
-t_ps_object	*ps_object_create_empty();
+t_ps_object	*ps_object_create_empty(void);
 
 void		ps_object_fill(t_ps_object *object, int *int_arr, size_t arr_len);
 
