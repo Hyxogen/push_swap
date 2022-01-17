@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:36:42 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:36:43 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:45:55 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ void
 	ideque_rotate(t_ideque *deque, int val)
 {
 	if (ideque_get_size(deque) <= 1)
-		return;
+		return ;
 	_ideque_rotate(deque, val);
 }
