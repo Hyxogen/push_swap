@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:26 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 15:52:48 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:55:15 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <ft_stdio.h>
 
-static const char	*g_DefaultNames[] = {
+static const char	*g_defaultnames[] = {
 	"empty",
 	"pa",
 	"pb",
@@ -36,7 +36,7 @@ static const char	*g_DefaultNames[] = {
 	NULL
 };
 
-static const t_object_func	g_Functions[] = {
+static const t_object_func	g_functions[] = {
 	NULL,
 	ps_object_pa,
 	ps_object_pb,
@@ -57,8 +57,8 @@ const char
 	*get_instr_name(t_instruction instr)
 {
 	if (instr <= 0 || instr >= ips_err)
-		return (g_DefaultNames[ips_err]);
-	return (g_DefaultNames[instr]);
+		return (g_defaultnames[ips_err]);
+	return (g_defaultnames[instr]);
 }
 
 void
@@ -71,7 +71,7 @@ void
 	while (count)
 	{
 		if (*instructions > 0 && *instructions < ips_err)
-			g_Functions[*instructions](&object);
+			g_functions[*instructions](&object);
 		instructions++;
 		count--;
 	}
