@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:36:20 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:36:20 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:44:06 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 #include <stdlib.h>
 
-void *ft_safe_malloc(size_t size)
+void
+	*ft_safe_malloc(size_t size)
 {
 	void	*ret;
 
