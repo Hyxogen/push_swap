@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:26 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:37:26 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:50:14 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <ft_stdio.h>
 
-static const char *g_DefaultNames[] = {
+static const char	*g_DefaultNames[] = {
 		"empty",
 		"pa",
 		"pb",
@@ -36,7 +36,7 @@ static const char *g_DefaultNames[] = {
 		NULL
 };
 
-static const t_object_func g_Functions[] = {
+static const t_object_func	g_Functions[] = {
 		NULL,
 		ps_object_pa,
 		ps_object_pb,
@@ -62,7 +62,8 @@ const char
 }
 
 void
-	execute_instructions(t_ideque *a, t_ideque *b, t_instruction *instructions, size_t count)
+	execute_instructions(t_ideque *a, t_ideque *b,
+		t_instruction *instructions, size_t count)
 {
 	t_ps_object	object;
 
@@ -88,11 +89,13 @@ void
 }
 
 void
-	join_instructions(t_instruction **a, size_t a_len, t_instruction *b, size_t b_len)
+	join_instructions(t_instruction **a, size_t a_len,
+		t_instruction *b, size_t b_len)
 {
 	t_instruction	*ptr;
 
-	ptr = ft_realloc(*a, a_len * sizeof(t_instruction), (a_len + b_len) * sizeof(t_instruction));
+	ptr = ft_realloc(*a, a_len * sizeof(t_instruction),
+			(a_len + b_len) * sizeof(t_instruction));
 	if (ptr == NULL)
 		exit(EXIT_FAILURE);
 	ft_memcpy(ptr + a_len, b, b_len * sizeof(t_instruction));
@@ -100,7 +103,8 @@ void
 }
 
 void
-	translate_instructions(t_instruction *instructions, size_t count, const t_instruction *translation)
+	translate_instructions(t_instruction *instructions,
+		size_t count, const t_instruction *translation)
 {
 	while (count)
 	{
