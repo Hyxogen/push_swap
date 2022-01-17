@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:26 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 15:55:15 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:57:25 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <ft_stdio.h>
 
-static const char	*g_defaultnames[] = {
+static const char			*g_defaultnames[] = {
 	"empty",
 	"pa",
 	"pb",
