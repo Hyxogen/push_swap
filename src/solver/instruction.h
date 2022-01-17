@@ -6,18 +6,18 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:23 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:37:23 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 11:49:13 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_INSTRUCTION_H
-#define PUSH_SWAP_INSTRUCTION_H
+#ifndef INSTRUCTION_H
+# define INSTRUCTION_H
 
 # include "../ps_object/ps_object.h"
 
-typedef int t_instruction;
+typedef int		t_instruction;
 
-typedef void (*t_object_func)(t_ps_object *object);
+typedef void	(*t_object_func)(t_ps_object *object);
 
 enum e_instruction
 {
@@ -37,10 +37,13 @@ enum e_instruction
 	ips_err
 };
 
-void		execute_instructions(t_ideque *a, t_ideque *b, t_instruction *instructions, size_t count);
+void		execute_instructions(t_ideque *a, t_ideque *b,
+				t_instruction *instructions, size_t count);
 void		print_instructions(t_instruction *instructions, size_t count);
-void		join_instructions(t_instruction **a, size_t a_len, t_instruction *b, size_t b_len);
-void		translate_instructions(t_instruction *instructions, size_t count, const t_instruction *translation);
+void		join_instructions(t_instruction **a, size_t a_len,
+				t_instruction *b, size_t b_len);
+void		translate_instructions(t_instruction *instructions,
+				size_t count, const t_instruction *translation);
 const char	*get_instr_name(t_instruction instr);
 
 #endif
