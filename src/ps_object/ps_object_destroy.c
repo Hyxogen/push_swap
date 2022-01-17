@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:38:50 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:38:50 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 void
-	ps_object_destroy(t_ps_object *object, ft_bool free_self)
+	ps_object_destroy(t_ps_object *object, t_bool free_self)
 {
 	ideque_destroy(object->m_stack_a, TRUE);
 	ideque_destroy(object->m_stack_b, TRUE);

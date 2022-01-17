@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:32 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:52:21 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 #include <ft_stdlib.h>
 #include <ft_math.h>
 
-static ft_bool
+static t_bool
 	_sorter_get_best_next(t_sort_info *info, t_distance *out)
 {
 	t_distance	cmp_distance;
 	t_inode		*node;
 	size_t		node_pos;
-	ft_bool		found;
+	t_bool		found;
 
 	node = ideque_front(info->m_from_deque);
 	found = FALSE;

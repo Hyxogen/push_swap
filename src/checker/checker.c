@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/13 10:56:54 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 12:39:08 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <ft_string.h>
 #include <ft_stdbool.h>
 
-static ft_bool
+static t_bool
 	execute_instruction(const char *inst, t_ps_object *object)
 {
 	if (!ft_strcmp(inst, "ra"))
@@ -51,7 +51,7 @@ static ft_bool
 	return (TRUE);
 }
 
-static ft_bool
+static t_bool
 	execute(t_ps_object *object, t_read_handle *handle)
 {
 	char	*ptr;

@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/07 12:39:19 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 12:06:17 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_ps_object
 
 void		ps_object_init(t_ps_object *object, t_ideque *stack_a,
 				t_ideque *stack_b);
-void		ps_object_destroy(t_ps_object *object, ft_bool free_self);
+void		ps_object_destroy(t_ps_object *object, t_bool free_self);
 
 /*MALLOC SAFE*/
 t_ps_object	*ps_object_create_empty(void);
@@ -47,6 +47,6 @@ void		ps_object_rra(t_ps_object *object);
 void		ps_object_rrb(t_ps_object *object);
 void		ps_object_rrr(t_ps_object *object);
 
-ft_bool		ps_object_is_sorted(const t_ps_object *object);
+t_bool		ps_object_is_sorted(const t_ps_object *object);
 
 #endif

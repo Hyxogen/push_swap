@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:38:30 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 12:05:08 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:52:21 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@
 static int	_brute_force(t_ps_object *object,
 				t_instruction *instructions, int depth, int instr_count);
 
-static const t_instruction g_inverse_instructions[] = {
-		ips_empty,
-		ips_pb,
-		ips_pa,
-		ips_rra,
-		ips_rrb,
-		ips_rrr,
-		ips_sa,
-		ips_sb,
-		ips_ss,
-		ips_ra,
-		ips_rb,
-		ips_rr,
-		ips_stop,
-		ips_err
+static const t_instruction	g_inverse_instructions[] = {
+	ips_empty,
+	ips_pb,
+	ips_pa,
+	ips_rra,
+	ips_rrb,
+	ips_rrr,
+	ips_sa,
+	ips_sb,
+	ips_ss,
+	ips_ra,
+	ips_rb,
+	ips_rr,
+	ips_stop,
+	ips_err
 };
 
 static void

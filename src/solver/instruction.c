@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:26 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:50:14 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:52:48 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,38 @@
 #include <ft_stdio.h>
 
 static const char	*g_DefaultNames[] = {
-		"empty",
-		"pa",
-		"pb",
-		"ra",
-		"rb",
-		"rr",
-		"sa",
-		"sb",
-		"ss",
-		"rra",
-		"rrb",
-		"rrr",
-		"",
-		"err",
-		NULL
+	"empty",
+	"pa",
+	"pb",
+	"ra",
+	"rb",
+	"rr",
+	"sa",
+	"sb",
+	"ss",
+	"rra",
+	"rrb",
+	"rrr",
+	"",
+	"err",
+	NULL
 };
 
 static const t_object_func	g_Functions[] = {
-		NULL,
-		ps_object_pa,
-		ps_object_pb,
-		ps_object_ra,
-		ps_object_rb,
-		ps_object_rr,
-		ps_object_sa,
-		ps_object_sb,
-		ps_object_ss,
-		ps_object_rra,
-		ps_object_rrb,
-		ps_object_rrr,
-		NULL,
-		NULL
+	NULL,
+	ps_object_pa,
+	ps_object_pb,
+	ps_object_ra,
+	ps_object_rb,
+	ps_object_rr,
+	ps_object_sa,
+	ps_object_sb,
+	ps_object_ss,
+	ps_object_rra,
+	ps_object_rrb,
+	ps_object_rrr,
+	NULL,
+	NULL
 };
 
 const char

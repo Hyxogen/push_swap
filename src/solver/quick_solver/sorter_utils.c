@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:38 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:54:16 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_instruction
 	return (instructions);
 }
 
-ft_bool
+t_bool
 	sort_info_applies(const t_sort_info *info, int val)
 {
 	return (info->m_min <= val && val <= info->m_max);

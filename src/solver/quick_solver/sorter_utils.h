@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:36 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:53:02 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "distance.h"
 # include <sys/types.h>
 
-ft_bool			sort_info_applies(const t_sort_info *info, int val);
+t_bool			sort_info_applies(const t_sort_info *info, int val);
 
 long			_sorter_get_position(int val, const t_sort_info *sort_info);
 t_distance		_sorter_get_distance(size_t left_pos,

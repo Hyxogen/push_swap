@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:36:25 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:44:33 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int
 	return (arr_cpy);
 }
 
-ft_bool
+t_bool
 	iarray_has_duplicates(const int *arr, size_t len)
 {
 	size_t	check_index;

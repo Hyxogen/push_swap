@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:50 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 12:01:13 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:51:28 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@
 #include <stdlib.h>
 #include <ft_math.h>
 
-static const t_instruction g_swapped_instructions[] = {
-		ips_empty,
-		ips_pb,
-		ips_pa,
-		ips_rb,
-		ips_ra,
-		ips_rr,
-		ips_sb,
-		ips_sa,
-		ips_ss,
-		ips_rrb,
-		ips_rra,
-		ips_rrr,
-		ips_stop,
-		ips_err
+static const t_instruction	g_swapped_instructions[] = {
+	ips_empty,
+	ips_pb,
+	ips_pa,
+	ips_rb,
+	ips_ra,
+	ips_rr,
+	ips_sb,
+	ips_sa,
+	ips_ss,
+	ips_rrb,
+	ips_rra,
+	ips_rrr,
+	ips_stop,
+	ips_err
 };
 
 static size_t

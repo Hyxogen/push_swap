@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:37:15 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:47:24 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void
 }
 
 void
-	ideque_destroy(t_ideque *deque, ft_bool free_self)
+	ideque_destroy(t_ideque *deque, t_bool free_self)
 {
 	_ideque_destroy_nodes(deque);
 	if (free_self)

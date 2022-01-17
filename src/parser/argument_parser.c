@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:39:14 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 12:09:41 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:25 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,6 @@
 #include <ft_stdbool.h>
 #include <ft_ctype.h>
 #include <stdlib.h>
-
-static ft_bool
-	ft_catoi(const char *str, int *val)
-{
-	const char	*cpy;
-
-	*val = 0;
-	cpy = str;
-	while (ft_isdigit(*str))
-	{
-		*val = *val * 10 + (*str - '0');
-		str++;
-	}
-	return (*str == '\0' && str != cpy);
-}
 
 int
 	*read_arguments(int argc, char **argv)
@@ -44,8 +29,8 @@ int
 		return (NULL);
 	cpy = ret;
 	while (argc > 1)
-	{//TODO if atoi is more than the value of an int, it should stop
-		if (!ft_catoi(argv[argc - 1], cpy))
+	{/*TODO if atoi is more than the value of an int, it should stop*/
+		if (!ft_checked_atoi(argv[argc - 1], cpy))
 		{
 			free(ret);
 			return (FALSE);

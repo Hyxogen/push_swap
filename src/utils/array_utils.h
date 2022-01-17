@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:36:23 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:44:21 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@
 
 int		*iarray_cpy(const int *arr, size_t len);
 int		*iarray_cpy_quick_sort(const int *arr, size_t len);
-ft_bool	iarray_has_duplicates(const int *arr, size_t len);
+t_bool	iarray_has_duplicates(const int *arr, size_t len);
 #endif

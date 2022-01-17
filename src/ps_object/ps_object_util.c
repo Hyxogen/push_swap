@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 11:38:36 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 11:38:36 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 15:45:49 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void
 	}
 }
 
-ft_bool
+t_bool
 	ps_object_is_sorted(const t_ps_object *object)
 {
 	if (!ideque_is_empty(object->m_stack_b))
